@@ -335,7 +335,7 @@ def submit(file_path, comment='from API'):
 import requests
 def send_line(message):
     
-    line_notify_token = '1Z130D14oMRBBQ8iZPob7GTT3eHbFsgywxsYaG8aXPT'
+    line_notify_token = 'DUVuLOPCe26UrouWZrlIjzJd0zCiOFrVBGGtLEwFHV1'
     line_notify_api = 'https://notify-api.line.me/api/notify'
     
     payload = {'message': message}
