@@ -29,14 +29,6 @@ NFOLD = 4
 
 LOOP = 2
 
-RESET = False
-
-ONLY_ME = False
-
-EXE_802 = False
-
-#REMOVE_FEATURES = ['f023', 'f024']
-
 param = {
          'objective': 'multiclass',
          'num_class': 14,
@@ -65,7 +57,7 @@ param = {
 # load
 # =============================================================================
 
-files_tr = sorted(glob('../data/train_0*.f'))
+files_tr = sorted(glob('../data/train_f*.f'))
 
 X = pd.concat([
                 pd.read_feather(f) for f in tqdm(files_tr, mininterval=60)
