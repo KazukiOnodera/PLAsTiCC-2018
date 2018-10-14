@@ -25,7 +25,7 @@ import utils
 
 SUBMIT_FILE_PATH = '../output/1015-1.csv.gz'
 
-COMMENT = 'drop f001_hostgal_specz'
+COMMENT = '001~005 drop f001_hostgal_specz'
 
 EXE_SUBMIT = True
 
