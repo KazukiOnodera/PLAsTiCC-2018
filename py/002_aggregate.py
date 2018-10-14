@@ -11,7 +11,7 @@ import pandas as pd
 import os
 import utils
 
-PREF = '002'
+PREF = 'f002'
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
@@ -40,7 +40,7 @@ def aggregate(df, output_path):
         df_agg[f'{c}-d-min'] = df_agg[c]/df_agg[c.replace('_max', '_min')]
     
     df_agg.reset_index(inplace=True)
-    df_agg.to_feather(output_path)
+    df_agg.add_perfix(PREF+'_').to_feather(output_path)
     
     return
 

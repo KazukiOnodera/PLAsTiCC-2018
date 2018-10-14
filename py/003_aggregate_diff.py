@@ -8,10 +8,10 @@ Created on Sun Oct 14 21:10:30 2018
 
 import numpy as np
 import pandas as pd
-import os
+import os, gc
 import utils
 
-PREF = '003'
+PREF = 'f003'
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
@@ -33,6 +33,8 @@ def aggregate(df, output_path):
     df_diff.drop('object_id_diff', axis=1, inplace=True)
     df_diff['object_id'] = df['object_id']
     
+    del df; gc.collect()
+    
     df_agg = df_diff.groupby('object_id').agg(num_aggregations)
     df_agg.columns = pd.Index([e[0] + "_" + e[1] for e in df_agg.columns.tolist()])
     
@@ -47,7 +49,7 @@ def aggregate(df, output_path):
         df_agg[f'{c}-d-min'] = df_agg[c]/df_agg[c.replace('_max', '_min')]
     
     df_agg.reset_index(inplace=True)
-    df_agg.to_feather(output_path)
+    df_agg.add_perfix(PREF+'_').to_feather(output_path)
     
     return
 

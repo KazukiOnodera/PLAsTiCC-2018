@@ -19,7 +19,7 @@ import lightgbm as lgb
 from multiprocessing import cpu_count
 
 import utils
-utils.start(__file__)
+#utils.start(__file__)
 #==============================================================================
 
 SEED = np.random.randint(9999)
