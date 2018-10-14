@@ -333,14 +333,21 @@ def submit(file_path, comment='from API'):
     send_line(message.rstrip())
 
 import requests
-def send_line(message):
+def send_line(message, png=None):
     
     line_notify_token = 'DUVuLOPCe26UrouWZrlIjzJd0zCiOFrVBGGtLEwFHV1'
     line_notify_api = 'https://notify-api.line.me/api/notify'
     
     payload = {'message': message}
     headers = {'Authorization': 'Bearer ' + line_notify_token}
-    requests.post(line_notify_api, data=payload, headers=headers)
+    
+    if png is None:
+        requests.post(line_notify_api, data=payload, headers=headers)
+    elif png is not None and png.endswith('.png'):
+        files = {"imageFile": open(png, "rb")}
+        requests.post(line_notify_api, data=payload, headers=headers, files=files)
+    else:
+        raise Exception('???', png)
 
 def stop_instance():
     """
