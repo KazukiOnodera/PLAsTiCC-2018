@@ -159,21 +159,8 @@ def load_test(col=None):
 def load_target():
     return pd.read_feather('../data/target.f')
 
-def load_id():
-    return pd.read_feather('../data/train_id.f')['fullVisitorId']
-
 def load_sub():
     return pd.read_feather('../data/sub.f')
-
-def remove0(X):
-    index = pd.read_feather('../data/train_bounces_null.f').a
-    X = X.loc[index]
-    return X
-
-def post_process(sub):
-    index = pd.read_feather('../data/test_bounces_notnull.f').a
-    sub.loc[index, 'PredictedLogRevenue'] = 0
-    return
 
 def check_feature():
     
