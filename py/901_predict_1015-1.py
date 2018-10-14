@@ -135,7 +135,7 @@ X_test = pd.concat([
 
 X_test.drop(DROP, axis=1, inplace=True)
 
-for i,model in enumerate(tqdm(models)):
+for i,model in enumerate(tqdm(model_all)):
     y_pred = model.predict(X_test)
     if i==0:
         y_pred_all = y_pred
