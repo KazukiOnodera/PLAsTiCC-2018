@@ -65,14 +65,20 @@ param = {
 # load
 # =============================================================================
 
-files_tr = []
+files_tr = sorted(glob('../data/train_0*.f'))
 
 X = pd.concat([
                 pd.read_feather(f) for f in tqdm(files_tr, mininterval=60)
                ], axis=1)
-y = utils.read_pickles('../data/label').TARGET
+y = utils.load_target().target
 
-#X['nejumi'] = np.load('../feature_someone/train_nejumi.npy')
+target_dict = {}
+target_dict_r = {}
+for i,e in enumerate(y.sort_values().unique()):
+    target_dict[e] = i
+    target_dict_r[i] = e
+
+y = y.replace(target_dict)
 
 if X.columns.duplicated().sum()>0:
     raise Exception(f'duplicated!: { X.columns[X.columns.duplicated()] }')
@@ -81,7 +87,42 @@ print(f'X.shape {X.shape}')
 
 gc.collect()
 
-CAT = list( set(X.columns)&set(utils_cat.ALL))
-print(f'CAT: {CAT}')
+#CAT = list( set(X.columns)&set(utils_cat.ALL))
+#print(f'CAT: {CAT}')
+
+# =============================================================================
+# cv
+# =============================================================================
+dtrain = lgb.Dataset(X, y, #categorical_feature=CAT, 
+                     free_raw_data=False)
+gc.collect()
+
+model_all = []
+for i in range(LOOP):
+    gc.collect()
+    ret, models = lgb.cv(param, dtrain, 9999, nfold=NFOLD, 
+                         early_stopping_rounds=100, verbose_eval=50,
+                         seed=SEED)
+    model_all += models
+
+result = f"CV auc-mean: {ret['multi_logloss-mean'][-1]} + {ret['multi_logloss-stdv'][-1]}"
+print(result)
+
+utils.send_line(result)
+imp = ex.getImp(model_all)
+imp['split'] /= imp['split'].max()
+imp['gain'] /= imp['gain'].max()
+imp['total'] = imp['split'] + imp['gain']
+
+imp.sort_values('total', ascending=False, inplace=True)
+imp.reset_index(drop=True, inplace=True)
+
+
+imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
+
+
+#==============================================================================
+utils.end(__file__)
+#utils.stop_instance()
 
 
