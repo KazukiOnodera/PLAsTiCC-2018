@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Oct 14 20:04:14 2018
+Created on Sun Oct 14 23:55:39 2018
 
 @author: Kazuki
 """
@@ -9,9 +9,10 @@ Created on Sun Oct 14 20:04:14 2018
 import numpy as np
 import pandas as pd
 import os
+#from multiprocessing import Pool
 import utils
 
-PREF = 'f002'
+PREF = 'f005'
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
@@ -26,7 +27,7 @@ num_aggregations = {
 
 def aggregate(df, output_path):
     
-    df_agg = df.groupby('object_id').agg(num_aggregations)
+    df_agg = df.groupby(['object_id', 'passband']).agg(num_aggregations)
     df_agg.columns = pd.Index([e[0] + "_" + e[1] for e in df_agg.columns.tolist()])
     
     # std / mean
@@ -38,6 +39,16 @@ def aggregate(df, output_path):
     col_max = [c for c in df_agg.columns if c.endswith('_max')]
     for c in col_max:
         df_agg[f'{c}-d-min'] = df_agg[c]/df_agg[c.replace('_max', '_min')]
+    
+    
+    num_aggregations2 = {}
+    for c in df_agg.columns:
+        num_aggregations2[c] = ['min', 'max', 'mean', 'median', 'std']
+    
+    df_agg.reset_index(inplace=True)
+    
+    df_agg = df_agg.groupby(['object_id']).agg(num_aggregations2)
+    df_agg.columns = pd.Index([e[0] + "_" + e[1] for e in df_agg.columns.tolist()])
     
     df_agg.reset_index(drop=True, inplace=True)
     df_agg.add_prefix(PREF+'_').to_feather(output_path)

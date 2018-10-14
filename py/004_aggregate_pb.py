@@ -9,7 +9,7 @@ Created on Sun Oct 14 23:29:28 2018
 import numpy as np
 import pandas as pd
 import os
-from multiprocessing import Pool
+#from multiprocessing import Pool
 import utils
 
 PREF = 'f004'
@@ -45,6 +45,7 @@ def aggregate(df, output_path):
     df_ = pd.pivot_table(df_agg, index=['object_id'], columns=['passband'])
     df_.columns = pd.Index([f'pb{e[1]}_{e[0]}' for e in df_.columns.tolist()])
     
+    df_.reset_index(drop=True, inplace=True)
     df_.add_prefix(PREF+'_').to_feather(output_path)
     
     return
