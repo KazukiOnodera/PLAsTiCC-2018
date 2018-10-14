@@ -20,7 +20,7 @@ import lightgbm as lgb
 from multiprocessing import cpu_count
 
 import utils
-#utils.start(__file__)
+utils.start(__file__)
 #==============================================================================
 
 SUBMIT_FILE_PATH = '../output/1015-1.csv.gz'
@@ -142,7 +142,7 @@ for i,model in enumerate(tqdm(model_all)):
     else:
         y_pred_all += y_pred
 
-y_pred_all /= len(models)
+y_pred_all /= len(model_all)
 
 sub = pd.read_csv('../input/sample_submission.csv.zip')
 df = pd.DataFrame(y_pred_all, columns=sub.columns[1:-1])
