@@ -310,7 +310,7 @@ def remove_feature(df, var_limit=0, corr_limit=1, sample_size=None, only_var=Tru
 # =============================================================================
 def submit(file_path, comment='from API'):
     os.system(f'kaggle competitions submit -c {COMPETITION_NAME} -f {file_path} -m "{comment}"')
-    sleep(60*2) # tekito~~~~
+    sleep(60*5) # tekito~~~~
     tmp = os.popen(f'kaggle competitions submissions -c {COMPETITION_NAME} -v | head -n 2').read()
     col, values = tmp.strip().split('\n')
     message = 'SCORE!!!\n'
