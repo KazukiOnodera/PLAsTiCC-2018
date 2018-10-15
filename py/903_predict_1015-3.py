@@ -127,9 +127,8 @@ imp.reset_index(drop=True, inplace=True)
 imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
 
 n=30; title='Importance'
-fig, ax = plt.subplots()
 # the size of A4 paper
-fig.set_size_inches(11.7, 8.27)
+plt.figure(11.7, 8.27)
 sns.barplot(x='gain', y='feature', data=imp.head(n), label='gain')
 plt.subplots_adjust(left=.4, right=.9)
 plt.title(title+' TOP{0}'.format(n), fontsize=20, alpha=0.5)
