@@ -45,7 +45,7 @@ param = {
          'num_class': 14,
          'metric': 'multi_logloss',
          
-         'learning_rate': 0.01,
+         'learning_rate': 0.1,
          'max_depth': 6,
          'num_leaves': 63,
          'max_bin': 255,
@@ -135,7 +135,7 @@ plt.title(title+' TOP{0}'.format(n), fontsize=20, alpha=0.5)
 plt.savefig('importances.png')
 plt.savefig(f'LOG/imp_{__file__}.png')
 
-utils.send_line(result, 'fLOG/imp_{__file__}.png')
+utils.send_line(result, f'LOG/imp_{__file__}.png')
 raise Exception(1)
 
 # =============================================================================
