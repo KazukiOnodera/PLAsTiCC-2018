@@ -305,6 +305,17 @@ def remove_feature(df, var_limit=0, corr_limit=1, sample_size=None, only_var=Tru
         df.drop(col_corr1, axis=1, inplace=True)
     return
 
+def saveimp(imp, path, x='gain', y='feature', n=30, title='Importance'):
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    
+    fig, ax = plt.subplots()
+    # the size of A4 paper
+    fig.set_size_inches(11.7, 8.27)
+    sns.barplot(x=x, y=y, data=imp.head(n), label=x)
+    plt.subplots_adjust(left=.4, right=.9)
+    plt.title(title+' TOP{0}'.format(n), fontsize=20, alpha=0.5)
+
 # =============================================================================
 # other API
 # =============================================================================
