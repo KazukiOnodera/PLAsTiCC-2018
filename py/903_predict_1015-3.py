@@ -123,7 +123,7 @@ imp.reset_index(drop=True, inplace=True)
 
 imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
 
-utils.saveimp(imp, f'LOG/imp_{__file__}.png', x='total')
+utils.saveimp(imp, f'LOG/imp_{__file__}.png', x='total', title=f'{__file__}')
 utils.send_line(result, f'LOG/imp_{__file__}.png')
 
 # =============================================================================
