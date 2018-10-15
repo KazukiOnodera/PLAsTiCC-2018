@@ -315,7 +315,8 @@ def saveimp(imp, path, x='gain', y='feature', n=30, title='Importance'):
     sns.barplot(x=x, y=y, data=imp.head(n), label=x)
     plt.subplots_adjust(left=.4, right=.9)
     plt.title(title+' TOP{0}'.format(n), fontsize=20, alpha=0.5)
-
+    plt.savefig(path)
+    
 # =============================================================================
 # other API
 # =============================================================================
