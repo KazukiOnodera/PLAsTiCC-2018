@@ -65,6 +65,7 @@ param = {
 # =============================================================================
 
 files_tr = sorted(glob('../data/train_f*.f'))
+print(files_tr)
 
 X = pd.concat([
                 pd.read_feather(f) for f in tqdm(files_tr, mininterval=60)
@@ -88,6 +89,7 @@ print(f'X.shape {X.shape}')
 
 gc.collect()
 
+COL = X.columns.tolist()
 #CAT = list( set(X.columns)&set(utils_cat.ALL))
 #print(f'CAT: {CAT}')
 
@@ -130,7 +132,7 @@ files_te = sorted(glob('../data/test_f*.f'))
 
 X_test = pd.concat([
                 pd.read_feather(f) for f in tqdm(files_te, mininterval=60)
-               ], axis=1)
+               ], axis=1)[COL]
 
 X_test.drop(DROP, axis=1, inplace=True)
 
