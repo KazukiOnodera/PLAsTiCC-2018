@@ -150,7 +150,7 @@ df = pd.DataFrame(y_pred_all, columns=sub.columns[1:-1])
 # preds_99 = 0.1 gives 1.769
 preds_99 = np.ones(df.shape[0])
 for i in range(df.shape[1]):
-    preds_99 *= (1 - df[:, i])
+    preds_99 *= (1 - df.iloc[:, i])
 df['class_99'] = preds_99
 
 
