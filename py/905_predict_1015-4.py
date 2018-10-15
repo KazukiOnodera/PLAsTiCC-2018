@@ -18,11 +18,6 @@ import lgbextension as ex
 import lightgbm as lgb
 from multiprocessing import cpu_count
 
-import matplotlib as mpl
-mpl.use('Agg')
-import matplotlib.pyplot as plt
-import seaborn as sns
-
 import utils
 utils.start(__file__)
 #==============================================================================

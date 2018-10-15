@@ -18,11 +18,6 @@ import lgbextension as ex
 import lightgbm as lgb
 from multiprocessing import cpu_count
 
-#import matplotlib as mpl
-#mpl.use('Agg')
-#import matplotlib.pyplot as plt
-#import seaborn as sns
-
 import utils
 utils.start(__file__)
 #==============================================================================
@@ -47,7 +42,7 @@ param = {
          'num_class': 14,
          'metric': 'multi_logloss',
          
-         'learning_rate': 0.1,
+         'learning_rate': 0.01,
          'max_depth': 6,
          'num_leaves': 63,
          'max_bin': 255,
@@ -131,7 +126,6 @@ imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
 utils.saveimp(imp, f'LOG/imp_{__file__}.png', x='total')
 utils.send_line(result, f'LOG/imp_{__file__}.png')
 
-raise
 # =============================================================================
 # test
 # =============================================================================
