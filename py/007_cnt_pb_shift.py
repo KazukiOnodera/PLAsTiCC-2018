@@ -22,7 +22,8 @@ def mk_feature(df, output_path):
     df['passband_last'] = df['passband'].shift()
     df.loc[df['object_id'] != df['object_id'].shift(), 'passband_last'] = np.nan
     
-    df['passband'] = df.apply(lambda x: f"{x['passband_last']}->{x['passband']}", axis=1)
+    df['passband'] = df['passband_last'].astype(str) + '->' + df['passband'].astype(str)
+#    df.apply(lambda x: f"{x['passband_last']}->{x['passband']}", axis=1)
     
     ct = pd.crosstab(df['object_id'], df['passband'])
     ct.columns = [f'passband{c}_cnt' for c in ct.columns]
