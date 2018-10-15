@@ -137,7 +137,7 @@ imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
 #plt.savefig(f'LOG/imp_{__file__}.png')
 
 utils.saveimp(imp, f'LOG/imp_{__file__}.png')
-utils.send_line(result, f'LOG/imp_{__file__}.png')
+utils.send_line(result, f'LOG/imp_{__file__}.png', x='total')
 
 
 # =============================================================================
