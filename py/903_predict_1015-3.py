@@ -24,7 +24,7 @@ utils.start(__file__)
 
 SUBMIT_FILE_PATH = '../output/1015-3.csv.gz'
 
-COMMENT = '001~005 drop f001_hostgal_specz and f001_distmod'
+COMMENT = 'drop f001_hostgal_specz and f001_distmod'
 
 EXE_SUBMIT = True
 
