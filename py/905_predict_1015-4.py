@@ -42,7 +42,7 @@ param = {
          'num_class': 14,
          'metric': 'multi_logloss',
          
-         'learning_rate': 0.01,
+         'learning_rate': 0.1,
          'max_depth': 6,
          'num_leaves': 63,
          'max_bin': 255,
@@ -114,7 +114,7 @@ COL = X.columns.tolist()
 # =============================================================================
 # cv
 # =============================================================================
-def lgb_multi_weighted_logloss(y_true, y_preds):
+def lgb_multi_weighted_logloss(y_preds, train_data):
     """
     @author olivier https://www.kaggle.com/ogrellier
     https://www.kaggle.com/ogrellier/plasticc-in-a-kernel-meta-and-data/code
@@ -123,6 +123,7 @@ def lgb_multi_weighted_logloss(y_true, y_preds):
     # class_weights taken from Giba's topic : https://www.kaggle.com/titericz
     # https://www.kaggle.com/c/PLAsTiCC-2018/discussion/67194
     # with Kyle Boone's post https://www.kaggle.com/kyleboone
+    y_true = train_data.get_label()
     if len(np.unique(y_true)) > 14:
         classes.append(99)
         class_weight[99] = 2
@@ -165,7 +166,6 @@ for i in range(LOOP):
 result = f"CV auc-mean: {ret['multi_logloss-mean'][-1]} + {ret['multi_logloss-stdv'][-1]}"
 print(result)
 
-utils.send_line(result)
 imp = ex.getImp(model_all)
 imp['split'] /= imp['split'].max()
 imp['gain'] /= imp['gain'].max()
