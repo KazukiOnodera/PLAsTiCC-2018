@@ -305,7 +305,7 @@ def remove_feature(df, var_limit=0, corr_limit=1, sample_size=None, only_var=Tru
         df.drop(col_corr1, axis=1, inplace=True)
     return
 
-def saveimp(imp, path, x='gain', y='feature', n=30, title='Importance'):
+def savefig_imp(imp, path, x='gain', y='feature', n=30, title='Importance'):
     import matplotlib as mpl
     mpl.use('Agg')
     import seaborn as sns
@@ -316,7 +316,16 @@ def saveimp(imp, path, x='gain', y='feature', n=30, title='Importance'):
     fig.set_size_inches(11.7, 8.27)
     sns.barplot(x=x, y=y, data=imp.head(n), label=x)
     plt.subplots_adjust(left=.4, right=.9)
-    plt.title(title+' TOP{0}'.format(n), fontsize=20, alpha=0.5)
+    plt.title(title+' TOP{0}'.format(n), fontsize=20, alpha=0.8)
+    plt.savefig(path)
+
+def savefig_sub(sub, path):
+    import matplotlib as mpl
+    mpl.use('Agg')
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    
+    sub.iloc[:, 1:].hist(bins=50, figsize=(16, 12))
     plt.savefig(path)
     
 # =============================================================================

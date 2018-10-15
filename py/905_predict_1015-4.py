@@ -24,11 +24,11 @@ utils.start(__file__)
 
 SUBMIT_FILE_PATH = '../output/1015-4.csv.gz'
 
-COMMENT = '1015-3 + weight'
+COMMENT = '1015-2 + weight'
 
 EXE_SUBMIT = True
 
-DROP = ['f001_hostgal_specz', 'f001_distmod']
+DROP = ['f001_hostgal_specz']
 
 SEED = np.random.randint(9999)
 print('SEED:', SEED)
@@ -83,7 +83,7 @@ class_weight = {6: 1,
 # =============================================================================
 
 files_tr = sorted(glob('../data/train_f*.f'))
-print(files_tr)
+[print(f) for f in files_tr]
 
 X = pd.concat([
                 pd.read_feather(f) for f in tqdm(files_tr, mininterval=60)
@@ -156,7 +156,7 @@ model_all = []
 for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
-    ret, models = lgb.cv(param, dtrain, 9999, nfold=NFOLD, 
+    ret, models = lgb.cv(param, dtrain, 30, nfold=NFOLD, 
                          feval=lgb_multi_weighted_logloss,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
@@ -177,8 +177,9 @@ imp.reset_index(drop=True, inplace=True)
 
 imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
 
-utils.saveimp(imp, f'LOG/imp_{__file__}.png', x='total')
-utils.send_line(result, f'LOG/imp_{__file__}.png')
+png = f'LOG/imp_{__file__}.png'
+utils.savefig_imp(imp, png, x='total', title=f'{__file__}')
+utils.send_line(result, png)
 
 # =============================================================================
 # test
@@ -216,7 +217,13 @@ sub = pd.concat([sub[['object_id']], df], axis=1)
 
 sub.to_csv(SUBMIT_FILE_PATH, index=False, compression='gzip')
 
+sub.iloc[:, 1:].hist(bins=30, figsize=(16, 12))
 
+png = f'LOG/sub_{__file__}.png'
+utils.savefig_sub(sub, png)
+utils.send_line(result, png)
+
+raise
 # =============================================================================
 # submission
 # =============================================================================
