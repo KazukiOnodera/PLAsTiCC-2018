@@ -157,7 +157,7 @@ model_all = []
 for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
-    ret, models = lgb.cv(param, dtrain, 30, nfold=NFOLD, 
+    ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
                          feval=lgb_multi_weighted_logloss,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
