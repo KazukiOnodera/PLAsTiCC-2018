@@ -1,0 +1,111 @@
+
+#==============================================================================
+# START!!! 902_predict_1015-2.py    PID: 4021    time: 2018-10-15 01:51:42.862621
+#==============================================================================
+
+SEED: 211
+  0%|          | 0/6 [00:00<?, ?it/s]100%|██████████| 6/6 [00:07<00:00,  1.24s/it]
+no dup :) 
+X.shape (7848, 424)
+[50]	cv_agg's multi_logloss: 1.83592 + 0.00848379
+[100]	cv_agg's multi_logloss: 1.47079 + 0.0112992
+[150]	cv_agg's multi_logloss: 1.25135 + 0.0112659
+[200]	cv_agg's multi_logloss: 1.10475 + 0.0111013
+[250]	cv_agg's multi_logloss: 1.00137 + 0.0110423
+[300]	cv_agg's multi_logloss: 0.92527 + 0.0108371
+[350]	cv_agg's multi_logloss: 0.86789 + 0.0099462
+[400]	cv_agg's multi_logloss: 0.823251 + 0.00935478
+[450]	cv_agg's multi_logloss: 0.788819 + 0.00851991
+[500]	cv_agg's multi_logloss: 0.7615 + 0.00795316
+[550]	cv_agg's multi_logloss: 0.739621 + 0.00745532
+[600]	cv_agg's multi_logloss: 0.721899 + 0.00706657
+[650]	cv_agg's multi_logloss: 0.706952 + 0.00702695
+[700]	cv_agg's multi_logloss: 0.694698 + 0.00690906
+[750]	cv_agg's multi_logloss: 0.684762 + 0.00672331
+[800]	cv_agg's multi_logloss: 0.676992 + 0.00664156
+[850]	cv_agg's multi_logloss: 0.670406 + 0.00664192
+[900]	cv_agg's multi_logloss: 0.664696 + 0.00703363
+[950]	cv_agg's multi_logloss: 0.660107 + 0.00727199
+[1000]	cv_agg's multi_logloss: 0.656017 + 0.00756372
+[1050]	cv_agg's multi_logloss: 0.652557 + 0.00750362
+[1100]	cv_agg's multi_logloss: 0.649415 + 0.00772602
+[1150]	cv_agg's multi_logloss: 0.646593 + 0.00796065
+[1200]	cv_agg's multi_logloss: 0.644201 + 0.00838863
+[1250]	cv_agg's multi_logloss: 0.641935 + 0.00829185
+[1300]	cv_agg's multi_logloss: 0.640182 + 0.00826914
+[1350]	cv_agg's multi_logloss: 0.63858 + 0.00853575
+[1400]	cv_agg's multi_logloss: 0.637242 + 0.00881139
+[1450]	cv_agg's multi_logloss: 0.635733 + 0.00886637
+[1500]	cv_agg's multi_logloss: 0.634649 + 0.00918365
+[1550]	cv_agg's multi_logloss: 0.63353 + 0.00913447
+[1600]	cv_agg's multi_logloss: 0.63258 + 0.00920529
+[1650]	cv_agg's multi_logloss: 0.631764 + 0.00916268
+[1700]	cv_agg's multi_logloss: 0.630915 + 0.00893784
+[1750]	cv_agg's multi_logloss: 0.630123 + 0.00891681
+[1800]	cv_agg's multi_logloss: 0.629356 + 0.0090144
+[1850]	cv_agg's multi_logloss: 0.628913 + 0.00909174
+[1900]	cv_agg's multi_logloss: 0.628421 + 0.00906212
+[1950]	cv_agg's multi_logloss: 0.628037 + 0.00923061
+[2000]	cv_agg's multi_logloss: 0.62764 + 0.00918157
+[2050]	cv_agg's multi_logloss: 0.627458 + 0.00917121
+[2100]	cv_agg's multi_logloss: 0.627252 + 0.00911379
+[2150]	cv_agg's multi_logloss: 0.627156 + 0.0091616
+[2200]	cv_agg's multi_logloss: 0.6269 + 0.00942454
+[2250]	cv_agg's multi_logloss: 0.62681 + 0.00968366
+[2300]	cv_agg's multi_logloss: 0.626984 + 0.00987713
+[50]	cv_agg's multi_logloss: 1.8374 + 0.00911976
+[100]	cv_agg's multi_logloss: 1.47026 + 0.0116588
+[150]	cv_agg's multi_logloss: 1.2505 + 0.0120051
+[200]	cv_agg's multi_logloss: 1.10497 + 0.0117252
+[250]	cv_agg's multi_logloss: 1.00151 + 0.0115922
+[300]	cv_agg's multi_logloss: 0.925797 + 0.0107284
+[350]	cv_agg's multi_logloss: 0.868109 + 0.0101913
+[400]	cv_agg's multi_logloss: 0.823723 + 0.00918859
+[450]	cv_agg's multi_logloss: 0.788574 + 0.00857027
+[500]	cv_agg's multi_logloss: 0.760948 + 0.00794441
+[550]	cv_agg's multi_logloss: 0.738986 + 0.0073928
+[600]	cv_agg's multi_logloss: 0.721032 + 0.00684057
+[650]	cv_agg's multi_logloss: 0.706532 + 0.0065464
+[700]	cv_agg's multi_logloss: 0.694871 + 0.00660029
+[750]	cv_agg's multi_logloss: 0.685277 + 0.00646959
+[800]	cv_agg's multi_logloss: 0.677399 + 0.00665978
+[850]	cv_agg's multi_logloss: 0.671078 + 0.00686563
+[900]	cv_agg's multi_logloss: 0.66541 + 0.0068644
+[950]	cv_agg's multi_logloss: 0.6605 + 0.00697
+[1000]	cv_agg's multi_logloss: 0.656368 + 0.00706075
+[1050]	cv_agg's multi_logloss: 0.652826 + 0.00729892
+[1100]	cv_agg's multi_logloss: 0.650217 + 0.00762585
+[1150]	cv_agg's multi_logloss: 0.647804 + 0.00787508
+[1200]	cv_agg's multi_logloss: 0.645408 + 0.00793448
+[1250]	cv_agg's multi_logloss: 0.643455 + 0.00793331
+[1300]	cv_agg's multi_logloss: 0.641674 + 0.00817064
+[1350]	cv_agg's multi_logloss: 0.639975 + 0.00815032
+[1400]	cv_agg's multi_logloss: 0.638521 + 0.0083534
+[1450]	cv_agg's multi_logloss: 0.637125 + 0.008492
+[1500]	cv_agg's multi_logloss: 0.635659 + 0.00850899
+[1550]	cv_agg's multi_logloss: 0.634677 + 0.00856012
+[1600]	cv_agg's multi_logloss: 0.633749 + 0.00888921
+[1650]	cv_agg's multi_logloss: 0.632901 + 0.00913491
+[1700]	cv_agg's multi_logloss: 0.632053 + 0.0092426
+[1750]	cv_agg's multi_logloss: 0.631573 + 0.00941956
+[1800]	cv_agg's multi_logloss: 0.630978 + 0.00922434
+[1850]	cv_agg's multi_logloss: 0.630454 + 0.00914636
+[1900]	cv_agg's multi_logloss: 0.629943 + 0.00918118
+[1950]	cv_agg's multi_logloss: 0.629588 + 0.00941928
+[2000]	cv_agg's multi_logloss: 0.629263 + 0.0096494
+[2050]	cv_agg's multi_logloss: 0.629032 + 0.00977979
+[2100]	cv_agg's multi_logloss: 0.628693 + 0.00977208
+[2150]	cv_agg's multi_logloss: 0.628566 + 0.00973593
+[2200]	cv_agg's multi_logloss: 0.628637 + 0.00996906
+[2250]	cv_agg's multi_logloss: 0.628731 + 0.00994313
+CV auc-mean: 0.62852143183321 + 0.009788880093015057
+  0%|          | 0/6 [00:00<?, ?it/s] 83%|████████▎ | 5/6 [01:36<00:19, 19.27s/it]100%|██████████| 6/6 [01:36<00:00, 16.11s/it]
+  0%|          | 0/8 [00:00<?, ?it/s] 12%|█▎        | 1/8 [13:35<1:35:08, 815.49s/it] 25%|██▌       | 2/8 [27:11<1:21:34, 815.81s/it] 38%|███▊      | 3/8 [40:50<1:08:03, 816.70s/it] 50%|█████     | 4/8 [54:30<54:30, 817.57s/it]   62%|██████▎   | 5/8 [1:07:50<40:42, 814.09s/it] 75%|███████▌  | 6/8 [1:19:29<26:29, 794.91s/it] 88%|████████▊ | 7/8 [1:31:40<13:05, 785.81s/it]100%|██████████| 8/8 [1:44:58<00:00, 787.30s/it]
+submit
+Successfully submitted to PLAsTiCC Astronomical Classification
+#==============================================================================
+# SUCCESS !!! 902_predict_1015-2.py
+#==============================================================================
+
+time: 125.49min
+Stopping instance(s) instance-0...

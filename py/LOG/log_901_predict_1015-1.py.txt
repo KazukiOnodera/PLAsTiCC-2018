@@ -1,0 +1,116 @@
+SEED: 8869
+  0%|          | 0/6 [00:00<?, ?it/s]100%|██████████| 6/6 [00:00<00:00, 24.78it/s]
+no dup :) 
+X.shape (7848, 424)
+[50]	cv_agg's multi_logloss: 1.83859 + 0.00460978
+[100]	cv_agg's multi_logloss: 1.4727 + 0.0062485
+[150]	cv_agg's multi_logloss: 1.25292 + 0.00725711
+[200]	cv_agg's multi_logloss: 1.10627 + 0.00746065
+[250]	cv_agg's multi_logloss: 1.00239 + 0.00804032
+[300]	cv_agg's multi_logloss: 0.926881 + 0.00866542
+[350]	cv_agg's multi_logloss: 0.869565 + 0.00895561
+[400]	cv_agg's multi_logloss: 0.824959 + 0.00906325
+[450]	cv_agg's multi_logloss: 0.790364 + 0.00903908
+[500]	cv_agg's multi_logloss: 0.763058 + 0.00944103
+[550]	cv_agg's multi_logloss: 0.741068 + 0.00989848
+[600]	cv_agg's multi_logloss: 0.723673 + 0.0103495
+[650]	cv_agg's multi_logloss: 0.709207 + 0.0104334
+[700]	cv_agg's multi_logloss: 0.697424 + 0.0102364
+[750]	cv_agg's multi_logloss: 0.687734 + 0.0104754
+[800]	cv_agg's multi_logloss: 0.679931 + 0.0108941
+[850]	cv_agg's multi_logloss: 0.673468 + 0.0112402
+[900]	cv_agg's multi_logloss: 0.668028 + 0.0115804
+[950]	cv_agg's multi_logloss: 0.663374 + 0.0117847
+[1000]	cv_agg's multi_logloss: 0.659286 + 0.0117702
+[1050]	cv_agg's multi_logloss: 0.65596 + 0.0121632
+[1100]	cv_agg's multi_logloss: 0.653218 + 0.0123603
+[1150]	cv_agg's multi_logloss: 0.65086 + 0.0123056
+[1200]	cv_agg's multi_logloss: 0.648577 + 0.0124632
+[1250]	cv_agg's multi_logloss: 0.646726 + 0.0125974
+[1300]	cv_agg's multi_logloss: 0.644735 + 0.0127048
+[1350]	cv_agg's multi_logloss: 0.643351 + 0.0127184
+[1400]	cv_agg's multi_logloss: 0.642093 + 0.0129896
+[1450]	cv_agg's multi_logloss: 0.640895 + 0.0131522
+[1500]	cv_agg's multi_logloss: 0.639722 + 0.0132364
+[1550]	cv_agg's multi_logloss: 0.638817 + 0.0134509
+[1600]	cv_agg's multi_logloss: 0.638159 + 0.0134884
+[1650]	cv_agg's multi_logloss: 0.637511 + 0.0135124
+[1700]	cv_agg's multi_logloss: 0.636699 + 0.013826
+[1750]	cv_agg's multi_logloss: 0.636174 + 0.0140522
+[1800]	cv_agg's multi_logloss: 0.63569 + 0.0142799
+[1850]	cv_agg's multi_logloss: 0.63511 + 0.0142879
+[1900]	cv_agg's multi_logloss: 0.634771 + 0.014599
+[1950]	cv_agg's multi_logloss: 0.634301 + 0.0147449
+[2000]	cv_agg's multi_logloss: 0.634232 + 0.0150566
+[2050]	cv_agg's multi_logloss: 0.633772 + 0.0150114
+[2100]	cv_agg's multi_logloss: 0.633623 + 0.0151519
+[2150]	cv_agg's multi_logloss: 0.633371 + 0.0152499
+[2200]	cv_agg's multi_logloss: 0.633325 + 0.0151865
+[2250]	cv_agg's multi_logloss: 0.63317 + 0.0153294
+[2300]	cv_agg's multi_logloss: 0.633065 + 0.0154509
+[2350]	cv_agg's multi_logloss: 0.632896 + 0.0158621
+[2400]	cv_agg's multi_logloss: 0.633043 + 0.0159616
+[50]	cv_agg's multi_logloss: 1.83818 + 0.00451025
+[100]	cv_agg's multi_logloss: 1.472 + 0.00605242
+[150]	cv_agg's multi_logloss: 1.25305 + 0.00726454
+[200]	cv_agg's multi_logloss: 1.10699 + 0.00765791
+[250]	cv_agg's multi_logloss: 1.00356 + 0.00852581
+[300]	cv_agg's multi_logloss: 0.928094 + 0.00923525
+[350]	cv_agg's multi_logloss: 0.870142 + 0.00979928
+[400]	cv_agg's multi_logloss: 0.825849 + 0.010051
+[450]	cv_agg's multi_logloss: 0.791272 + 0.010355
+[500]	cv_agg's multi_logloss: 0.763951 + 0.0106841
+[550]	cv_agg's multi_logloss: 0.742187 + 0.0108175
+[600]	cv_agg's multi_logloss: 0.724467 + 0.0108259
+[650]	cv_agg's multi_logloss: 0.71014 + 0.0108411
+[700]	cv_agg's multi_logloss: 0.698473 + 0.0110871
+[750]	cv_agg's multi_logloss: 0.688871 + 0.0113374
+[800]	cv_agg's multi_logloss: 0.680985 + 0.0114234
+[850]	cv_agg's multi_logloss: 0.67481 + 0.0115919
+[900]	cv_agg's multi_logloss: 0.669356 + 0.0118674
+[950]	cv_agg's multi_logloss: 0.664756 + 0.0122588
+[1000]	cv_agg's multi_logloss: 0.661038 + 0.0126266
+[1050]	cv_agg's multi_logloss: 0.657553 + 0.0131012
+[1100]	cv_agg's multi_logloss: 0.654685 + 0.0133838
+[1150]	cv_agg's multi_logloss: 0.652314 + 0.0134001
+[1200]	cv_agg's multi_logloss: 0.650086 + 0.0135792
+[1250]	cv_agg's multi_logloss: 0.648145 + 0.0139932
+[1300]	cv_agg's multi_logloss: 0.646176 + 0.0141688
+[1350]	cv_agg's multi_logloss: 0.644347 + 0.0147004
+[1400]	cv_agg's multi_logloss: 0.643127 + 0.0149025
+[1450]	cv_agg's multi_logloss: 0.641798 + 0.0149359
+[1500]	cv_agg's multi_logloss: 0.640788 + 0.0150262
+[1550]	cv_agg's multi_logloss: 0.639958 + 0.0152729
+[1600]	cv_agg's multi_logloss: 0.63896 + 0.0155301
+[1650]	cv_agg's multi_logloss: 0.638246 + 0.0157508
+[1700]	cv_agg's multi_logloss: 0.6376 + 0.0158798
+[1750]	cv_agg's multi_logloss: 0.637107 + 0.016075
+[1800]	cv_agg's multi_logloss: 0.636621 + 0.0164197
+[1850]	cv_agg's multi_logloss: 0.636312 + 0.0165718
+[1900]	cv_agg's multi_logloss: 0.636165 + 0.0166272
+[1950]	cv_agg's multi_logloss: 0.635988 + 0.0166939
+[2000]	cv_agg's multi_logloss: 0.635796 + 0.0168672
+[2050]	cv_agg's multi_logloss: 0.635541 + 0.017029
+[2100]	cv_agg's multi_logloss: 0.635321 + 0.0170379
+[2150]	cv_agg's multi_logloss: 0.635083 + 0.0170856
+[2200]	cv_agg's multi_logloss: 0.634884 + 0.0173235
+[2250]	cv_agg's multi_logloss: 0.634863 + 0.0175136
+[2300]	cv_agg's multi_logloss: 0.634859 + 0.017624
+[2350]	cv_agg's multi_logloss: 0.634856 + 0.0177384
+CV auc-mean: 0.6347652470930797 + 0.017589921224160147
+  0%|          | 0/6 [00:00<?, ?it/s] 83%|████████▎ | 5/6 [01:36<00:19, 19.31s/it]100%|██████████| 6/6 [01:36<00:00, 16.14s/it]
+  0%|          | 0/8 [00:00<?, ?it/s] 12%|█▎        | 1/8 [09:27<1:06:12, 567.54s/it] 25%|██▌       | 2/8 [18:54<56:44, 567.47s/it]   38%|███▊      | 3/8 [28:22<47:16, 567.39s/it] 50%|█████     | 4/8 [37:52<37:52, 568.24s/it] 62%|██████▎   | 5/8 [47:05<28:15, 565.02s/it] 75%|███████▌  | 6/8 [56:23<18:47, 563.86s/it] 88%|████████▊ | 7/8 [1:05:40<09:22, 562.97s/it]100%|██████████| 8/8 [1:14:55<00:00, 561.97s/it]
+submit
+Successfully submitted to PLAsTiCC Astronomical Classification
+#==============================================================================
+# SUCCESS !!! 901_predict_1015-1.py
+#==============================================================================
+
+Traceback (most recent call last):
+  File "901_predict_1015-1.py", line 167, in <module>
+    utils.end(__file__)
+  File "/home/Kazuki/PLAsTiCC-2018/py/utils.py", line 61, in end
+    print('time: {:.2f}min'.format( elapsed_minute() ))
+  File "/home/Kazuki/PLAsTiCC-2018/py/utils.py", line 66, in elapsed_minute
+    return (time() - st_time)/60
+NameError: name 'st_time' is not defined
