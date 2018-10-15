@@ -191,8 +191,6 @@ X_test = pd.concat([
                 pd.read_feather(f) for f in tqdm(files_te, mininterval=60)
                ], axis=1)[COL]
 
-X_test.drop(DROP, axis=1, inplace=True)
-
 for i,model in enumerate(tqdm(model_all)):
     y_pred = model.predict(X_test)
     if i==0:
