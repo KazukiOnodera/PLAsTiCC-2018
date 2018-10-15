@@ -40,3 +40,79 @@ X.shape (7848, 423)
 [1500]	cv_agg's multi_logloss: 0.635915 + 0.0137657
 [1550]	cv_agg's multi_logloss: 0.634989 + 0.0139605
 [1600]	cv_agg's multi_logloss: 0.633961 + 0.0140285
+[1650]	cv_agg's multi_logloss: 0.633021 + 0.0139578
+[1700]	cv_agg's multi_logloss: 0.632337 + 0.0141534
+[1750]	cv_agg's multi_logloss: 0.631736 + 0.0145455
+[1800]	cv_agg's multi_logloss: 0.631215 + 0.0149008
+[1850]	cv_agg's multi_logloss: 0.630656 + 0.0150501
+[1900]	cv_agg's multi_logloss: 0.630202 + 0.0152813
+[1950]	cv_agg's multi_logloss: 0.629872 + 0.0154097
+[2000]	cv_agg's multi_logloss: 0.629439 + 0.0153757
+[2050]	cv_agg's multi_logloss: 0.62913 + 0.0155604
+[2100]	cv_agg's multi_logloss: 0.628943 + 0.0157383
+[2150]	cv_agg's multi_logloss: 0.628714 + 0.0159692
+[2200]	cv_agg's multi_logloss: 0.628475 + 0.0160448
+[2250]	cv_agg's multi_logloss: 0.628323 + 0.0161315
+[2300]	cv_agg's multi_logloss: 0.628389 + 0.0163337
+[2350]	cv_agg's multi_logloss: 0.628375 + 0.0162626
+[50]	cv_agg's multi_logloss: 1.83981 + 0.00605932
+[100]	cv_agg's multi_logloss: 1.47703 + 0.00887022
+[150]	cv_agg's multi_logloss: 1.25699 + 0.0107922
+[200]	cv_agg's multi_logloss: 1.10914 + 0.0125995
+[250]	cv_agg's multi_logloss: 1.00581 + 0.0133695
+[300]	cv_agg's multi_logloss: 0.92912 + 0.0141596
+[350]	cv_agg's multi_logloss: 0.871494 + 0.0142504
+[400]	cv_agg's multi_logloss: 0.82633 + 0.0144666
+[450]	cv_agg's multi_logloss: 0.791504 + 0.0145087
+[500]	cv_agg's multi_logloss: 0.763925 + 0.0141996
+[550]	cv_agg's multi_logloss: 0.74194 + 0.0140821
+[600]	cv_agg's multi_logloss: 0.72391 + 0.0139188
+[650]	cv_agg's multi_logloss: 0.70945 + 0.0137033
+[700]	cv_agg's multi_logloss: 0.697558 + 0.013478
+[750]	cv_agg's multi_logloss: 0.687558 + 0.0137349
+[800]	cv_agg's multi_logloss: 0.67985 + 0.0136073
+[850]	cv_agg's multi_logloss: 0.673536 + 0.0132882
+[900]	cv_agg's multi_logloss: 0.66766 + 0.01313
+[950]	cv_agg's multi_logloss: 0.663081 + 0.0132622
+[1000]	cv_agg's multi_logloss: 0.658935 + 0.0134115
+[1050]	cv_agg's multi_logloss: 0.655212 + 0.0134495
+[1100]	cv_agg's multi_logloss: 0.652085 + 0.0133087
+[1150]	cv_agg's multi_logloss: 0.649425 + 0.0133626
+[1200]	cv_agg's multi_logloss: 0.646927 + 0.0134027
+[1250]	cv_agg's multi_logloss: 0.644795 + 0.0135398
+[1300]	cv_agg's multi_logloss: 0.642946 + 0.0136502
+[1350]	cv_agg's multi_logloss: 0.641314 + 0.0138035
+[1400]	cv_agg's multi_logloss: 0.639727 + 0.0139144
+[1450]	cv_agg's multi_logloss: 0.638246 + 0.0141739
+[1500]	cv_agg's multi_logloss: 0.637007 + 0.0142524
+[1550]	cv_agg's multi_logloss: 0.635874 + 0.0145103
+[1600]	cv_agg's multi_logloss: 0.634976 + 0.0145165
+[1650]	cv_agg's multi_logloss: 0.634387 + 0.0144093
+[1700]	cv_agg's multi_logloss: 0.633833 + 0.0145771
+[1750]	cv_agg's multi_logloss: 0.633228 + 0.0145838
+[1800]	cv_agg's multi_logloss: 0.632499 + 0.0148263
+[1850]	cv_agg's multi_logloss: 0.632081 + 0.0150659
+[1900]	cv_agg's multi_logloss: 0.631588 + 0.0150126
+[1950]	cv_agg's multi_logloss: 0.631154 + 0.0151101
+[2000]	cv_agg's multi_logloss: 0.630797 + 0.0153318
+[2050]	cv_agg's multi_logloss: 0.630544 + 0.0155718
+[2100]	cv_agg's multi_logloss: 0.630151 + 0.0156949
+[2150]	cv_agg's multi_logloss: 0.629764 + 0.0158009
+[2200]	cv_agg's multi_logloss: 0.629467 + 0.015814
+[2250]	cv_agg's multi_logloss: 0.629468 + 0.0158724
+[2300]	cv_agg's multi_logloss: 0.629262 + 0.0160458
+[2350]	cv_agg's multi_logloss: 0.62926 + 0.0161287
+[2400]	cv_agg's multi_logloss: 0.629175 + 0.01624
+[2450]	cv_agg's multi_logloss: 0.629043 + 0.0161591
+[2500]	cv_agg's multi_logloss: 0.629073 + 0.016428
+CV auc-mean: 0.6289858185309296 + 0.01618219540167305
+  0%|          | 0/6 [00:00<?, ?it/s] 83%|████████▎ | 5/6 [01:36<00:19, 19.22s/it]100%|██████████| 6/6 [01:36<00:00, 16.07s/it]
+  0%|          | 0/8 [00:00<?, ?it/s] 12%|█▎        | 1/8 [09:12<1:04:27, 552.50s/it] 25%|██▌       | 2/8 [18:22<55:08, 551.42s/it]   38%|███▊      | 3/8 [27:34<45:57, 551.48s/it] 50%|█████     | 4/8 [36:48<36:48, 552.00s/it] 62%|██████▎   | 5/8 [47:32<28:31, 570.56s/it] 75%|███████▌  | 6/8 [57:14<19:04, 572.42s/it] 88%|████████▊ | 7/8 [1:06:53<09:33, 573.40s/it]100%|██████████| 8/8 [1:16:37<00:00, 574.70s/it]
+submit
+Successfully submitted to PLAsTiCC Astronomical Classification
+#==============================================================================
+# SUCCESS !!! 903_predict_1015-3.py
+#==============================================================================
+
+time: 96.75min
+Stopping instance(s) instance-0...
