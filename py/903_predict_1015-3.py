@@ -18,10 +18,10 @@ import lgbextension as ex
 import lightgbm as lgb
 from multiprocessing import cpu_count
 
-import matplotlib as mpl
-mpl.use('Agg')
-import matplotlib.pyplot as plt
-import seaborn as sns
+#import matplotlib as mpl
+#mpl.use('Agg')
+#import matplotlib.pyplot as plt
+#import seaborn as sns
 
 import utils
 utils.start(__file__)
@@ -127,14 +127,6 @@ imp.reset_index(drop=True, inplace=True)
 
 
 imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
-
-#n=30; title='Importance'
-## the size of A4 paper
-#plt.figure(figsize=(11.7, 8.27))
-#sns.barplot(x='total', y='feature', data=imp.head(n), label='total')
-#plt.subplots_adjust(left=.4, right=.9)
-#plt.title(title+' TOP{0}'.format(n), fontsize=20, alpha=0.5)
-#plt.savefig(f'LOG/imp_{__file__}.png')
 
 utils.saveimp(imp, f'LOG/imp_{__file__}.png', x='total')
 utils.send_line(result, f'LOG/imp_{__file__}.png')

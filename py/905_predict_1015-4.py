@@ -181,8 +181,9 @@ imp.reset_index(drop=True, inplace=True)
 
 
 imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
-ex.pltImp(imp)
-plt.savefig('LOG/imp_{__file__}.png')
+
+utils.saveimp(imp, f'LOG/imp_{__file__}.png', x='total')
+utils.send_line(result, f'LOG/imp_{__file__}.png')
 
 # =============================================================================
 # test

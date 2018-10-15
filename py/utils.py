@@ -306,6 +306,8 @@ def remove_feature(df, var_limit=0, corr_limit=1, sample_size=None, only_var=Tru
     return
 
 def saveimp(imp, path, x='gain', y='feature', n=30, title='Importance'):
+    import matplotlib as mpl
+    mpl.use('Agg')
     import seaborn as sns
     import matplotlib.pyplot as plt
     
