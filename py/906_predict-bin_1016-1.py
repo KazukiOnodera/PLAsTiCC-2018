@@ -192,6 +192,8 @@ for i in y_unique:
 
 # Compute preds_99 as the proba of class not being any of the others
 # preds_99 = 0.1 gives 1.769
+sub.to_csv('../output/sub.csv.gz', index=False, compression='gzip')
+
 preds_99 = np.ones(sub.shape[0])
 for i in range(sub.shape[1]-1):
     preds_99 *= (1 - sub.iloc[:, i+1])
