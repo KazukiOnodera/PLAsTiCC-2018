@@ -50,7 +50,6 @@ param = {
          'nthread': cpu_count(),
          'bagging_freq': 1,
          'verbose':-1,
-         'seed': SEED
          }
 
 # =============================================================================
@@ -92,6 +91,7 @@ gc.collect()
 model_all = []
 for i in range(LOOP):
     gc.collect()
+    param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 9999, nfold=NFOLD, 
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
