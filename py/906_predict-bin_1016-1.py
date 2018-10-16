@@ -172,6 +172,7 @@ for i in y_unique:
     y_pred /= len(model_all)
     
     sub[f'class_{i}'] = y_pred
+    os.system('rm -rf ../data/*.npz')
 
 
 #for i in y_unique:
