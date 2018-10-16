@@ -193,12 +193,16 @@ for i in y_unique:
 # Compute preds_99 as the proba of class not being any of the others
 # preds_99 = 0.1 gives 1.769
 preds_99 = np.ones(sub.shape[0])
-for i in range(sub.shape[1]):
+for i in range(sub.shape[1]-1):
     preds_99 *= (1 - sub.iloc[:, i+1])
 sub['class_99'] = preds_99
 
 
 sub.to_csv(SUBMIT_FILE_PATH, index=False, compression='gzip')
+
+png = f'LOG/sub_{__file__}.png'
+utils.savefig_sub(sub, png)
+utils.send_line('DONE!', png)
 
 # =============================================================================
 # submission
