@@ -146,41 +146,24 @@ X_test = pd.concat([
 
 sub = pd.read_csv('../input/sample_submission.csv.zip')[['object_id']]
 
-def multi(args):
-    i, model = args
-    y_pred = model.predict(X_test)
-    np.savez(f'../data/{i}.npz', x=y_pred)
-    return
-
-for i in y_unique:
-    print('predict', i)
-    
-    model_all = model_di[i]
-    argss = list(zip(range(len(model_all)), model_all))
-    pool = Pool(5)
-    pool.map(multi, argss)
-    pool.close()
-    
-    files = glob('../data/*.npz')
-    for j,file in enumerate(tqdm(files)):
-        y_pred_ = np.load(file)['x']
-        if j==0:
-            y_pred = y_pred_
-        else:
-            y_pred += y_pred_
-    
-    y_pred /= len(model_all)
-    
-    sub[f'class_{i}'] = y_pred
-    os.system('rm -rf ../data/*.npz')
-
-
+#def multi(args):
+#    i, model = args
+#    y_pred = model.predict(X_test)
+#    np.savez(f'../data/{i}.npz', x=y_pred)
+#    return
+#
 #for i in y_unique:
 #    print('predict', i)
 #    
 #    model_all = model_di[i]
-#    for j,model in enumerate(tqdm(model_all)):
-#        y_pred_ = model.predict(X_test)
+#    argss = list(zip(range(len(model_all)), model_all))
+#    pool = Pool(5)
+#    pool.map(multi, argss)
+#    pool.close()
+#    
+#    files = glob('../data/*.npz')
+#    for j,file in enumerate(tqdm(files)):
+#        y_pred_ = np.load(file)['x']
 #        if j==0:
 #            y_pred = y_pred_
 #        else:
@@ -189,7 +172,23 @@ for i in y_unique:
 #    y_pred /= len(model_all)
 #    
 #    sub[f'class_{i}'] = y_pred
+#    os.system('rm -rf ../data/*.npz')
+
+
+for i in y_unique:
+    print('predict', i)
     
+    model_all = model_di[i]
+    for j,model in enumerate(tqdm(model_all)):
+        y_pred_ = model.predict(X_test)
+        if j==0:
+            y_pred = y_pred_
+        else:
+            y_pred += y_pred_
+    
+    y_pred /= len(model_all)
+    
+    sub[f'class_{i}'] = y_pred
 
 # Compute preds_99 as the proba of class not being any of the others
 # preds_99 = 0.1 gives 1.769
