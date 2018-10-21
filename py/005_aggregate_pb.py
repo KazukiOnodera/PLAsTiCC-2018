@@ -17,13 +17,20 @@ PREF = 'f005'
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
 
+def quantile(n):
+    def quantile_(x):
+        return np.percentile(x, n)
+    quantile_.__name__ = 'q%s' % n
+    return quantile_
+
 num_aggregations = {
     'mjd':      ['min', 'max', 'size'],
-    'passband': ['min', 'max', 'mean', 'median', 'std'],
-    'flux':     ['min', 'max', 'mean', 'median', 'std'],
-    'flux_err': ['min', 'max', 'mean', 'median', 'std'],
-    'detected': ['min', 'max', 'mean', 'median', 'std'],
+    'passband': ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
+    'flux':     ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
+    'flux_err': ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
+    'detected': ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
     }
+
 
 def aggregate(df, output_path):
     
