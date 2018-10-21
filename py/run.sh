@@ -1,4 +1,5 @@
 
+# nohup sh run.sh &
 python -u 000.py > LOG/log_000.py.txt
 python -u 001.py > LOG/log_001.py.txt
 python -u 002_aggregate.py > LOG/log_002_aggregate.py.txt
