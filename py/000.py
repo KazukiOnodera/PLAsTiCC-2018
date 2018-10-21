@@ -11,6 +11,10 @@ import pandas as pd
 import os
 import utils
 
+os.system(f'rm -rf ../data')
+os.system(f'mkdir ../data')
+os.system(f'rm -rf ../feature')
+os.system(f'mkdir ../feature')
 
 # =============================================================================
 # main
