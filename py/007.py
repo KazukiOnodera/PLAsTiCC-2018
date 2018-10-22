@@ -1,38 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Oct 14 23:29:28 2018
+Created on Mon Oct 22 13:54:46 2018
 
-@author: Kazuki
+@author: kazuki.onodera
 """
 
 import numpy as np
 import pandas as pd
 import os
-#from multiprocessing import Pool
 import utils
 
-PREF = 'f004'
+PREF = 'f007'
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
 
-def quantile(n):
-    def quantile_(x):
-        return np.percentile(x, n)
-    quantile_.__name__ = 'q%s' % n
-    return quantile_
+#def quantile(n):
+#    def quantile_(x):
+#        return np.percentile(x, n)
+#    quantile_.__name__ = 'q%s' % n
+#    return quantile_
+
+stats = ['min', 'max', 'mean', 'median', 'std']
 
 num_aggregations = {
     'mjd':      ['min', 'max', 'size'],
-    'flux':     ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
-    'flux_err': ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
-    'detected': ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
+    'flux':     stats,
+#    'flux_err': stats,
+#    'detected': stats,
     }
 
 def aggregate(df, output_path):
     
-#    df, output_path = args
+    df.flux /= df.groupby('object_id').flux.transform('max') + df.groupby('object_id').flux.transform('min').abs()
+    
     df_agg = df.groupby(['object_id', 'passband']).agg(num_aggregations)
     df_agg.columns = pd.Index([e[0] + "_" + e[1] for e in df_agg.columns.tolist()])
     

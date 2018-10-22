@@ -22,7 +22,9 @@ os.system(f'mkdir ../feature')
 if __name__ == "__main__":
     utils.start(__file__)
     
+    # =================
     # train
+    # =================
     train     = pd.read_csv('../input/training_set_metadata.csv')
     train.to_feather('../data/train.f')
     train[['target']].to_feather('../data/target.f')
@@ -30,7 +32,10 @@ if __name__ == "__main__":
     train_log = pd.read_csv('../input/training_set.csv.zip')
     train_log.to_feather('../data/train_log.f')
     
+    
+    # =================
     # test
+    # =================
     test     = pd.read_csv('../input/test_set_metadata.csv.zip')
     test.to_feather('../data/test.f')
     test_log = pd.read_csv('../input/test_set.csv.zip')
