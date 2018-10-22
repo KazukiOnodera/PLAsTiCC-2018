@@ -137,11 +137,16 @@ utils.savefig_imp(imp, png, x='total', title=f'{__file__}')
 utils.send_line(result, png)
 
 
-
+COL = imp[imp.gain>0].feature.tolist()
 
 # =============================================================================
 # model
 # =============================================================================
+
+dtrain = lgb.Dataset(X[COL], y, #categorical_feature=CAT, 
+                     free_raw_data=False)
+gc.collect()
+
 
 np.random.seed(SEED)
 
@@ -160,7 +165,7 @@ for i in range(LOOP):
     model_all.append(model)
 
 
-
+del dtrain, X; gc.collect()
 
 
 # =============================================================================
