@@ -27,7 +27,7 @@ print('SEED:', SEED)
 
 DROP = ['f001_hostgal_specz']
 
-NFOLD = 4
+NFOLD = 8
 
 LOOP = 2
 
