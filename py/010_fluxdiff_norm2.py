@@ -60,12 +60,8 @@ def aggregate(df, output_path):
     for c in col_max:
         df_agg[f'{c}-d-min'] = df_agg[c]/df_agg[c.replace('_max', '_min')]
     
-    df_agg.reset_index(inplace=True)
-    df_ = pd.pivot_table(df_agg, index=['object_id'], columns=['passband'])
-    df_.columns = pd.Index([f'pb{e[1]}_{e[0]}' for e in df_.columns.tolist()])
-    
-    df_.reset_index(drop=True, inplace=True)
-    df_.add_prefix(PREF+'_').to_feather(output_path)
+    df_agg.reset_index(drop=True, inplace=True)
+    df_agg.add_prefix(PREF+'_').to_feather(output_path)
     
     return
 
