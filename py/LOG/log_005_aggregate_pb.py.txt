@@ -1,8 +1,6 @@
-rm: cannot remove '../data/t*_f005*': No such file or directory
-rm: cannot remove '../feature/t*_f005*': No such file or directory
 
 #==============================================================================
-# START!!! 005_aggregate_pb.py    PID: 3166    time: 2018-10-14 15:12:57.535372
+# START!!! 005_aggregate_pb.py    PID: 6241    time: 2018-10-21 12:14:13.151219
 #==============================================================================
 
 
@@ -10,4 +8,4 @@ rm: cannot remove '../feature/t*_f005*': No such file or directory
 # SUCCESS !!! 005_aggregate_pb.py
 #==============================================================================
 
-time: 11.72min
+time: 276.74min

@@ -1,7 +1,6 @@
-rm: cannot remove '../feature/t*_f003*': No such file or directory
 
 #==============================================================================
-# START!!! 003_aggregate_diff.py    PID: 3033    time: 2018-10-14 15:12:33.144866
+# START!!! 003_aggregate_diff.py    PID: 4024    time: 2018-10-21 06:44:01.447557
 #==============================================================================
 
 
@@ -9,4 +8,4 @@ rm: cannot remove '../feature/t*_f003*': No such file or directory
 # SUCCESS !!! 003_aggregate_diff.py
 #==============================================================================
 
-time: 10.21min
+time: 57.92min

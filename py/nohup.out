@@ -1,0 +1,10 @@
+rm: cannot remove '../data/t*_f001*': No such file or directory
+rm: cannot remove '../feature/t*_f001*': No such file or directory
+rm: cannot remove '../data/t*_f002*': No such file or directory
+rm: cannot remove '../feature/t*_f002*': No such file or directory
+rm: cannot remove '../data/t*_f003*': No such file or directory
+rm: cannot remove '../feature/t*_f003*': No such file or directory
+rm: cannot remove '../data/t*_f004*': No such file or directory
+rm: cannot remove '../feature/t*_f004*': No such file or directory
+rm: cannot remove '../data/t*_f005*': No such file or directory
+rm: cannot remove '../feature/t*_f005*': No such file or directory
