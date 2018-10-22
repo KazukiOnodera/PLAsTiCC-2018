@@ -102,7 +102,7 @@ for i in range(LOOP):
                          seed=SEED)
     model_all += models
 
-result = f"CV auc-mean: {ret['multi_logloss-mean'][-1]} + {ret['multi_logloss-stdv'][-1]}"
+result = f"CV multi_logloss-mean: {ret['multi_logloss-mean'][-1]} + {ret['multi_logloss-stdv'][-1]}"
 print(result)
 
 utils.send_line(result)

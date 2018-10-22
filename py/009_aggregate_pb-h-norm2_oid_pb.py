@@ -34,7 +34,8 @@ keys = ['object_id', 'passband']
 
 def aggregate(df, output_path):
     
-    df.flux /= df.groupby(keys).flux.transform('max') + df.groupby(keys).flux.transform('min').abs()
+    df.flux += df.groupby('object_id').flux.transform('min').abs()
+    df.flux /= df.groupby('object_id').flux.transform('max')
     
     df_agg = df.groupby(['object_id', 'passband']).agg(num_aggregations)
     df_agg.columns = pd.Index([e[0] + "_" + e[1] for e in df_agg.columns.tolist()])
