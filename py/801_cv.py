@@ -25,6 +25,8 @@ import utils
 SEED = np.random.randint(9999)
 print('SEED:', SEED)
 
+DROP = ['f001_hostgal_specz']
+
 NFOLD = 4
 
 LOOP = 2
@@ -63,6 +65,8 @@ X = pd.concat([
                ], axis=1)
 y = utils.load_target().target
 
+X.drop(DROP, axis=1, inplace=True)
+
 target_dict = {}
 target_dict_r = {}
 for i,e in enumerate(y.sort_values().unique()):
@@ -92,7 +96,8 @@ model_all = []
 for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
-    ret, models = lgb.cv(param, dtrain, 9999, nfold=NFOLD, 
+    ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
+                         feval=utils.lgb_multi_weighted_logloss,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models

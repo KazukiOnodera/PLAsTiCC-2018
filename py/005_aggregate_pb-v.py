@@ -4,6 +4,8 @@
 Created on Sun Oct 14 23:55:39 2018
 
 @author: Kazuki
+
+vertical
 """
 
 import numpy as np
