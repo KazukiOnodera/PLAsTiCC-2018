@@ -24,18 +24,19 @@ utils.start(__file__)
 
 SUBMIT_FILE_PATH = '../output/1022-1.csv.gz'
 
-COMMENT = 'f006~7'
+COMMENT = 'f006~010'
 
 EXE_SUBMIT = True
 
 DROP = ['f001_hostgal_specz']
 
 SEED = np.random.randint(9999)
+np.random.seed(SEED)
 print('SEED:', SEED)
 
-NFOLD = 4
+NFOLD = 5
 
-LOOP = 2
+LOOP = 5
 
 param = {
          'objective': 'multiclass',
@@ -102,6 +103,8 @@ dtrain = lgb.Dataset(X, y, #categorical_feature=CAT,
 gc.collect()
 
 model_all = []
+nround_mean = 0
+wloss_list = []
 for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
@@ -110,8 +113,12 @@ for i in range(LOOP):
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models
+    nround_mean += len(ret['multi_logloss-mean'])
+    wloss_list.append( ret['wloss-mean'][-1] )
 
-result = f"CV auc-mean: {ret['multi_logloss-mean'][-1]} + {ret['multi_logloss-stdv'][-1]}"
+nround_mean = int((nround_mean/LOOP) * 1.3)
+
+result = f"CV wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
 print(result)
 
 imp = ex.getImp(model_all)
@@ -128,6 +135,33 @@ imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
 png = f'LOG/imp_{__file__}.png'
 utils.savefig_imp(imp, png, x='total', title=f'{__file__}')
 utils.send_line(result, png)
+
+
+
+
+# =============================================================================
+# model
+# =============================================================================
+
+np.random.seed(SEED)
+
+model_all = []
+for i in range(LOOP):
+    print('building', i)
+    gc.collect()
+    param['seed'] = np.random.randint(9999)
+    model = lgb.train(param, dtrain, num_boost_round=nround_mean, valid_sets=None, 
+                      valid_names=None, fobj=None, feval=None, init_model=None, 
+                      feature_name='auto', categorical_feature='auto', 
+                      early_stopping_rounds=None, evals_result=None, 
+                      verbose_eval=True, learning_rates=None, 
+                      keep_training_booster=False, callbacks=None)
+    
+    model_all.append(model)
+
+
+
+
 
 # =============================================================================
 # test
