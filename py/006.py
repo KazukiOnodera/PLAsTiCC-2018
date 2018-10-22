@@ -25,7 +25,6 @@ os.system(f'rm ../feature/t*_{PREF}*')
 stats = ['min', 'max', 'mean', 'median', 'std']
 
 num_aggregations = {
-    'mjd':      ['min', 'max', 'size'],
     'flux':     stats,
 #    'flux_err': stats,
 #    'detected': stats,
