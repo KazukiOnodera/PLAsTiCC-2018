@@ -93,6 +93,8 @@ dtrain = lgb.Dataset(X, y, #categorical_feature=CAT,
 gc.collect()
 
 model_all = []
+nround_mean = 0
+wloss_list = []
 for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
@@ -101,8 +103,12 @@ for i in range(LOOP):
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models
+    nround_mean += len(ret['multi_logloss-mean'])
+    wloss_list.append( ret['wloss-mean'][-1] )
 
-result = f"CV multi_logloss-mean: {ret['multi_logloss-mean'][-1]} + {ret['multi_logloss-stdv'][-1]}"
+nround_mean = int((nround_mean/LOOP) * 1.3)
+
+result = f"CV wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
 print(result)
 
 utils.send_line(result)

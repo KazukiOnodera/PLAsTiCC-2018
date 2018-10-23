@@ -81,10 +81,39 @@ def aggregate(df, output_path):
     num_aggregations['pb_std'] = stats
     pt['pb_median'] = pt[col].median(1)
     num_aggregations['pb_median'] = stats
-        
     
     pt.reset_index(inplace=True)
     
+    # =============================================================================
+    # diff agg
+    # =============================================================================
+    pt_diff = pt.diff().add_suffix('_diff')
+    pt_diff.loc[pt['object_id'] != pt['object_id'].shift()] = np.nan
+    pt_diff.drop(['object_id_diff', 'date_diff'], axis=1, inplace=True)
+    pt_diff['object_id'] = pt['object_id']
+    num_aggregations2 = {}
+    for c in pt_diff.columns[1:]:
+        num_aggregations2[c] = stats
+    
+    df_agg = pt_diff.groupby('object_id').agg(num_aggregations2)
+    df_agg.columns = pd.Index([e[0] + "_" + e[1] for e in df_agg.columns.tolist()])
+    
+    # std / mean
+    col_std = [c for c in df_agg.columns if c.endswith('_std')]
+    for c in col_std:
+        df_agg[f'{c}-d-mean'] = df_agg[c]/df_agg[c.replace('_std', '_mean')]
+    
+    # max / min
+    col_max = [c for c in df_agg.columns if c.endswith('_max')]
+    for c in col_max:
+        df_agg[f'{c}-d-min'] = df_agg[c]/df_agg[c.replace('_max', '_min')]
+    
+    df_agg.reset_index(drop=True, inplace=True)
+    diff_agg = df_agg
+    
+    # =============================================================================
+    # agg
+    # =============================================================================
     df_agg = pt.groupby(['object_id']).agg(num_aggregations)
     df_agg.columns = pd.Index([f'{e[0]}_{e[1]}' for e in df_agg.columns.tolist()])
     
@@ -99,6 +128,7 @@ def aggregate(df, output_path):
         df_agg[f'{c}-d-min'] = df_agg[c]/df_agg[c.replace('_max', '_min')]
     
     df_agg.reset_index(drop=True, inplace=True)
+    df_agg = pd.concat([df_agg, diff_agg], axis=1)
     df_agg.add_prefix(PREF+'_').to_feather(output_path)
     
     return
@@ -110,7 +140,7 @@ if __name__ == "__main__":
     utils.start(__file__)
     
     aggregate(pd.read_feather('../data/train_log.f'), f'../data/train_{PREF}.f')
-#    aggregate(pd.read_feather('../data/test_log.f'),  f'../data/test_{PREF}.f')
+    aggregate(pd.read_feather('../data/test_log.f'),  f'../data/test_{PREF}.f')
     
     utils.end(__file__)
 
