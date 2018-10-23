@@ -4,6 +4,23 @@
 Created on Mon Oct 22 18:41:16 2018
 
 @author: kazuki.onodera
+
+
+                      pb0       pb1       pb2       pb3       pb4       pb5
+object_id date                                                             
+615       59750       NaN -1.235849 -0.890235 -1.057542 -1.018409       NaN
+          59752       NaN -1.606743 -1.114177 -1.177723 -1.030178 -0.941031
+          59767       NaN -1.233963 -0.895470 -1.066808 -1.062076 -1.113729
+          59770       NaN -1.241311 -0.906727 -1.070148 -1.047955 -1.098096
+          59779       NaN -1.394135 -1.030293 -1.163318 -1.105329 -1.118002
+          59782       NaN -0.679803 -0.457592 -0.710519 -0.871533 -0.965328
+          59797       NaN  0.053755  0.639557  0.741746  0.943564  0.976867
+          59800       NaN  0.196090  0.275726  0.067575 -0.159554 -0.340889
+          59807       NaN -0.636966 -0.419391 -0.670657 -0.816795 -0.911018
+          59810       NaN -0.797759 -0.560177 -0.815015 -0.912751 -1.034594
+          59813       NaN -1.665753 -1.107946 -1.136741 -0.796038 -0.495219
+
+
 """
 
 import numpy as np
@@ -30,7 +47,7 @@ def aggregate(df, output_path):
     
     df['date'] = df.mjd.astype(int)
     
-    df.flux += df.groupby(keys).flux.transform('min').abs()
+#    df.flux += df.groupby(keys).flux.transform('min').abs()
     df.flux /= df.groupby(keys).flux.transform('max')
     
     pt = pd.pivot_table(df, index=['object_id', 'date'], columns=['passband'], values=['flux'])
@@ -40,10 +57,31 @@ def aggregate(df, output_path):
     comb = list(combinations(col, 2))
     li = []; num_aggregations = {}
     for c1,c2 in comb:
+        # diff
         c = f'{c1}-m-{c2}' 
         pt[c] = pt[c1] - pt[c2]
         li.append(c)
         num_aggregations[c] = stats
+        
+        # ratio
+        c = f'{c1}-d-{c2}' 
+        pt[c] = pt[c1] / pt[c2]
+        li.append(c)
+        num_aggregations[c] = stats
+    
+    pt['pb_min'] = pt[col].min(1)
+    num_aggregations['pb_min'] = stats
+    pt['pb_max'] = pt[col].max(1)
+    num_aggregations['pb_max'] = stats
+    pt['pb_sum'] = pt[col].sum(1)
+    num_aggregations['pb_sum'] = stats
+    pt['pb_mean'] = pt[col].mean(1)
+    num_aggregations['pb_mean'] = stats
+    pt['pb_std'] = pt[col].std(1)
+    num_aggregations['pb_std'] = stats
+    pt['pb_median'] = pt[col].median(1)
+    num_aggregations['pb_median'] = stats
+        
     
     pt.reset_index(inplace=True)
     
@@ -72,7 +110,7 @@ if __name__ == "__main__":
     utils.start(__file__)
     
     aggregate(pd.read_feather('../data/train_log.f'), f'../data/train_{PREF}.f')
-    aggregate(pd.read_feather('../data/test_log.f'),  f'../data/test_{PREF}.f')
+#    aggregate(pd.read_feather('../data/test_log.f'),  f'../data/test_{PREF}.f')
     
     utils.end(__file__)
 
