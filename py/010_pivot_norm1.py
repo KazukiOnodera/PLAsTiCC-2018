@@ -38,7 +38,7 @@ os.system(f'rm ../feature/t*_{PREF}*')
 stats = ['min', 'max', 'mean', 'median', 'std']
 
 
-keys = ['object_id', 'passband']
+keys = ['object_id']
 
 def aggregate(df, output_path):
     """
