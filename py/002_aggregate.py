@@ -64,12 +64,16 @@ if __name__ == "__main__":
     
     aggregate(pd.read_feather('../data/train_log.f'), f'../data/train_{PREF}.f')
     
-    argss = zip(utils.TEST_LOGS, range(len(utils.TEST_LOGS)))
+    os.system(f'rm ../data/tmp*')
+    argss = []
+    for i,file in enumerate(utils.TEST_LOGS):
+        argss.append([file, f'../data/tmp{i}.f'])
     pool = Pool( cpu_count() )
     pool.map(multi(argss))
     pool.close()
+    os.system(f'rm ../data/tmp*')
     
-    aggregate(pd.read_feather('../data/test_log.f'),  f'../data/test_{PREF}.f')
+#    aggregate(pd.read_feather('../data/test_log.f'),  f'../data/test_{PREF}.f')
     
     utils.end(__file__)
 
