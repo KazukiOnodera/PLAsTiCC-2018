@@ -85,7 +85,7 @@ if __name__ == "__main__":
     os.system(f'rm ../data/tmp_{PREF}*')
     argss = []
     for i,file in enumerate(utils.TEST_LOGS):
-        argss.append([file, f'../data/tmp{i}.f'])
+        argss.append([file, f'../data/tmp_{PREF}{i}.f'])
     pool = Pool( cpu_count() )
     pool.map(multi, argss)
     pool.close()

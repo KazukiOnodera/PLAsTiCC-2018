@@ -76,20 +76,20 @@ if __name__ == "__main__":
     aggregate(pd.read_feather('../data/train_log.f'), f'../data/train_{PREF}.f')
     
     # test
-    os.system(f'rm ../data/tmp*')
+    os.system(f'rm ../data/tmp_{PREF}*')
     argss = []
     for i,file in enumerate(utils.TEST_LOGS):
-        argss.append([file, f'../data/tmp{i}.f'])
+        argss.append([file, f'../data/tmp_{PREF}{i}.f'])
     pool = Pool( cpu_count() )
     pool.map(multi, argss)
     pool.close()
-    df = pd.concat([pd.read_feather(f) for f in glob('../data/tmp*')], 
+    df = pd.concat([pd.read_feather(f) for f in glob(f'../data/tmp_{PREF}*')], 
                     ignore_index=True)
     df.sort_values(f'{PREF}_object_id', inplace=True)
     df.reset_index(drop=True, inplace=True)
     del df[f'{PREF}_object_id']
     df.to_feather(f'../data/test_{PREF}.f')
-    os.system(f'rm ../data/tmp*')
+    os.system(f'rm ../data/tmp_{PREF}*')
     
     
     utils.end(__file__)
