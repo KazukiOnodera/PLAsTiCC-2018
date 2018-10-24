@@ -201,21 +201,21 @@ def lgb_multi_weighted_logloss(y_preds, train_data):
 
 def load_train(col=None):
     if col is None:
-        return pd.read_feather('../data/train.pkl')
+        return pd.read_pickle('../data/train.pkl')
     else:
-        return pd.read_feather('../data/train.pkl')[col]
+        return pd.read_pickle('../data/train.pkl')[col]
 
 def load_test(col=None):
     if col is None:
-        return pd.read_feather('../data/test.pkl')
+        return pd.read_pickle('../data/test.pkl')
     else:
-        return pd.read_feather('../data/test.pkl')[col]
+        return pd.read_pickle('../data/test.pkl')[col]
 
 def load_target():
-    return pd.read_feather('../data/target.pkl')
+    return pd.read_pickle('../data/target.pkl')
 
 def load_sub():
-    return pd.read_feather('../data/sub.pkl')
+    return pd.read_pickle('../data/sub.pkl')
 
 def check_feature():
     
