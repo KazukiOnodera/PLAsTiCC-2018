@@ -39,10 +39,10 @@ if __name__ == "__main__":
     # =================
     train     = pd.read_csv('../input/training_set_metadata.csv')
     train.to_feather('../data/train.f')
-    train[['target']].to_feather('../data/target.f')
+    train[['target']].to_feather('../data/target.pkl')
     
     train_log = pd.read_csv('../input/training_set.csv.zip', dtype=COLUMN_TO_TYPE)
-    train_log.to_feather('../data/train_log.f')
+    train_log.to_feather('../data/train_log.pkl')
     
     
     # =================
@@ -54,10 +54,7 @@ if __name__ == "__main__":
     test_log = pd.read_csv('../input/test_set.csv.zip', dtype=COLUMN_TO_TYPE)
     
     for i in tqdm(range(utils.SPLIT_SIZE), mininterval=15):
-        test_log[test_log.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True).to_feather(f'../data/test_log{i:02}.f')
-    
-    
-    
+        test_log[test_log.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True).to_feather(f'../data/test_log{i:02}.pkl')
     
     utils.end(__file__)
 

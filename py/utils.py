@@ -27,7 +27,7 @@ COMPETITION_NAME = 'PLAsTiCC-2018'
 
 SPLIT_SIZE = 100
 
-TEST_LOGS = sorted(glob('../data/test_log*.f'))
+TEST_LOGS = sorted(glob('../data/test_log*.pkl'))
 
 
 
@@ -201,33 +201,33 @@ def lgb_multi_weighted_logloss(y_preds, train_data):
 
 def load_train(col=None):
     if col is None:
-        return pd.read_feather('../data/train.f')
+        return pd.read_feather('../data/train.pkl')
     else:
-        return pd.read_feather('../data/train.f')[col]
+        return pd.read_feather('../data/train.pkl')[col]
 
 def load_test(col=None):
     if col is None:
-        return pd.read_feather('../data/test.f')
+        return pd.read_feather('../data/test.pkl')
     else:
-        return pd.read_feather('../data/test.f')[col]
+        return pd.read_feather('../data/test.pkl')[col]
 
 def load_target():
-    return pd.read_feather('../data/target.f')
+    return pd.read_feather('../data/target.pkl')
 
 def load_sub():
-    return pd.read_feather('../data/sub.f')
+    return pd.read_feather('../data/sub.pkl')
 
 def check_feature():
     
     sw = False
-    files = sorted(glob('../feature/train*.f'))
+    files = sorted(glob('../feature/train*.pkl'))
     for f in files:
         path = f.replace('train_', 'test_')
         if not os.path.isfile(path):
             print(f)
             sw = True
     
-    files = sorted(glob('../feature/test*.f'))
+    files = sorted(glob('../feature/test*.pkl'))
     for f in files:
         path = f.replace('test_', 'train_')
         if not os.path.isfile(path):
