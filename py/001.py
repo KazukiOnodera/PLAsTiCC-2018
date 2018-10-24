@@ -23,10 +23,10 @@ if __name__ == "__main__":
     utils.start(__file__)
     
     train = utils.load_train().drop(['object_id', 'target'], axis=1)
-    train.add_prefix(PREF+'_').to_feather(f'../data/train_{PREF}.f')
+    train.add_prefix(PREF+'_').to_pickle(f'../data/train_{PREF}.pkl')
     
     test  = utils.load_test().drop(['object_id'], axis=1)
-    test.add_prefix(PREF+'_').to_feather(f'../data/test_{PREF}.f')
+    test.add_prefix(PREF+'_').to_pickle(f'../data/test_{PREF}.pkl')
     
     utils.end(__file__)
 
