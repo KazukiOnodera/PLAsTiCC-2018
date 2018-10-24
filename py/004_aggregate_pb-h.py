@@ -34,7 +34,7 @@ num_aggregations = {
     'detected': ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
     }
 
-def aggregate(df, output_path):
+def aggregate(df, output_path, drop_oid=True):
     
 #    df, output_path = args
     df_agg = df.groupby(['object_id', 'passband']).agg(num_aggregations)
@@ -54,8 +54,11 @@ def aggregate(df, output_path):
     df_ = pd.pivot_table(df_agg, index=['object_id'], columns=['passband'])
     df_.columns = pd.Index([f'pb{e[1]}_{e[0]}' for e in df_.columns.tolist()])
     
-    df_.reset_index(drop=True, inplace=True)
-    df_.add_prefix(PREF+'_').to_feather(output_path)
+    if drop_oid:
+        df_agg.reset_index(drop=True, inplace=True)
+    else:
+        df_agg.reset_index(inplace=True)
+    df_agg.add_prefix(PREF+'_').to_feather(output_path)
     
     return
 
