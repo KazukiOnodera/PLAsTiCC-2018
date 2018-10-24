@@ -78,9 +78,9 @@ if __name__ == "__main__":
     pool.close()
     df = pd.concat([pd.read_feather(f) for f in glob('../data/tmp*')], 
                     ignore_index=True)
-    df.sort_values('object_id', inplace=True)
+    df.sort_values('f002_object_id', inplace=True)
     df.reset_index(drop=True, inplace=True)
-    del df['object_id']
+    del df['f002_object_id']
     df.to_feather(f'../data/test_{PREF}.f')
     os.system(f'rm ../data/tmp*')
     
