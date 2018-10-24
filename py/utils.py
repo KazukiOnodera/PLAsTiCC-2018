@@ -27,7 +27,7 @@ COMPETITION_NAME = 'PLAsTiCC-2018'
 
 SPLIT_SIZE = 20
 
-
+TEST_LOGS = sorted(glob('../data/test_log*.f'))
 
 
 

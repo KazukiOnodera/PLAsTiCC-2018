@@ -9,6 +9,7 @@ Created on Sun Oct 14 20:04:14 2018
 import numpy as np
 import pandas as pd
 import os
+from multiprocessing import cpu_count, Pool
 import utils
 
 PREF = 'f002'
@@ -50,6 +51,11 @@ def aggregate(df, output_path):
     
     return
 
+def multi(args):
+    input_path, output_path = args
+    aggregate(pd.read_feather(input_path), output_path)
+    return
+
 # =============================================================================
 # main
 # =============================================================================
@@ -57,6 +63,12 @@ if __name__ == "__main__":
     utils.start(__file__)
     
     aggregate(pd.read_feather('../data/train_log.f'), f'../data/train_{PREF}.f')
+    
+    argss = zip(utils.TEST_LOGS, range(len(utils.TEST_LOGS)))
+    pool = Pool( cpu_count() )
+    pool.map(multi(argss))
+    pool.close()
+    
     aggregate(pd.read_feather('../data/test_log.f'),  f'../data/test_{PREF}.f')
     
     utils.end(__file__)

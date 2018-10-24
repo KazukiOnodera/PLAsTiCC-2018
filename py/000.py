@@ -9,12 +9,23 @@ Created on Sun Oct 14 18:12:10 2018
 import numpy as np
 import pandas as pd
 import os
+from tqdm import tqdm
+
 import utils
 
 os.system(f'rm -rf ../data')
 os.system(f'mkdir ../data')
 os.system(f'rm -rf ../feature')
 os.system(f'mkdir ../feature')
+
+COLUMN_TO_TYPE = {
+    'object_id': np.int32,
+    'mjd': np.float32,
+    'passband': np.int8,
+    'flux': np.float32,
+    'flux_err': np.float32,
+    'detected': np.int8
+}
 
 # =============================================================================
 # main
@@ -29,7 +40,7 @@ if __name__ == "__main__":
     train.to_feather('../data/train.f')
     train[['target']].to_feather('../data/target.f')
     
-    train_log = pd.read_csv('../input/training_set.csv.zip')
+    train_log = pd.read_csv('../input/training_set.csv.zip', dtype=COLUMN_TO_TYPE)
     train_log.to_feather('../data/train_log.f')
     
     
@@ -38,8 +49,14 @@ if __name__ == "__main__":
     # =================
     test     = pd.read_csv('../input/test_set_metadata.csv.zip')
     test.to_feather('../data/test.f')
-    test_log = pd.read_csv('../input/test_set.csv.zip')
-    test_log.to_feather('../data/test_log.f')
+    
+    test_log = pd.read_csv('../input/test_set.csv.zip', dtype=COLUMN_TO_TYPE)
+    oids = test_log.object_id.unique()
+    
+    for i in tqdm(range(utils.SPLIT_SIZE)):
+        test_log[test_log.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True).to_feather(f'../data/test_log{i:02}.f')
+        
+#    test_log.to_feather('../data/test_log.f')
     
     
     utils.end(__file__)
