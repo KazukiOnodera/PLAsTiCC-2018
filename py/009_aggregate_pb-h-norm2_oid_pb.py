@@ -34,7 +34,7 @@ num_aggregations = {
 
 keys = ['object_id', 'passband']
 
-def aggregate(df, output_path):
+def aggregate(df, output_path, drop_oid=True):
     
     df.flux += df.groupby(keys).flux.transform('min').abs()
     df.flux /= df.groupby(keys).flux.transform('max')
