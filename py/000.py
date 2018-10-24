@@ -10,6 +10,7 @@ import numpy as np
 import pandas as pd
 import os
 from tqdm import tqdm
+from multiprocessing import cpu_count, Pool
 
 import utils
 
@@ -51,12 +52,11 @@ if __name__ == "__main__":
     test.to_feather('../data/test.f')
     
     test_log = pd.read_csv('../input/test_set.csv.zip', dtype=COLUMN_TO_TYPE)
-    oids = test_log.object_id.unique()
     
-    for i in tqdm(range(utils.SPLIT_SIZE)):
+    for i in tqdm(range(utils.SPLIT_SIZE), mininterval=15):
         test_log[test_log.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True).to_feather(f'../data/test_log{i:02}.f')
-        
-#    test_log.to_feather('../data/test_log.f')
+    
+    
     
     
     utils.end(__file__)
