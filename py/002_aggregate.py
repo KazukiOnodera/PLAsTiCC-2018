@@ -74,7 +74,7 @@ if __name__ == "__main__":
     for i,file in enumerate(utils.TEST_LOGS):
         argss.append([file, f'../data/tmp{i}.f'])
     pool = Pool( cpu_count() )
-    pool.map(multi(argss))
+    pool.map(multi, argss)
     pool.close()
     df = pd.concat([pd.read_feather(f) for f in glob('../data/tmp*')], 
                     ignore_index=True)
