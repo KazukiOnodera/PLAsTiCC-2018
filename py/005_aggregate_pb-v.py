@@ -11,7 +11,8 @@ vertical
 import numpy as np
 import pandas as pd
 import os
-#from multiprocessing import Pool
+from glob import glob
+from multiprocessing import cpu_count, Pool
 import utils
 
 PREF = 'f005'
@@ -34,7 +35,7 @@ num_aggregations = {
     }
 
 
-def aggregate(df, output_path):
+def aggregate(df, output_path, drop_oid=True):
     
     df_agg = df.groupby(['object_id', 'passband']).agg(num_aggregations)
     df_agg.columns = pd.Index([e[0] + "_" + e[1] for e in df_agg.columns.tolist()])
@@ -59,9 +60,17 @@ def aggregate(df, output_path):
     df_agg = df_agg.groupby(['object_id']).agg(num_aggregations2)
     df_agg.columns = pd.Index([e[0] + "_" + e[1] for e in df_agg.columns.tolist()])
     
-    df_agg.reset_index(drop=True, inplace=True)
+    if drop_oid:
+        df_agg.reset_index(drop=True, inplace=True)
+    else:
+        df_agg.reset_index(inplace=True)
     df_agg.add_prefix(PREF+'_').to_feather(output_path)
     
+    return
+
+def multi(args):
+    input_path, output_path = args
+    aggregate(pd.read_feather(input_path), output_path, drop_oid=False)
     return
 
 # =============================================================================
@@ -71,7 +80,23 @@ if __name__ == "__main__":
     utils.start(__file__)
     
     aggregate(pd.read_feather('../data/train_log.f'), f'../data/train_{PREF}.f')
-    aggregate(pd.read_feather('../data/test_log.f'),  f'../data/test_{PREF}.f')
+    
+    # test
+    os.system(f'rm ../data/tmp*')
+    argss = []
+    for i,file in enumerate(utils.TEST_LOGS):
+        argss.append([file, f'../data/tmp{i}.f'])
+    pool = Pool( cpu_count() )
+    pool.map(multi, argss)
+    pool.close()
+    df = pd.concat([pd.read_feather(f) for f in glob('../data/tmp*')], 
+                    ignore_index=True)
+    df.sort_values(f'{PREF}_object_id', inplace=True)
+    df.reset_index(drop=True, inplace=True)
+    del df[f'{PREF}_object_id']
+    df.to_feather(f'../data/test_{PREF}.f')
+    os.system(f'rm ../data/tmp*')
+    
     
     utils.end(__file__)
 
