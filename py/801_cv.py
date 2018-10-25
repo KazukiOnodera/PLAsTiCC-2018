@@ -85,10 +85,6 @@ gc.collect()
 #CAT = list( set(X.columns)&set(utils_cat.ALL))
 #print(f'CAT: {CAT}')
 
-[
-print(pd.read_pickle(f).shape) for f in tqdm(files_tr, mininterval=60)
-   ]
-
 # =============================================================================
 # cv
 # =============================================================================
