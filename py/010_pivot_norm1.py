@@ -140,7 +140,7 @@ def aggregate(df, output_path, drop_oid=True):
     else:
         df_agg.reset_index(inplace=True)
     df_agg = pd.concat([df_agg, diff_agg], axis=1)
-    df_agg.add_prefix(PREF+'_').to_feather(output_path)
+    df_agg.add_prefix(PREF+'_').to_pickle(output_path)
     
     return
 

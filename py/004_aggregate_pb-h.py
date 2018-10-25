@@ -55,10 +55,10 @@ def aggregate(df, output_path, drop_oid=True):
     df_.columns = pd.Index([f'pb{e[1]}_{e[0]}' for e in df_.columns.tolist()])
     
     if drop_oid:
-        df_agg.reset_index(drop=True, inplace=True)
+        df_.reset_index(drop=True, inplace=True)
     else:
-        df_agg.reset_index(inplace=True)
-    df_agg.add_prefix(PREF+'_').to_pickle(output_path)
+        df_.reset_index(inplace=True)
+    df_.add_prefix(PREF+'_').to_pickle(output_path)
     
     return
 
