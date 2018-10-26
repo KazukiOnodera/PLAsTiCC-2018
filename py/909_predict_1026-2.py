@@ -40,7 +40,7 @@ LOOP = 5
 
 param = {
          'objective': 'multiclass',
-         'num_class': 14,
+#         'num_class': 14,
          'metric': 'multi_logloss',
          
          'learning_rate': 0.01,
@@ -73,16 +73,6 @@ X = pd.concat([
                ], axis=1)
 y = utils.load_target().target
 
-#X.drop(DROP, axis=1, inplace=True)
-
-target_dict = {}
-target_dict_r = {}
-for i,e in enumerate(y.sort_values().unique()):
-    target_dict[e] = i
-    target_dict_r[i] = e
-
-y = y.replace(target_dict)
-
 if X.columns.duplicated().sum()>0:
     raise Exception(f'duplicated!: { X.columns[X.columns.duplicated()] }')
 print('no dup :) ')
@@ -90,16 +80,24 @@ print(f'X.shape {X.shape}')
 
 gc.collect()
 
-#COL = X.columns.tolist()
-#CAT = list( set(X.columns)&set(utils_cat.ALL))
-#print(f'CAT: {CAT}')
 
 # =============================================================================
 # cv(galactic)
 # =============================================================================
 print('==== CV galactic ====')
 
-dtrain = lgb.Dataset(X[X['f001_hostgal_specz'] == 0], y[X['f001_hostgal_specz'] == 0], 
+y_gal = y[X['f001_hostgal_specz'] == 0]
+target_dict = {}
+target_dict_r = {}
+for i,e in enumerate(y_gal.sort_values().unique()):
+    target_dict[e] = i
+    target_dict_r[i] = e
+
+y_gal = y_gal.replace(target_dict)
+param['num_class'] = i+1
+
+
+dtrain = lgb.Dataset(X[X['f001_hostgal_specz'] == 0], y_gal, 
                      #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()

@@ -177,7 +177,9 @@ def lgb_multi_weighted_logloss(y_preds, train_data):
     if len(np.unique(y_true)) > 14:
         classes.append(99)
         class_weight[99] = 2
-    y_p = y_preds.reshape(y_true.shape[0], len(classes), order='F')
+    
+#    y_p = y_preds.reshape(y_true.shape[0], len(classes), order='F')
+    y_p = y_preds.reshape(y_true.shape[0], len(np.unique(y_true)), order='F')
 
     # Trasform y_true in dummies
     y_ohe = pd.get_dummies(y_true)
