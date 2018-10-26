@@ -1,14 +1,13 @@
-rm: cannot remove '../data/t*_f002*': No such file or directory
-rm: cannot remove '../feature/t*_f002*': No such file or directory
+rm: cannot remove '../data/t*_f009*': No such file or directory
+rm: cannot remove '../feature/t*_f009*': No such file or directory
 
 #==============================================================================
-# START!!! 002_aggregate.py    PID: 13292    time: 2018-10-24 10:40:25.467486
+# START!!! 009_aggregate_pb-h-norm_oid_pb.py    PID: 6085    time: 2018-10-22 08:45:35.022948
 #==============================================================================
 
-rm: cannot remove '../data/tmp_f002*': No such file or directory
 
 #==============================================================================
-# SUCCESS !!! 002_aggregate.py
+# SUCCESS !!! 009_aggregate_pb-h-norm_oid_pb.py
 #==============================================================================
 
-time: 6.30min
+time: 9.16min

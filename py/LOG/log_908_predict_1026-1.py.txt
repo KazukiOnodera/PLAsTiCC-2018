@@ -1,0 +1,20 @@
+
+#==============================================================================
+# START!!! 908_predict_1026-1.py    PID: 3364    time: 2018-10-26 06:50:17.411594
+#==============================================================================
+
+SEED: 8917
+../data/train_f001.pkl
+../data/train_f002.pkl
+../data/train_f004.pkl
+../data/train_f005.pkl
+../data/train_f006.pkl
+../data/train_f007.pkl
+../data/train_f008.pkl
+../data/train_f009.pkl
+../data/train_f010.pkl
+../data/train_f011.pkl
+  0%|          | 0/10 [00:00<?, ?it/s]100%|██████████| 10/10 [00:01<00:00,  6.54it/s]
+no dup :) 
+X.shape (7848, 1407)
+[50]	cv_agg's multi_logloss: 1.79989 + 0.00442942	cv_agg's wloss: 2.11929 + 0.00535147

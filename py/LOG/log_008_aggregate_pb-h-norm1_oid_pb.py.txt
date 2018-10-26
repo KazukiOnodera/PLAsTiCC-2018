@@ -1,0 +1,14 @@
+rm: cannot remove '../data/t*_f008*': No such file or directory
+rm: cannot remove '../feature/t*_f008*': No such file or directory
+
+#==============================================================================
+# START!!! 008_aggregate_pb-h-norm1_oid_pb.py    PID: 15159    time: 2018-10-24 13:21:03.517775
+#==============================================================================
+
+rm: cannot remove '../data/tmp_f008*': No such file or directory
+
+#==============================================================================
+# SUCCESS !!! 008_aggregate_pb-h-norm1_oid_pb.py
+#==============================================================================
+
+time: 9.31min
