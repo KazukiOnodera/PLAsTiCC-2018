@@ -109,7 +109,7 @@ for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils.lgb_multi_weighted_logloss,
+                         feval=utils.lgb_multi_weighted_logloss_gal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models
@@ -188,7 +188,7 @@ for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils.lgb_multi_weighted_logloss,
+                         feval=utils.lgb_multi_weighted_logloss_exgal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models
