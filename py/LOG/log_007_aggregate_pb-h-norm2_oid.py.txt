@@ -1,0 +1,14 @@
+rm: cannot remove '../data/t*_f007*': No such file or directory
+rm: cannot remove '../feature/t*_f007*': No such file or directory
+
+#==============================================================================
+# START!!! 007_aggregate_pb-h-norm2_oid.py    PID: 14297    time: 2018-10-24 11:30:42.230553
+#==============================================================================
+
+rm: cannot remove '../data/tmp_f007*': No such file or directory
+
+#==============================================================================
+# SUCCESS !!! 007_aggregate_pb-h-norm2_oid.py
+#==============================================================================
+
+time: 27.15min
