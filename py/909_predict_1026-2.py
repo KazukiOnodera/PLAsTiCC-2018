@@ -97,9 +97,10 @@ gc.collect()
 # =============================================================================
 # cv(galactic)
 # =============================================================================
-print('CV galactic')
+print('==== CV galactic ====')
 
-dtrain = lgb.Dataset(X[X['f001_hostgal_specz'] == 0], y, #categorical_feature=CAT, 
+dtrain = lgb.Dataset(X[X['f001_hostgal_specz'] == 0], y[X['f001_hostgal_specz'] == 0], 
+                     #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
 
@@ -144,7 +145,8 @@ COL_gal = imp[imp.gain>0].feature.tolist()
 # model(galactic)
 # =============================================================================
 
-dtrain = lgb.Dataset(X[COL_gal], y, #categorical_feature=CAT, 
+dtrain = lgb.Dataset(X[COL_gal], y[X['f001_hostgal_specz'] != 0],
+                     #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
 
@@ -175,7 +177,7 @@ model_all_gal = model_all
 # =============================================================================
 # cv(extragalactic)
 # =============================================================================
-print('CV exgalactic')
+print('==== CV extragalactic ====')
 
 dtrain = lgb.Dataset(X[X['f001_hostgal_specz'] != 0], y, #categorical_feature=CAT, 
                      free_raw_data=False)
