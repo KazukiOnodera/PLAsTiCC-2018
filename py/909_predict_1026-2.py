@@ -36,7 +36,7 @@ print('SEED:', SEED)
 
 NFOLD = 5
 
-LOOP = 5
+LOOP = 1
 
 param = {
          'objective': 'multiclass',
@@ -87,13 +87,13 @@ gc.collect()
 print('==== CV galactic ====')
 
 y_gal = y[X['f001_hostgal_specz'] == 0]
-target_dict = {}
-target_dict_r = {}
+target_dict_gal = {}
+target_dict_r_gal = {}
 for i,e in enumerate(y_gal.sort_values().unique()):
-    target_dict[e] = i
-    target_dict_r[i] = e
+    target_dict_gal[e] = i
+    target_dict_r_gal[i] = e
 
-y_gal = y_gal.replace(target_dict)
+y_gal = y_gal.replace(target_dict_gal)
 param['num_class'] = i+1
 
 
@@ -143,7 +143,7 @@ COL_gal = imp[imp.gain>0].feature.tolist()
 # model(galactic)
 # =============================================================================
 
-dtrain = lgb.Dataset(X[COL_gal], y[X['f001_hostgal_specz'] != 0],
+dtrain = lgb.Dataset(X[X['f001_hostgal_specz'] == 0], y_gal,
                      #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
@@ -177,7 +177,18 @@ model_all_gal = model_all
 # =============================================================================
 print('==== CV extragalactic ====')
 
-dtrain = lgb.Dataset(X[X['f001_hostgal_specz'] != 0], y, #categorical_feature=CAT, 
+y_exgal = y[X['f001_hostgal_specz'] != 0]
+target_dict_exgal = {}
+target_dict_r_exgal = {}
+for i,e in enumerate(y_exgal.sort_values().unique()):
+    target_dict_exgal[e] = i
+    target_dict_r_exgal[i] = e
+
+y_exgal = y_exgal.replace(target_dict_exgal)
+param['num_class'] = i+1
+
+
+dtrain = lgb.Dataset(X[X['f001_hostgal_specz'] != 0], y_exgal, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
 
@@ -222,7 +233,7 @@ COL_exgal = imp[imp.gain>0].feature.tolist()
 # model(extragalactic)
 # =============================================================================
 
-dtrain = lgb.Dataset(X[COL_exgal], y, #categorical_feature=CAT, 
+dtrain = lgb.Dataset(X[X['f001_hostgal_specz'] != 0], y_exgal, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
 
@@ -273,6 +284,9 @@ for i,model in enumerate(tqdm(model_all_gal)):
     else:
         y_pred_all_gal += y_pred
 y_pred_all_gal /= len(model_all_gal)
+y_pred_all_gal = pd.DataFrame(y_pred_all_gal)
+y_pred_all_gal.columns = [f'class_{target_dict_r_gal[x]}' for x in range(len(target_dict_r_gal))]
+
 
 # exgal
 for i,model in enumerate(tqdm(model_all_exgal)):
@@ -282,6 +296,8 @@ for i,model in enumerate(tqdm(model_all_exgal)):
     else:
         y_pred_all_exgal += y_pred
 y_pred_all_exgal /= len(model_all_exgal)
+y_pred_all_exgal = pd.DataFrame(y_pred_all_exgal)
+y_pred_all_exgal.columns = [f'class_{target_dict_r_exgal[x]}' for x in range(len(target_dict_r_exgal))]
 
 
 y_pred_all = pd.concat([y_pred_all_gal, y_pred_all_exgal], ignore_index=True)
