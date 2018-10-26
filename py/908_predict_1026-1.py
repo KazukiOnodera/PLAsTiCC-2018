@@ -65,7 +65,7 @@ param = {
 # load
 # =============================================================================
 
-files_tr = sorted(glob('../data/train_f*.f'))
+files_tr = sorted(glob('../data/train_f*.pkl'))
 [print(f) for f in files_tr]
 
 X = pd.concat([
@@ -172,7 +172,7 @@ del dtrain, X; gc.collect()
 # test
 # =============================================================================
 
-files_te = sorted(glob('../data/test_f*.f'))
+files_te = sorted(glob('../data/test_f*.pkl'))
 
 X_test = pd.concat([
                 pd.read_pickle(f) for f in tqdm(files_te, mininterval=60)
