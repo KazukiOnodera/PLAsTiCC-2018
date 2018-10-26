@@ -36,7 +36,7 @@ print('SEED:', SEED)
 
 NFOLD = 5
 
-LOOP = 1
+LOOP = 5
 
 param = {
          'objective': 'multiclass',
@@ -300,20 +300,23 @@ y_pred_all_exgal = pd.DataFrame(y_pred_all_exgal)
 y_pred_all_exgal.columns = [f'class_{target_dict_r_exgal[x]}' for x in range(len(target_dict_r_exgal))]
 
 
-y_pred_all = pd.concat([y_pred_all_gal, y_pred_all_exgal], ignore_index=True)
+sub = pd.concat([y_pred_all_gal, y_pred_all_exgal], ignore_index=True).fillna(0)
 
-sub = pd.read_csv('../input/sample_submission.csv.zip')
-df = pd.DataFrame(y_pred_all, columns=sub.columns[1:-1])
+
 
 # Compute preds_99 as the proba of class not being any of the others
 # preds_99 = 0.1 gives 1.769
-preds_99 = np.ones(df.shape[0])
-for i in range(df.shape[1]):
-    preds_99 *= (1 - df.iloc[:, i])
-df['class_99'] = preds_99
+preds_99 = np.ones(sub.shape[0])
+for i in range(sub.shape[1]):
+    preds_99 *= (1 - sub.iloc[:, i])
+sub['class_99'] = preds_99
 
 
-sub = pd.concat([sub[['object_id']], df], axis=1)
+oid = pd.concat([pd.read_pickle('../data/oid_gal.pkl'), 
+                 pd.read_pickle('../data/oid_exgal.pkl')], 
+            ignore_index=True)
+
+sub['object_id'] = oid['object_id'].values
 
 sub.to_csv(SUBMIT_FILE_PATH, index=False, compression='gzip')
 
