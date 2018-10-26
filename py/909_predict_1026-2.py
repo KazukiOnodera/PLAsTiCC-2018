@@ -28,7 +28,7 @@ COMMENT = '1026-1 + galactic cut'
 
 EXE_SUBMIT = True
 
-#DROP = ['f001_hostgal_specz']
+#DROP = ['f001_hostgal_photoz']
 
 SEED = np.random.randint(9999)
 np.random.seed(SEED)
@@ -86,7 +86,7 @@ gc.collect()
 # =============================================================================
 print('==== CV galactic ====')
 
-y_gal = y[X['f001_hostgal_specz'] == 0]
+y_gal = y[X['f001_hostgal_photoz'] == 0]
 target_dict_gal = {}
 target_dict_r_gal = {}
 for i,e in enumerate(y_gal.sort_values().unique()):
@@ -97,7 +97,7 @@ y_gal = y_gal.replace(target_dict_gal)
 param['num_class'] = i+1
 
 
-dtrain = lgb.Dataset(X[X['f001_hostgal_specz'] == 0], y_gal, 
+dtrain = lgb.Dataset(X[X['f001_hostgal_photoz'] == 0], y_gal, 
                      #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
@@ -143,7 +143,7 @@ COL_gal = imp[imp.gain>0].feature.tolist()
 # model(galactic)
 # =============================================================================
 
-dtrain = lgb.Dataset(X[X['f001_hostgal_specz'] == 0], y_gal,
+dtrain = lgb.Dataset(X[X['f001_hostgal_photoz'] == 0], y_gal,
                      #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
@@ -177,7 +177,7 @@ model_all_gal = model_all
 # =============================================================================
 print('==== CV extragalactic ====')
 
-y_exgal = y[X['f001_hostgal_specz'] != 0]
+y_exgal = y[X['f001_hostgal_photoz'] != 0]
 target_dict_exgal = {}
 target_dict_r_exgal = {}
 for i,e in enumerate(y_exgal.sort_values().unique()):
@@ -188,7 +188,7 @@ y_exgal = y_exgal.replace(target_dict_exgal)
 param['num_class'] = i+1
 
 
-dtrain = lgb.Dataset(X[X['f001_hostgal_specz'] != 0], y_exgal, #categorical_feature=CAT, 
+dtrain = lgb.Dataset(X[X['f001_hostgal_photoz'] != 0], y_exgal, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
 
@@ -233,7 +233,7 @@ COL_exgal = imp[imp.gain>0].feature.tolist()
 # model(extragalactic)
 # =============================================================================
 
-dtrain = lgb.Dataset(X[X['f001_hostgal_specz'] != 0], y_exgal, #categorical_feature=CAT, 
+dtrain = lgb.Dataset(X[X['f001_hostgal_photoz'] != 0], y_exgal, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
 
@@ -270,8 +270,8 @@ X_test = pd.concat([
                 pd.read_pickle(f) for f in tqdm(files_te, mininterval=60)
                ], axis=1)
 
-X_test_gal   = X_test[X_test['f001_hostgal_specz'] == 0][COL_gal]
-X_test_exgal = X_test[X_test['f001_hostgal_specz'] != 0][COL_exgal]
+X_test_gal   = X_test[X_test['f001_hostgal_photoz'] == 0][COL_gal]
+X_test_exgal = X_test[X_test['f001_hostgal_photoz'] != 0][COL_exgal]
 
 del X_test; gc.collect()
 
