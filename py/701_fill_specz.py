@@ -30,7 +30,7 @@ print('SEED:', SEED)
 
 NFOLD = 10
 
-LOOP = 5
+LOOP = 2
 
 
 param = {
