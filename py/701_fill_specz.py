@@ -157,8 +157,8 @@ y_test = y_test.to_frame()
 y_train.columns = [label_name.replace('f001_', '')]
 y_test.columns = [label_name.replace('f001_', '')]
 
-y_train.add_prefix(PREF+'_').to_feather(f'../data/train_{PREF}.f')
-y_test.add_prefix(PREF+'_').to_feather(f'../data/test_{PREF}.f')
+y_train.add_prefix(PREF+'_').to_pickle(f'../data/train_{PREF}.pkl')
+y_test.add_prefix(PREF+'_').to_pickle(f'../data/test_{PREF}.pkl')
 
 
 #==============================================================================
