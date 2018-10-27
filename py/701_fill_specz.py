@@ -28,9 +28,9 @@ PREF = 'f701'
 SEED = np.random.randint(9999)
 print('SEED:', SEED)
 
-NFOLD = 4
+NFOLD = 10
 
-LOOP = 2
+LOOP = 5
 
 
 param = {
@@ -61,10 +61,10 @@ label_name = 'f001_hostgal_specz'
 # load
 # =============================================================================
 
-files_tr = sorted(glob('../data/train_f*.f'))
+files_tr = sorted(glob('../data/train_f*.pkl'))
 
 X_train = pd.concat([
-                pd.read_feather(f) for f in tqdm(files_tr, mininterval=60)
+                pd.read_pickle(f) for f in tqdm(files_tr, mininterval=60)
                ], axis=1)
 y_train = X_train[label_name]
 X_train.drop(label_name, axis=1, inplace=True)
@@ -77,10 +77,10 @@ print(f'X_train.shape {X_train.shape}')
 gc.collect()
 
 
-files_te = sorted(glob('../data/test_f*.f'))
+files_te = sorted(glob('../data/test_f*.pkl'))
 
 X_test = pd.concat([
-                pd.read_feather(f) for f in tqdm(files_te, mininterval=60)
+                pd.read_pickle(f) for f in tqdm(files_te, mininterval=60)
                ], axis=1)
 y_test = X_test[label_name]
 X_test.drop(label_name, axis=1, inplace=True)
