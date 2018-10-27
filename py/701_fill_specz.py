@@ -28,7 +28,7 @@ PREF = 'f701'
 SEED = np.random.randint(9999)
 print('SEED:', SEED)
 
-NFOLD = 10
+NFOLD = 4
 
 LOOP = 2
 
@@ -82,6 +82,10 @@ files_te = sorted(glob('../data/test_f*.pkl'))
 X_test = pd.concat([
                 pd.read_pickle(f) for f in tqdm(files_te, mininterval=60)
                ], axis=1)
+    
+# hostgal_photoz==0 -> hostgal_specz=0?
+X_test.loc[X_test['f001_hostgal_photoz']==0, label_name] = 0
+
 y_test = X_test[label_name]
 X_test.drop(label_name, axis=1, inplace=True)
 
@@ -92,7 +96,6 @@ print('no dup :) ')
 print(f'X_test.shape {X_test.shape}')
 
 gc.collect()
-
 
 
 X_train_train, y_train_train = X_train[~y_train.isnull()], y_train[~y_train.isnull()]
@@ -118,7 +121,7 @@ for i in range(LOOP):
                          seed=SEED)
     model_all += models
 
-result = f"CV auc-mean: {ret['multi_logloss-mean'][-1]} + {ret['multi_logloss-stdv'][-1]}"
+result = f"CV rmse-mean: {ret['rmse-mean'][-1]} + {ret['rmse-stdv'][-1]}"
 print(result)
 
 utils.send_line(result)
