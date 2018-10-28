@@ -63,6 +63,7 @@ FILE_out = '../output/1022-1_yuval-post.csv.gz'
 
 sub['class_99'] = 0
 class_99 = np.where(sub.iloc[:,1:].max(1)>0.9 , 0.01, 0.1)
+sub['class_99'] = class_99
 
 sub.to_csv(FILE_out, index=False, compression='gzip')
 utils.submit(FILE_out, 'max>0.9 , 0.01, 0.1')
