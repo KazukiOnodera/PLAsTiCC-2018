@@ -110,6 +110,11 @@ X_test_test,  y_test_test  = X_test[y_test.isnull()],  y_test[y_test.isnull()]
 X = pd.concat([X_train_train, X_test_train])
 y = pd.concat([y_train_train, y_test_train])
 
+# remove 0
+X = X[y!=0]
+y = y[y!=0]
+print(f'X.shape {X.shape}')
+
 dtrain = lgb.Dataset(X, y, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
