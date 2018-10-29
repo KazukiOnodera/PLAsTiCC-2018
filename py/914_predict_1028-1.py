@@ -22,9 +22,9 @@ import utils
 utils.start(__file__)
 #==============================================================================
 
-SUBMIT_FILE_PATH = '../output/1027-1.csv.gz'
+SUBMIT_FILE_PATH = '../output/1029-1.csv.gz'
 
-COMMENT = '1026-1 + nodrop'
+COMMENT = 'latest all features'
 
 EXE_SUBMIT = True
 
