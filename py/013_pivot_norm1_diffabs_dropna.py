@@ -58,7 +58,10 @@ def aggregate(df, output_path, drop_oid=True):
         tmp[f'{c}_chng_abs'] /= tmp['date_diff']
         
         num_aggregations = {f'{c}_diff'    : stats,
-                            f'{c}_diff_abs': stats}
+                            f'{c}_diff_abs': stats,
+                            f'{c}_chng'    : stats,
+                            f'{c}_chng_abs': stats,
+                            }
         
         df_agg = tmp.groupby('object_id').agg(num_aggregations)
         df_agg.columns = pd.Index([e[0] + "_" + e[1] for e in df_agg.columns.tolist()])
