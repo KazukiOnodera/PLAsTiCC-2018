@@ -68,6 +68,9 @@ sub['class_99'] = 0
 class_99 = np.where(sub.iloc[:,1:].max(1)>0.9 , 0.01, 0.1)
 sub['class_99'] = class_99
 
+sub.loc[sub.object_id.isin(oid_gal),  [f'class_{i}' for i in utils.classes_exgal]] = 0
+sub.loc[sub.object_id.isin(oid_exgal),[f'class_{i}' for i in utils.classes_gal]] = 0
+
 sub.to_csv(FILE_out, index=False, compression='gzip')
 utils.submit(FILE_out, 'max>0.9 , 0.01, 0.1')
 
