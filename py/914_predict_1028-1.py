@@ -190,10 +190,10 @@ y_pred_all /= len(model_all)
 sub = pd.read_csv('../input/sample_submission.csv.zip')
 df = pd.DataFrame(y_pred_all, columns=sub.columns[1:-1])
 
+sub = pd.concat([sub[['object_id']], df], axis=1)
+
 # class_99
 utils.postprocess(sub)
-
-sub = pd.concat([sub[['object_id']], df], axis=1)
 
 sub.to_csv(SUBMIT_FILE_PATH, index=False, compression='gzip')
 

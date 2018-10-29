@@ -476,6 +476,9 @@ def savefig_sub(sub, path):
     plt.savefig(path)
 
 def postprocess(sub:pd.DataFrame):
+    """
+    Giba's postprocess
+    """
     oid_gal   = pd.read_pickle('../data/oid_gal.pkl').object_id
     oid_exgal = pd.read_pickle('../data/oid_exgal.pkl').object_id
     
