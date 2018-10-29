@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Oct 14 20:22:37 2018
+Created on Mon Oct 29 17:00:34 2018
 
-@author: Kazuki
+@author: kazuki.onodera
 """
 
 import numpy as np
@@ -19,17 +19,24 @@ import lightgbm as lgb
 from multiprocessing import cpu_count
 
 import utils
-#utils.start(__file__)
+utils.start(__file__)
 #==============================================================================
 
-SEED = np.random.randint(9999)
-print('SEED:', SEED)
+SUBMIT_FILE_PATH = '../output/1029-2.csv.gz'
+
+COMMENT = '1029-1 + drop mjd features'
+
+EXE_SUBMIT = True
 
 DROP = ['f001_hostgal_specz']
 
+SEED = np.random.randint(9999)
+np.random.seed(SEED)
+print('SEED:', SEED)
+
 NFOLD = 5
 
-LOOP = 2
+LOOP = 5
 
 param = {
          'objective': 'multiclass',
@@ -59,13 +66,15 @@ param = {
 # =============================================================================
 
 files_tr = sorted(glob('../data/train_f*.pkl'))
+[print(f) for f in files_tr]
 
 X = pd.concat([
                 pd.read_pickle(f) for f in tqdm(files_tr, mininterval=60)
                ], axis=1)
 y = utils.load_target().target
 
-X.drop(DROP+[c for c in X.columns if 'mjd' in c], axis=1, inplace=True)
+X.drop(DROP+[c for c in X.columns if 'mjd' in c], 
+       axis=1, inplace=True)
 
 target_dict = {}
 target_dict_r = {}
@@ -82,12 +91,14 @@ print(f'X.shape {X.shape}')
 
 gc.collect()
 
+COL = X.columns.tolist()
 #CAT = list( set(X.columns)&set(utils_cat.ALL))
 #print(f'CAT: {CAT}')
 
 # =============================================================================
 # cv
 # =============================================================================
+
 dtrain = lgb.Dataset(X, y, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
@@ -111,7 +122,6 @@ nround_mean = int((nround_mean/LOOP) * 1.3)
 result = f"CV wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
 print(result)
 
-utils.send_line(result)
 imp = ex.getImp(model_all)
 imp['split'] /= imp['split'].max()
 imp['gain'] /= imp['gain'].max()
@@ -120,13 +130,89 @@ imp['total'] = imp['split'] + imp['gain']
 imp.sort_values('total', ascending=False, inplace=True)
 imp.reset_index(drop=True, inplace=True)
 
-imp[imp.gain>0].feature.map(lambda x: x.split('_')[0]).value_counts()
 
 imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
+
+png = f'LOG/imp_{__file__}.png'
+utils.savefig_imp(imp, png, x='total', title=f'{__file__}')
+utils.send_line(result, png)
+
+
+COL = imp[imp.gain>0].feature.tolist()
+
+# =============================================================================
+# model
+# =============================================================================
+
+dtrain = lgb.Dataset(X[COL], y, #categorical_feature=CAT, 
+                     free_raw_data=False)
+gc.collect()
+
+
+np.random.seed(SEED)
+
+model_all = []
+for i in range(LOOP):
+    print('building', i)
+    gc.collect()
+    param['seed'] = np.random.randint(9999)
+    model = lgb.train(param, dtrain, num_boost_round=nround_mean, valid_sets=None, 
+                      valid_names=None, fobj=None, feval=None, init_model=None, 
+                      feature_name='auto', categorical_feature='auto', 
+                      early_stopping_rounds=None, evals_result=None, 
+                      verbose_eval=True, learning_rates=None, 
+                      keep_training_booster=False, callbacks=None)
+    
+    model_all.append(model)
+
+
+del dtrain, X; gc.collect()
+
+
+# =============================================================================
+# test
+# =============================================================================
+
+files_te = sorted(glob('../data/test_f*.pkl'))
+
+X_test = pd.concat([
+                pd.read_pickle(f) for f in tqdm(files_te, mininterval=60)
+               ], axis=1)[COL]
+
+for i,model in enumerate(tqdm(model_all)):
+    y_pred = model.predict(X_test)
+    if i==0:
+        y_pred_all = y_pred
+    else:
+        y_pred_all += y_pred
+
+y_pred_all /= len(model_all)
+
+sub = pd.read_csv('../input/sample_submission.csv.zip')
+df = pd.DataFrame(y_pred_all, columns=sub.columns[1:-1])
+
+sub = pd.concat([sub[['object_id']], df], axis=1)
+
+# class_99
+utils.postprocess(sub)
+
+sub.to_csv(SUBMIT_FILE_PATH, index=False, compression='gzip')
+
+
+png = f'LOG/sub_{__file__}.png'
+utils.savefig_sub(sub, png)
+utils.send_line('DONE!', png)
+
+# =============================================================================
+# submission
+# =============================================================================
+if EXE_SUBMIT:
+    print('submit')
+    utils.submit(SUBMIT_FILE_PATH, COMMENT)
+
+
+
 
 
 #==============================================================================
 utils.end(__file__)
-#utils.stop_instance()
-
-
