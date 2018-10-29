@@ -280,15 +280,6 @@ def savefig_imp(imp, path, x='gain', y='feature', n=30, title='Importance'):
     plt.title(title+' TOP{0}'.format(n), fontsize=20, alpha=0.8)
     plt.savefig(path)
 
-def savefig_sub(sub, path):
-    import matplotlib as mpl
-    mpl.use('Agg')
-    import seaborn as sns
-    import matplotlib.pyplot as plt
-    
-    sub.iloc[:, 1:].hist(bins=50, figsize=(16, 12))
-    plt.savefig(path)
-
 # =============================================================================
 # 
 # =============================================================================
@@ -474,6 +465,15 @@ def check_feature():
         raise Exception('Miising file :(')
     else:
         print('All files exist :)')
+
+def savefig_sub(sub, path):
+    import matplotlib as mpl
+    mpl.use('Agg')
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    
+    sub.iloc[:, 1:].hist(bins=50, figsize=(16, 12))
+    plt.savefig(path)
 
 def postprocess(sub:pd.DataFrame):
     oid_gal   = pd.read_pickle('../data/oid_gal.pkl').object_id
