@@ -4,6 +4,26 @@
 Created on Mon Oct 29 23:19:56 2018
 
 @author: kazuki.onodera
+
+TODO: handle sparce
+
+pt[pt.object_id==52422308]
+Out[12]: 
+        object_id   date       pb0       pb1       pb2       pb3       pb4       pb5
+523301   52422308  59629       NaN       NaN       NaN       NaN -0.159185       NaN
+523302   52422308  59631       NaN       NaN       NaN -0.320631       NaN       NaN
+523303   52422308  59636       NaN       NaN       NaN       NaN -0.082345       NaN
+523304   52422308  59660       NaN       NaN       NaN       NaN       NaN -0.359483
+523305   52422308  59661       NaN       NaN       NaN       NaN  0.480643       NaN
+523306   52422308  59663       NaN       NaN       NaN       NaN       NaN -0.256829
+523307   52422308  59666       NaN       NaN       NaN       NaN       NaN -0.048265
+523308   52422308  59670       NaN       NaN       NaN       NaN  0.412207       NaN
+523309   52422308  59675       NaN       NaN -0.477834       NaN       NaN       NaN
+523310   52422308  59688       NaN       NaN       NaN       NaN  0.408257       NaN
+523311   52422308  59690       NaN       NaN       NaN -0.388374       NaN       NaN
+523312   52422308  59709       NaN       NaN       NaN  0.507281       NaN       NaN
+523313   52422308  59712       NaN       NaN       NaN       NaN       NaN  0.003879
+
 """
 
 import numpy as np
