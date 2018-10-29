@@ -38,20 +38,29 @@ def aggregate(df, output_path, drop_oid=True):
     
     feature = []
     for c in ['pb0', 'pb1', 'pb2', 'pb3', 'pb4', 'pb5']:
+        
         df_diff = pt[['object_id', 'date', c]].dropna().diff().add_suffix('_diff')
         df_diff_abs = df_diff.abs().add_suffix('_abs')
-        df_diff = pd.concat([df_diff, df_diff_abs], axis=1)
-        df_diff.loc[pt['object_id'] != pt['object_id'].shift()] = np.nan
-        df_diff.drop('object_id_diff', axis=1, inplace=True)
-        df_diff['object_id'] = pt['object_id']
         
-        df_diff[f'{c}_diff']     /= df_diff['date_diff']
-        df_diff[f'{c}_diff_abs'] /= df_diff['date_diff']
+        df_chng = pt[['object_id', 'date', c]].dropna().pct_change().add_suffix('_chng')
+        df_chng_abs = df_chng.abs().add_suffix('_abs')
+        
+        
+        tmp = pd.concat([df_diff, df_diff_abs, df_chng, df_chng_abs], axis=1)
+        tmp.loc[pt['object_id'] != pt['object_id'].shift()] = np.nan
+        col = [c for c in tmp.columns if 'object_id' in c]
+        tmp.drop(col, axis=1, inplace=True)
+        tmp['object_id'] = pt['object_id']
+        
+        tmp[f'{c}_diff']     /= tmp['date_diff']
+        tmp[f'{c}_diff_abs'] /= tmp['date_diff']
+        tmp[f'{c}_chng']     /= tmp['date_diff']
+        tmp[f'{c}_chng_abs'] /= tmp['date_diff']
         
         num_aggregations = {f'{c}_diff'    : stats,
                             f'{c}_diff_abs': stats}
         
-        df_agg = df_diff.groupby('object_id').agg(num_aggregations)
+        df_agg = tmp.groupby('object_id').agg(num_aggregations)
         df_agg.columns = pd.Index([e[0] + "_" + e[1] for e in df_agg.columns.tolist()])
         
         # std / mean
