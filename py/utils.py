@@ -144,6 +144,151 @@ def read_pickles(path, col=None, use_tqdm=True):
 #        df = pd.concat([pd.read_feather(f)[col] for f in tqdm(sorted(glob(path+'/*')))])
 #    return df
 
+
+# =============================================================================
+# 
+# =============================================================================
+def get_dummies(df):
+    """
+    binary would be drop_first
+    """
+    col = df.select_dtypes('O').columns.tolist()
+    nunique = df[col].nunique()
+    col_binary = nunique[nunique==2].index.tolist()
+    [col.remove(c) for c in col_binary]
+    df = pd.get_dummies(df, columns=col)
+    df = pd.get_dummies(df, columns=col_binary, drop_first=True)
+    df.columns = [c.replace(' ', '-') for c in df.columns]
+    return df
+
+
+def reduce_mem_usage(df):
+    col_int8 = []
+    col_int16 = []
+    col_int32 = []
+    col_int64 = []
+    col_float16 = []
+    col_float32 = []
+    col_float64 = []
+    col_cat = []
+    for c in tqdm(df.columns, mininterval=20):
+        col_type = df[c].dtype
+
+        if col_type != object:
+            c_min = df[c].min()
+            c_max = df[c].max()
+            if str(col_type)[:3] == 'int':
+                if c_min > np.iinfo(np.int8).min and c_max < np.iinfo(np.int8).max:
+                    col_int8.append(c)
+                    
+                elif c_min > np.iinfo(np.int16).min and c_max < np.iinfo(np.int16).max:
+                    col_int16.append(c)
+                elif c_min > np.iinfo(np.int32).min and c_max < np.iinfo(np.int32).max:
+                    col_int32.append(c)
+                elif c_min > np.iinfo(np.int64).min and c_max < np.iinfo(np.int64).max:
+                    col_int64.append(c)
+            else:
+                if c_min > np.finfo(np.float16).min and c_max < np.finfo(np.float16).max:
+                    col_float16.append(c)
+                elif c_min > np.finfo(np.float32).min and c_max < np.finfo(np.float32).max:
+                    col_float32.append(c)
+                else:
+                    col_float64.append(c)
+        else:
+            col_cat.append(c)
+    
+    if len(col_int8)>0:
+        df[col_int8] = df[col_int8].astype(np.int8)
+    if len(col_int16)>0:
+        df[col_int16] = df[col_int16].astype(np.int16)
+    if len(col_int32)>0:
+        df[col_int32] = df[col_int32].astype(np.int32)
+    if len(col_int64)>0:
+        df[col_int64] = df[col_int64].astype(np.int64)
+    if len(col_float16)>0:
+        df[col_float16] = df[col_float16].astype(np.float16)
+    if len(col_float32)>0:
+        df[col_float32] = df[col_float32].astype(np.float32)
+    if len(col_float64)>0:
+        df[col_float64] = df[col_float64].astype(np.float64)
+    if len(col_cat)>0:
+        df[col_cat] = df[col_cat].astype('category')
+
+
+def to_pkl_gzip(df, path):
+    df.to_pickle(path)
+    os.system('gzip ' + path)
+    os.system('rm ' + path)
+    return
+
+def check_var(df, var_limit=0, sample_size=None):
+    if sample_size is not None:
+        if df.shape[0]>sample_size:
+            df_ = df.sample(sample_size, random_state=71)
+        else:
+            df_ = df
+#            raise Exception(f'df:{df.shape[0]} <= sample_size:{sample_size}')
+    else:
+        df_ = df
+        
+    var = df_.var()
+    col_var0 = var[var<=var_limit].index
+    if len(col_var0)>0:
+        print(f'remove var<={var_limit}: {col_var0}')
+    return col_var0
+
+def check_corr(df, corr_limit=1, sample_size=None):
+    if sample_size is not None:
+        if df.shape[0]>sample_size:
+            df_ = df.sample(sample_size, random_state=71)
+        else:
+            raise Exception(f'df:{df.shape[0]} <= sample_size:{sample_size}')
+    else:
+        df_ = df
+    
+    corr = df_.corr('pearson').abs() # pearson or spearman
+    a, b = np.where(corr>=corr_limit)
+    col_corr1 = []
+    for a_,b_ in zip(a, b):
+        if a_ != b_ and a_ not in col_corr1:
+#            print(a_, b_)
+            col_corr1.append(b_)
+    if len(col_corr1)>0:
+        col_corr1 = df.iloc[:,col_corr1].columns
+        print(f'remove corr>={corr_limit}: {col_corr1}')
+    return col_corr1
+
+def remove_feature(df, var_limit=0, corr_limit=1, sample_size=None, only_var=True):
+    col_var0 = check_var(df,  var_limit=var_limit, sample_size=sample_size)
+    df.drop(col_var0, axis=1, inplace=True)
+    if only_var==False:
+        col_corr1 = check_corr(df, corr_limit=corr_limit, sample_size=sample_size)
+        df.drop(col_corr1, axis=1, inplace=True)
+    return
+
+def savefig_imp(imp, path, x='gain', y='feature', n=30, title='Importance'):
+    import matplotlib as mpl
+    mpl.use('Agg')
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    
+    fig, ax = plt.subplots()
+    # the size of A4 paper
+    fig.set_size_inches(11.7, 8.27)
+    sns.barplot(x=x, y=y, data=imp.head(n), label=x)
+    plt.subplots_adjust(left=.4, right=.9)
+    plt.title(title+' TOP{0}'.format(n), fontsize=20, alpha=0.8)
+    plt.savefig(path)
+
+def savefig_sub(sub, path):
+    import matplotlib as mpl
+    mpl.use('Agg')
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    
+    sub.iloc[:, 1:].hist(bins=50, figsize=(16, 12))
+    plt.savefig(path)
+
 # =============================================================================
 # 
 # =============================================================================
@@ -330,150 +475,18 @@ def check_feature():
     else:
         print('All files exist :)')
 
-# =============================================================================
-# 
-# =============================================================================
-def get_dummies(df):
-    """
-    binary would be drop_first
-    """
-    col = df.select_dtypes('O').columns.tolist()
-    nunique = df[col].nunique()
-    col_binary = nunique[nunique==2].index.tolist()
-    [col.remove(c) for c in col_binary]
-    df = pd.get_dummies(df, columns=col)
-    df = pd.get_dummies(df, columns=col_binary, drop_first=True)
-    df.columns = [c.replace(' ', '-') for c in df.columns]
-    return df
-
-
-def reduce_mem_usage(df):
-    col_int8 = []
-    col_int16 = []
-    col_int32 = []
-    col_int64 = []
-    col_float16 = []
-    col_float32 = []
-    col_float64 = []
-    col_cat = []
-    for c in tqdm(df.columns, mininterval=20):
-        col_type = df[c].dtype
-
-        if col_type != object:
-            c_min = df[c].min()
-            c_max = df[c].max()
-            if str(col_type)[:3] == 'int':
-                if c_min > np.iinfo(np.int8).min and c_max < np.iinfo(np.int8).max:
-                    col_int8.append(c)
-                    
-                elif c_min > np.iinfo(np.int16).min and c_max < np.iinfo(np.int16).max:
-                    col_int16.append(c)
-                elif c_min > np.iinfo(np.int32).min and c_max < np.iinfo(np.int32).max:
-                    col_int32.append(c)
-                elif c_min > np.iinfo(np.int64).min and c_max < np.iinfo(np.int64).max:
-                    col_int64.append(c)
-            else:
-                if c_min > np.finfo(np.float16).min and c_max < np.finfo(np.float16).max:
-                    col_float16.append(c)
-                elif c_min > np.finfo(np.float32).min and c_max < np.finfo(np.float32).max:
-                    col_float32.append(c)
-                else:
-                    col_float64.append(c)
-        else:
-            col_cat.append(c)
+def postprocess(sub:pd.DataFrame):
+    oid_gal   = pd.read_pickle('../data/oid_gal.pkl').object_id
+    oid_exgal = pd.read_pickle('../data/oid_exgal.pkl').object_id
     
-    if len(col_int8)>0:
-        df[col_int8] = df[col_int8].astype(np.int8)
-    if len(col_int16)>0:
-        df[col_int16] = df[col_int16].astype(np.int16)
-    if len(col_int32)>0:
-        df[col_int32] = df[col_int32].astype(np.int32)
-    if len(col_int64)>0:
-        df[col_int64] = df[col_int64].astype(np.int64)
-    if len(col_float16)>0:
-        df[col_float16] = df[col_float16].astype(np.float16)
-    if len(col_float32)>0:
-        df[col_float32] = df[col_float32].astype(np.float32)
-    if len(col_float64)>0:
-        df[col_float64] = df[col_float64].astype(np.float64)
-    if len(col_cat)>0:
-        df[col_cat] = df[col_cat].astype('category')
-
-
-def to_pkl_gzip(df, path):
-    df.to_pickle(path)
-    os.system('gzip ' + path)
-    os.system('rm ' + path)
+    sub.loc[sub.object_id.isin(oid_gal),   'class_99'] = 0.017
+    sub.loc[sub.object_id.isin(oid_exgal), 'class_99'] = 0.17
+    
+    sub.loc[sub.object_id.isin(oid_gal),  [f'class_{i}' for i in classes_exgal]] = 0
+    sub.loc[sub.object_id.isin(oid_exgal),[f'class_{i}' for i in classes_gal]] = 0
+    
     return
 
-def check_var(df, var_limit=0, sample_size=None):
-    if sample_size is not None:
-        if df.shape[0]>sample_size:
-            df_ = df.sample(sample_size, random_state=71)
-        else:
-            df_ = df
-#            raise Exception(f'df:{df.shape[0]} <= sample_size:{sample_size}')
-    else:
-        df_ = df
-        
-    var = df_.var()
-    col_var0 = var[var<=var_limit].index
-    if len(col_var0)>0:
-        print(f'remove var<={var_limit}: {col_var0}')
-    return col_var0
-
-def check_corr(df, corr_limit=1, sample_size=None):
-    if sample_size is not None:
-        if df.shape[0]>sample_size:
-            df_ = df.sample(sample_size, random_state=71)
-        else:
-            raise Exception(f'df:{df.shape[0]} <= sample_size:{sample_size}')
-    else:
-        df_ = df
-    
-    corr = df_.corr('pearson').abs() # pearson or spearman
-    a, b = np.where(corr>=corr_limit)
-    col_corr1 = []
-    for a_,b_ in zip(a, b):
-        if a_ != b_ and a_ not in col_corr1:
-#            print(a_, b_)
-            col_corr1.append(b_)
-    if len(col_corr1)>0:
-        col_corr1 = df.iloc[:,col_corr1].columns
-        print(f'remove corr>={corr_limit}: {col_corr1}')
-    return col_corr1
-
-def remove_feature(df, var_limit=0, corr_limit=1, sample_size=None, only_var=True):
-    col_var0 = check_var(df,  var_limit=var_limit, sample_size=sample_size)
-    df.drop(col_var0, axis=1, inplace=True)
-    if only_var==False:
-        col_corr1 = check_corr(df, corr_limit=corr_limit, sample_size=sample_size)
-        df.drop(col_corr1, axis=1, inplace=True)
-    return
-
-def savefig_imp(imp, path, x='gain', y='feature', n=30, title='Importance'):
-    import matplotlib as mpl
-    mpl.use('Agg')
-    import seaborn as sns
-    import matplotlib.pyplot as plt
-    
-    fig, ax = plt.subplots()
-    # the size of A4 paper
-    fig.set_size_inches(11.7, 8.27)
-    sns.barplot(x=x, y=y, data=imp.head(n), label=x)
-    plt.subplots_adjust(left=.4, right=.9)
-    plt.title(title+' TOP{0}'.format(n), fontsize=20, alpha=0.8)
-    plt.savefig(path)
-
-def savefig_sub(sub, path):
-    import matplotlib as mpl
-    mpl.use('Agg')
-    import seaborn as sns
-    import matplotlib.pyplot as plt
-    
-    sub.iloc[:, 1:].hist(bins=50, figsize=(16, 12))
-    plt.savefig(path)
-    
 # =============================================================================
 # other API
 # =============================================================================
