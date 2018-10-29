@@ -74,10 +74,6 @@ def aggregate(df, output_path, drop_oid=True):
     for c in col_max:
         df_agg[f'{c}-d-min'] = df_agg[c]/df_agg[c.replace('_max', '_min')]
     
-    df_agg.reset_index(drop=True, inplace=True)
-    df_agg.add_prefix(PREF+'_').to_feather(output_path)
-    
-    
     if drop_oid:
         df_agg.reset_index(drop=True, inplace=True)
     else:
