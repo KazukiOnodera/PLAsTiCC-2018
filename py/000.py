@@ -87,7 +87,9 @@ if __name__ == "__main__":
     
     for i in tqdm(range(utils.SPLIT_SIZE), mininterval=15):
         gc.collect()
-        test_log[test_log.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True).to_pickle(f'../data/test_log{i:02}.pkl')
+        df = test_log[test_log.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True)
+        preprocess(df)
+        df.to_pickle(f'../data/test_log{i:02}.pkl')
     
     utils.end(__file__)
 
