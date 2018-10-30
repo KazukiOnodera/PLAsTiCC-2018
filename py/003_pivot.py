@@ -17,6 +17,7 @@ import pandas as pd
 import os
 from glob import glob
 from multiprocessing import cpu_count, Pool
+from itertools import combinations
 import utils
 
 PREF = 'f003'
@@ -58,6 +59,14 @@ def aggregate(df, output_path, drop_oid=True):
     for c in col_max:
         pt[f'{c}-d-min'] = pt[c]/pt[c.replace('_max', '_min')]
         pt[f'{c}-m-min'] = pt[c]-pt[c.replace('_max', '_min')]
+    
+    # compare passband
+    col = pd.Series([f'{c[3:]}' for c in pt.columns if c.startswith('pb0')])
+    for c1,c2 in list(combinations(range(6), 2)):
+        col1 = (f'pb{c1}'+col).tolist()
+        col2 = (f'pb{c2}'+col).tolist()
+        for c1,c2 in zip(col1, col2):
+            pt[f'{c1}-d-{c2}'] = pt[c1] / pt[c2]
     
     if drop_oid:
         pt.reset_index(drop=True, inplace=True)

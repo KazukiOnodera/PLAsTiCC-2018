@@ -42,10 +42,10 @@ def aggregate(df, output_path, drop_oid=True):
     df = pd.read_pickle('../data/train_log.pkl')
     """
     
-    pt = pd.pivot_table(df, index=['object_id'], columns=['passband', 'year'], 
+    pt = pd.pivot_table(df.head(999), index=['object_id'], columns=['passband', 'year'], 
                         aggfunc=num_aggregations)
     
-    pt.columns = pd.Index([f'pb{e[2]}_{e[0]}_{e[1]}' for e in pt.columns.tolist()])
+    pt.columns = pd.Index([f'pb{e[2]}_y{e[3]}_{e[0]}_{e[1]}' for e in pt.columns.tolist()])
     
     # std / mean
     col_std = [c for c in pt.columns if c.endswith('_std')]
