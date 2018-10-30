@@ -64,6 +64,7 @@ if __name__ == "__main__":
     train[['target']].to_pickle('../data/target.pkl')
     
     train_log = pd.read_csv('../input/training_set.csv.zip', dtype=COLUMN_TO_TYPE)
+    preprocess(train_log)
     train_log.to_pickle('../data/train_log.pkl')
     
     
