@@ -80,12 +80,12 @@ if __name__ == "__main__":
     
     test_log = pd.read_csv('../input/test_set.csv.zip', dtype=COLUMN_TO_TYPE)
     
-    pool = Pool(cpu_count())
-    pool.map(multi, range(utils.SPLIT_SIZE))
-    pool.close()
+#    pool = Pool(cpu_count())
+#    pool.map(multi, range(utils.SPLIT_SIZE))
+#    pool.close()
     
-#    for i in tqdm(range(utils.SPLIT_SIZE), mininterval=15):
-#        test_log[test_log.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True).to_pickle(f'../data/test_log{i:02}.pkl')
+    for i in tqdm(range(utils.SPLIT_SIZE), mininterval=15):
+        test_log[test_log.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True).to_pickle(f'../data/test_log{i:02}.pkl')
     
     utils.end(__file__)
 
