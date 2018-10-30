@@ -5,6 +5,7 @@ Created on Tue Oct 30 18:58:58 2018
 
 @author: kazuki.onodera
 
+
 keys: object_id
 
 
@@ -40,25 +41,31 @@ num_aggregations = {
     }
 
 def aggregate(df, output_path, drop_oid=True):
+    """
+    df = pd.read_pickle('../data/train_log.pkl')
+    """
     
-    df_agg = df.groupby('object_id').agg(num_aggregations)
-    df_agg.columns = pd.Index([e[0] + "_" + e[1] for e in df_agg.columns.tolist()])
+    pt = pd.pivot_table(df, index=['object_id'], 
+                        aggfunc=num_aggregations)
+    
+    pt.columns = pd.Index([f'{e[0]}_{e[1]}' for e in pt.columns.tolist()])
     
     # std / mean
-    col_std = [c for c in df_agg.columns if c.endswith('_std')]
+    col_std = [c for c in pt.columns if c.endswith('_std')]
     for c in col_std:
-        df_agg[f'{c}-d-mean'] = df_agg[c]/df_agg[c.replace('_std', '_mean')]
+        pt[f'{c}-d-mean'] = pt[c]/pt[c.replace('_std', '_mean')]
     
-    # max / min
-    col_max = [c for c in df_agg.columns if c.endswith('_max')]
+    # max / min, max - min
+    col_max = [c for c in pt.columns if c.endswith('_max')]
     for c in col_max:
-        df_agg[f'{c}-d-min'] = df_agg[c]/df_agg[c.replace('_max', '_min')]
+        pt[f'{c}-d-min'] = pt[c]/pt[c.replace('_max', '_min')]
+        pt[f'{c}-m-min'] = pt[c]-pt[c.replace('_max', '_min')]
     
     if drop_oid:
-        df_agg.reset_index(drop=True, inplace=True)
+        pt.reset_index(drop=True, inplace=True)
     else:
-        df_agg.reset_index(inplace=True)
-    df_agg.add_prefix(PREF+'_').to_pickle(output_path)
+        pt.reset_index(inplace=True)
+    pt.add_prefix(PREF+'_').to_pickle(output_path)
     
     return
 
