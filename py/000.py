@@ -8,7 +8,7 @@ Created on Sun Oct 14 18:12:10 2018
 
 import numpy as np
 import pandas as pd
-import os
+import os, gc
 from tqdm import tqdm
 from multiprocessing import cpu_count, Pool
 
@@ -41,6 +41,7 @@ def preprocess(df):
     df['3month'] = df['3month'].astype(int)
     
     df['flux_norm1'] = df.flux / df.groupby(['object_id']).flux.transform('max')
+    df['flux_norm2'] = (df.flux - df.groupby(['object_id']).flux.transform('min')) / df.groupby(['object_id']).flux.transform('max')
     
     return
 
@@ -85,6 +86,7 @@ if __name__ == "__main__":
 #    pool.close()
     
     for i in tqdm(range(utils.SPLIT_SIZE), mininterval=15):
+        gc.collect()
         test_log[test_log.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True).to_pickle(f'../data/test_log{i:02}.pkl')
     
     utils.end(__file__)
