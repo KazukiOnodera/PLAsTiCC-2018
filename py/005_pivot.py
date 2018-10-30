@@ -18,7 +18,7 @@ from glob import glob
 from multiprocessing import cpu_count, Pool
 import utils
 
-PREF = 'f004'
+PREF = 'f005'
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
@@ -42,7 +42,7 @@ def aggregate(df, output_path, drop_oid=True):
     df = pd.read_pickle('../data/train_log.pkl')
     """
     
-    pt = pd.pivot_table(df.head(999), index=['object_id'], columns=['passband', 'year'], 
+    pt = pd.pivot_table(df, index=['object_id'], columns=['passband', 'year'], 
                         aggfunc=num_aggregations)
     
     pt.columns = pd.Index([f'pb{e[2]}_y{e[3]}_{e[0]}_{e[1]}' for e in pt.columns.tolist()])
