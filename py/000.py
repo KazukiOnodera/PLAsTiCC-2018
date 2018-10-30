@@ -21,12 +21,34 @@ os.system(f'mkdir ../feature')
 
 COLUMN_TO_TYPE = {
     'object_id': np.int32,
-    'mjd': np.float32,
-    'passband': np.int8,
-    'flux': np.float32,
-    'flux_err': np.float32,
-    'detected': np.int8
+    'mjd'      : np.float32,
+    'passband' : np.int8,
+    'flux'     : np.float32,
+    'flux_err' : np.float32,
+    'detected' : np.int8
 }
+
+def preprocess(df):
+    df['date'] = df.mjd.astype(int)
+    
+    df['year'] = ( df.date - df.groupby(['object_id']).date.transform('min') )/365
+    df['year'] = df['year'].astype(int)
+    
+    df['month'] = ( df.date - df.groupby(['object_id']).date.transform('min') )/30
+    df['month'] = df['month'].astype(int)
+    
+    df['3month'] = ( df.date - df.groupby(['object_id']).date.transform('min') )/90
+    df['3month'] = df['3month'].astype(int)
+    
+    df['flux_norm1'] = df.flux / df.groupby(['object_id']).flux.transform('max')
+    
+    return
+
+def multi(splitn):
+    df = test_log[test_log.object_id%utils.SPLIT_SIZE == splitn].reset_index(drop=True)
+    preprocess(df)
+    df.to_pickle(f'../data/test_log{splitn:02}.pkl')
+    return
 
 # =============================================================================
 # main
@@ -57,8 +79,12 @@ if __name__ == "__main__":
     
     test_log = pd.read_csv('../input/test_set.csv.zip', dtype=COLUMN_TO_TYPE)
     
-    for i in tqdm(range(utils.SPLIT_SIZE), mininterval=15):
-        test_log[test_log.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True).to_pickle(f'../data/test_log{i:02}.pkl')
+    pool = Pool(cpu_count())
+    pool.map(multi, range(utils.SPLIT_SIZE))
+    pool.close()
+    
+#    for i in tqdm(range(utils.SPLIT_SIZE), mininterval=15):
+#        test_log[test_log.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True).to_pickle(f'../data/test_log{i:02}.pkl')
     
     utils.end(__file__)
 
