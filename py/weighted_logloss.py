@@ -36,7 +36,7 @@ for i in range(M):
     w = weights[i]
     for j in range(N):
         tmp += (y_true[j,i] * np.log(y_pred[j,i]))
-    logloss += w * tmp
+    logloss += w * tmp / sum(y_true[:,i])
 logloss /= -sum(weights)
 
 
