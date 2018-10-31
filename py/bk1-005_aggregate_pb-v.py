@@ -15,7 +15,7 @@ from glob import glob
 from multiprocessing import cpu_count, Pool
 import utils
 
-PREF = 'f005'
+PREF = 'fbk1-005'
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
