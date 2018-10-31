@@ -1,0 +1,8 @@
+rm: cannot remove '../data/t*_f008*': No such file or directory
+rm: cannot remove '../feature/t*_f008*': No such file or directory
+
+#==============================================================================
+# START!!! 008_pivot_diff_oid.py    PID: 7037    time: 2018-10-31 13:49:28.402809
+#==============================================================================
+
+rm: cannot remove '../data/tmp_f008*': No such file or directory
