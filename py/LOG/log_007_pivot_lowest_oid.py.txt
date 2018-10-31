@@ -1,0 +1,7 @@
+rm: cannot remove '../feature/t*_f007*': No such file or directory
+
+#==============================================================================
+# START!!! 007_pivot_lowest_oid.py    PID: 5440    time: 2018-10-31 12:41:16.569174
+#==============================================================================
+
+rm: cannot remove '../data/tmp_f007*': No such file or directory
