@@ -45,9 +45,22 @@ def aggregate(df, output_path, drop_oid=True):
     df = pd.read_pickle('../data/train_log.pkl')
     """
     
+    # -178 ~ date ~ +178
     idxmax = df.groupby('object_id').flux.idxmax()
-    keep = df.iloc[idxmax][['object_id', 'year']]
-    df = pd.merge(keep, df, on=['object_id', 'year'], how='left')
+    base = df.iloc[idxmax][['object_id', 'date']]
+    li = [base]
+    for i in range(178):
+        i += 1
+        lag  = base.copy()
+        lead = base.copy()
+        lag['date']  -= i
+        lead['date'] += i
+        li.append(lag)
+        li.append(lead)
+    
+    keep = pd.concat(li)
+    
+    df = pd.merge(keep, df, on=['object_id', 'date'], how='left')
     
     pt = pd.pivot_table(df, index=['object_id'], 
                         aggfunc=num_aggregations)
