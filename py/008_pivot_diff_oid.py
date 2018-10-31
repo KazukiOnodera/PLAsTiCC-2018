@@ -129,5 +129,5 @@ if __name__ == "__main__":
     os.system(f'rm ../data/tmp_{PREF}*')
     
     utils.end(__file__)
-
+    utils.stop_instance()
 
