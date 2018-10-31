@@ -60,7 +60,7 @@ def aggregate(df, output_path, drop_oid=True):
     
     keep = pd.concat(li)
     
-    df = pd.merge(keep, df, on=['object_id', 'year'], how='left')
+    df = pd.merge(keep, df, on=['object_id', 'date'], how='left')
     
     pt = pd.pivot_table(df, index=['object_id'], 
                         aggfunc=num_aggregations)
