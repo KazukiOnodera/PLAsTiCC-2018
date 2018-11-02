@@ -103,6 +103,7 @@ for i in range(LOOP):
                          feval=utils.lgb_multi_weighted_logloss,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
+    y_pred = ex.eval_oob(X, y, models, SEED, stratified=True, shuffle=True)
     model_all += models
     nround_mean += len(ret['multi_logloss-mean'])
     wloss_list.append( ret['wloss-mean'][-1] )
@@ -124,6 +125,8 @@ imp.reset_index(drop=True, inplace=True)
 imp[imp.gain>0].feature.map(lambda x: x.split('_')[0]).value_counts()
 
 imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
+
+
 
 
 #==============================================================================
