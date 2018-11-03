@@ -29,7 +29,7 @@ DROP = ['f001_hostgal_specz']
 
 NFOLD = 5
 
-LOOP = 2
+LOOP = 1
 
 param = {
          'objective': 'multiclass',
@@ -103,7 +103,8 @@ for i in range(LOOP):
                          feval=utils.lgb_multi_weighted_logloss,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
-    y_pred = ex.eval_oob(X, y, models, SEED, stratified=True, shuffle=True)
+    y_pred = ex.eval_oob(X, y, models, SEED, stratified=True, shuffle=True, 
+                         n_class=y.unique().shape[0])
     model_all += models
     nround_mean += len(ret['multi_logloss-mean'])
     wloss_list.append( ret['wloss-mean'][-1] )
@@ -126,6 +127,12 @@ imp[imp.gain>0].feature.map(lambda x: x.split('_')[0]).value_counts()
 
 imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
 
+
+y_true = pd.get_dummies(y)
+
+
+y_true.to_pickle('../data/y_true.pkl')
+y_pred.to_pickle('../data/y_pred.pkl')
 
 
 
