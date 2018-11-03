@@ -136,7 +136,7 @@ png = f'LOG/imp_{__file__}.png'
 utils.savefig_imp(imp, png, x='total', title=f'{__file__}')
 utils.send_line(result, png)
 
-
+imp = imp['total'].head(2000)
 COL = imp[imp.gain>0].feature.tolist()
 
 # =============================================================================
