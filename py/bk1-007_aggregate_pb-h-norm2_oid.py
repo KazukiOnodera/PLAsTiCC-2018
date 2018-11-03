@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Oct 22 13:44:57 2018
+Created on Mon Oct 22 13:54:46 2018
 
 @author: kazuki.onodera
 """
@@ -13,7 +13,7 @@ from glob import glob
 from multiprocessing import cpu_count, Pool
 import utils
 
-PREF = 'f008'
+PREF = 'fbk1-007'
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
@@ -34,7 +34,8 @@ num_aggregations = {
 
 def aggregate(df, output_path, drop_oid=True):
     
-    df.flux /= df.groupby(['object_id', 'passband']).flux.transform('max')
+    df.flux += df.groupby('object_id').flux.transform('min').abs()
+    df.flux /= df.groupby('object_id').flux.transform('max')
     
     df_agg = df.groupby(['object_id', 'passband']).agg(num_aggregations)
     df_agg.columns = pd.Index([e[0] + "_" + e[1] for e in df_agg.columns.tolist()])
