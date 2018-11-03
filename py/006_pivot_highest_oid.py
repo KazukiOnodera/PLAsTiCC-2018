@@ -42,7 +42,7 @@ num_aggregations = {
 
 def aggregate(df, output_path, drop_oid=True):
     """
-    df = pd.read_pickle('../data/train_log.pkl')
+    df = pd.read_pickle('../data/train_log.pkl').head(999)
     """
     
     # -178 ~ date ~ +178

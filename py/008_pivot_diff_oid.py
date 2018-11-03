@@ -37,7 +37,7 @@ usecols = ['flux', 'flux_norm1', 'flux_norm2', 'flux_err', 'detected']
 
 def aggregate(df, output_path, drop_oid=True):
     """
-    df = pd.read_pickle('../data/train_log.pkl')
+    df = pd.read_pickle('../data/train_log.pkl').head(999)
     """
     
     pt = pd.pivot_table(df, index=['object_id', 'date'], columns=['passband'], 
