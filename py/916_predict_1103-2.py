@@ -66,7 +66,7 @@ N_FEATURES = 2000
 # =============================================================================
 # load
 # =============================================================================
-COL = pd.read_csv('LOG/imp_801_cv.py.csv').head(N_FEATURES).features.tolist()
+COL = pd.read_csv('LOG/imp_801_cv.py.csv').head(N_FEATURES).feature.tolist()
 
 files_tr = sorted(glob('../data/train_f*.pkl'))
 [print(f) for f in files_tr]
