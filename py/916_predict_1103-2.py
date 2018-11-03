@@ -73,8 +73,7 @@ X = pd.concat([
                ], axis=1)
 y = utils.load_target().target
 
-X.drop(DROP+[c for c in X.columns if 'mjd' in c], 
-       axis=1, inplace=True)
+#X.drop(DROP, axis=1, inplace=True)
 
 target_dict = {}
 target_dict_r = {}
