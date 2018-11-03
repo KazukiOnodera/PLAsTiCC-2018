@@ -28,7 +28,7 @@ COMMENT = ''
 
 EXE_SUBMIT = False
 
-DROP = []
+DROP = [] # 'f001_hostgal_specz'
 
 SEED = np.random.randint(9999)
 np.random.seed(SEED)
@@ -61,16 +61,19 @@ param = {
          'verbose':-1,
          }
 
+N_FEATURES = 2000
+
 # =============================================================================
 # load
 # =============================================================================
+COL = pd.read_csv('LOG/imp_801_cv.py.csv').head(N_FEATURES).features.tolist()
 
 files_tr = sorted(glob('../data/train_f*.pkl'))
 [print(f) for f in files_tr]
 
 X = pd.concat([
                 pd.read_pickle(f) for f in tqdm(files_tr, mininterval=60)
-               ], axis=1)
+               ], axis=1)[COL]
 y = utils.load_target().target
 
 #X.drop(DROP, axis=1, inplace=True)
@@ -90,7 +93,6 @@ print(f'X.shape {X.shape}')
 
 gc.collect()
 
-COL = X.columns.tolist()
 #CAT = list( set(X.columns)&set(utils_cat.ALL))
 #print(f'CAT: {CAT}')
 
@@ -136,37 +138,6 @@ png = f'LOG/imp_{__file__}.png'
 utils.savefig_imp(imp, png, x='total', title=f'{__file__}')
 utils.send_line(result, png)
 
-imp = imp['total'].head(2000)
-COL = imp[imp.gain>0].feature.tolist()
-
-# =============================================================================
-# model
-# =============================================================================
-
-dtrain = lgb.Dataset(X[COL], y, #categorical_feature=CAT, 
-                     free_raw_data=False)
-gc.collect()
-
-
-np.random.seed(SEED)
-
-model_all = []
-for i in range(LOOP):
-    print('building', i)
-    gc.collect()
-    param['seed'] = np.random.randint(9999)
-    model = lgb.train(param, dtrain, num_boost_round=nround_mean, valid_sets=None, 
-                      valid_names=None, fobj=None, feval=None, init_model=None, 
-                      feature_name='auto', categorical_feature='auto', 
-                      early_stopping_rounds=None, evals_result=None, 
-                      verbose_eval=True, learning_rates=None, 
-                      keep_training_booster=False, callbacks=None)
-    
-    model_all.append(model)
-
-
-del dtrain, X; gc.collect()
-
 
 # =============================================================================
 # test
@@ -174,9 +145,14 @@ del dtrain, X; gc.collect()
 
 files_te = sorted(glob('../data/test_f*.pkl'))
 
+def read(f):
+    df = pd.read_pickle(f)
+    col = list( set(df.columns) & set(COL) )
+    return df[col]
+
 X_test = pd.concat([
-                pd.read_pickle(f) for f in tqdm(files_te, mininterval=60)
-               ], axis=1)[COL]
+                read(f) for f in tqdm(files_te, mininterval=60)
+               ], axis=1)
 
 for i,model in enumerate(tqdm(model_all)):
     y_pred = model.predict(X_test)
@@ -212,5 +188,6 @@ if EXE_SUBMIT:
 
 #==============================================================================
 utils.end(__file__)
+utils.stop_instance()
 
 

@@ -25,7 +25,7 @@ import utils
 SEED = np.random.randint(9999)
 print('SEED:', SEED)
 
-DROP = ['f001_hostgal_specz']
+#DROP = ['f001_hostgal_specz']
 
 NFOLD = 5
 
@@ -66,7 +66,7 @@ X = pd.concat([
                ], axis=1)
 y = utils.load_target().target
 
-X.drop(DROP+[c for c in X.columns if 'mjd' in c], axis=1, inplace=True)
+#X.drop(DROP+[c for c in X.columns if 'mjd' in c], axis=1, inplace=True)
 
 target_dict = {}
 target_dict_r = {}
@@ -126,6 +126,26 @@ imp.reset_index(drop=True, inplace=True)
 imp[imp.gain>0].feature.map(lambda x: x.split('_')[0]).value_counts()
 
 imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
+
+
+# =============================================================================
+# 
+# =============================================================================
+#from itertools import combinations
+#
+#X = X.rank(method='dense')
+#
+#comb = list(combinations(imp.feature, 2))
+#
+#col_drop = []
+#for c1,c2 in comb:
+#    if c2 in col_drop:
+#        continue
+#    if X[c1].corr(X[c2])==1:
+#        print(c2)
+#        col_drop.append(c2)
+
+
 
 
 y_true = pd.get_dummies(y)
