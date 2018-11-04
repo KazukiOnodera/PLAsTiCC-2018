@@ -160,6 +160,7 @@ tmp = tmp.values.astype(float)
 y_true = pd.get_dummies(y)
 
 weight = utils_post.get_weight(y_true, tmp, eta=0.1, nround=9999)
+weight = np.append(weight, 1)
 
 # =============================================================================
 # model
