@@ -125,7 +125,7 @@ def multi(idx):
     y_true = np.array( [di[y_preds[idx][i].round(2)] for i in range(M)]).T
     y_pred = np.array([y_preds[idx] for i in range(1000)])
     f = lambda X: multi_weighted_logloss(y_true, y_pred, w)
-    gradient_descent(f, w, learning_rate=2, max_iter=1000)
+    gradient_descent(f, w, learning_rate=5, max_iter=100)
     return y_preds[idx] * w
 
 # =============================================================================
@@ -147,6 +147,7 @@ if __name__ == "__main__":
     
     arr = np.array(callback)
     arr /= arr.sum(1)[:,None]
+    arr = np.clip(a=arr, a_min=1e-15, a_max=1 - 1e-15)
     
     pd.DataFrame(arr).to_pickle('../output/tmp.pkl')
     sub.iloc[:, 1:] = arr
