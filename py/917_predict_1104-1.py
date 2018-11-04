@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sat Nov  3 15:27:07 2018
+Created on Sun Nov  4 22:02:25 2018
 
 @author: Kazuki
 """
+
 
 import numpy as np
 import pandas as pd
@@ -22,13 +23,13 @@ import utils
 utils.start(__file__)
 #==============================================================================
 
-SUBMIT_FILE_PATH = '../output/1103-2.csv.gz'
+SUBMIT_FILE_PATH = '../output/1104-1.csv.gz'
 
-COMMENT = ''
+COMMENT = '1103-2 + drop f001_hostgal_specz'
 
 EXE_SUBMIT = False
 
-DROP = [] # 'f001_hostgal_specz'
+DROP = ['f001_hostgal_specz']
 
 SEED = np.random.randint(9999)
 np.random.seed(SEED)
@@ -61,7 +62,7 @@ param = {
          'verbose':-1,
          }
 
-N_FEATURES = 2000
+N_FEATURES = 2001
 
 # =============================================================================
 # load
@@ -76,7 +77,7 @@ X = pd.concat([
                ], axis=1)[COL]
 y = utils.load_target().target
 
-#X.drop(DROP, axis=1, inplace=True)
+X.drop(DROP, axis=1, inplace=True)
 
 target_dict = {}
 target_dict_r = {}
@@ -160,6 +161,31 @@ y_true = pd.get_dummies(y)
 
 weight = utils_post.get_weight(y_true, tmp, eta=0.1, nround=9999)
 
+# =============================================================================
+# model
+# =============================================================================
+
+gc.collect()
+
+
+np.random.seed(SEED)
+
+model_all = []
+for i in range(LOOP):
+    print('building', i)
+    gc.collect()
+    param['seed'] = np.random.randint(9999)
+    model = lgb.train(param, dtrain, num_boost_round=nround_mean, valid_sets=None, 
+                      valid_names=None, fobj=None, feval=None, init_model=None, 
+                      feature_name='auto', categorical_feature='auto', 
+                      early_stopping_rounds=None, evals_result=None, 
+                      verbose_eval=True, learning_rates=None, 
+                      keep_training_booster=False, callbacks=None)
+    
+    model_all.append(model)
+
+
+del dtrain, X; gc.collect()
 
 # =============================================================================
 # test
@@ -195,6 +221,13 @@ sub = pd.concat([sub[['object_id']], df], axis=1)
 
 # class_99
 utils.postprocess(sub)
+
+# post
+val = sub.iloc[:, 1:].values
+val *= weight
+val /= val.sum(1)[:,None]
+val = np.clip(a=val, a_min=1e-15, a_max=1 - 1e-15)
+sub.iloc[:, 1:] = val
 
 sub.to_csv(SUBMIT_FILE_PATH, index=False, compression='gzip')
 
