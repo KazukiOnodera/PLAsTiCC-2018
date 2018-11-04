@@ -107,6 +107,7 @@ gc.collect()
 model_all = []
 nround_mean = 0
 wloss_list = []
+y_preds = []
 for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
@@ -114,6 +115,9 @@ for i in range(LOOP):
                          feval=utils.lgb_multi_weighted_logloss,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
+    y_pred = ex.eval_oob(X, y, models, SEED, stratified=True, shuffle=True, 
+                         n_class=y.unique().shape[0])
+    y_preds.append(y_pred)
     model_all += models
     nround_mean += len(ret['multi_logloss-mean'])
     wloss_list.append( ret['wloss-mean'][-1] )
@@ -137,6 +141,19 @@ imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
 png = f'LOG/imp_{__file__}.png'
 utils.savefig_imp(imp, png, x='total', title=f'{__file__}')
 utils.send_line(result, png)
+
+
+# =============================================================================
+# weight
+# =============================================================================
+import utils_post
+
+tmp = np.zeros(y_pred.shape)
+for y_pred in y_preds:
+    tmp += y_pred
+tmp /= len(y_preds)
+
+y_true = pd.get_dummies(y)
 
 
 # =============================================================================
