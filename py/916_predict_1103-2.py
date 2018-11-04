@@ -148,12 +148,17 @@ utils.send_line(result, png)
 # =============================================================================
 import utils_post
 
-tmp = np.zeros(y_pred.shape)
-for y_pred in y_preds:
-    tmp += y_pred
+for i,y_pred in enumerate(y_preds):
+    if i==0:
+        tmp = y_pred
+    else:
+        tmp += y_pred
 tmp /= len(y_preds)
+tmp = tmp.values.astype(float)
 
 y_true = pd.get_dummies(y)
+
+utils_post.get_weight(y_true, tmp)
 
 
 # =============================================================================

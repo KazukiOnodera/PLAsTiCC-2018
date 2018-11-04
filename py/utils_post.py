@@ -13,8 +13,6 @@ import pandas as pd
 #import utils
 
 
-M = 15
-
 def multi_weighted_logloss(y_true, y_pred, myweight=None):
     """
     @author olivier https://www.kaggle.com/ogrellier
@@ -30,7 +28,7 @@ def multi_weighted_logloss(y_true, y_pred, myweight=None):
         class_weight[99] = 2
     
     if myweight is None:
-        myweight = np.ones(M)
+        myweight = np.ones(y_true.shape[1])
     y_p = y_pred * myweight
     
     # normalize
@@ -90,7 +88,7 @@ def calc_gradient(f, X):
         
     return gradient
 
-def gradient_descent(f, X, learning_rate, max_iter, is_print=False):
+def gradient_descent(f, X, learning_rate, max_iter, is_print=True):
     """
     gradient_descent
     最急降下法を行う関数
@@ -116,12 +114,13 @@ def gradient_descent(f, X, learning_rate, max_iter, is_print=False):
         
     return X
 
-def get_weight(y_true, y_pred, weight=None, eta=1, nround=100):
+def get_weight(y_true, y_pred, weight=None, eta=1, nround=100, is_print=True):
     M = y_true.shape[1]
     if weight is None:
         weight = np.ones(M)
     f = lambda X: multi_weighted_logloss(y_true, y_pred, weight)
-    gradient_descent(f, weight, learning_rate=eta, max_iter=nround)
+    gradient_descent(f, weight, learning_rate=eta, max_iter=nround,
+                     is_print=is_print)
     return weight
 
 
