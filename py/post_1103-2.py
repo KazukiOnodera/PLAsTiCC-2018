@@ -119,6 +119,8 @@ def gradient_descent(f, X, learning_rate, max_iter, is_print=False):
     return X
 
 def multi(idx):
+    if idx%10000==0:
+        print(idx)
     w = np.ones(M)
     y_true = np.array( [di[y_preds[idx][i].round(2)] for i in range(M)]).T
     y_pred = np.array([y_preds[idx] for i in range(1000)])
