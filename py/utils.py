@@ -526,7 +526,7 @@ def savefig_sub(sub, path):
     sub.iloc[:, 1:].hist(bins=50, figsize=(16, 12))
     plt.savefig(path)
 
-def postprocess(sub:pd.DataFrame):
+def postprocess(sub:pd.DataFrame, weight=None):
     """
     Giba's postprocess
     """
@@ -538,6 +538,13 @@ def postprocess(sub:pd.DataFrame):
     
     sub.loc[sub.object_id.isin(oid_gal),  [f'class_{i}' for i in classes_exgal]] = 0
     sub.loc[sub.object_id.isin(oid_exgal),[f'class_{i}' for i in classes_gal]] = 0
+    
+    val = sub.iloc[:, 1:].values
+    if weight is not None:
+        val *= weight
+    val /= val.sum(1)[:,None]
+    val = np.clip(a=val, a_min=1e-15, a_max=1 - 1e-15)
+    sub.iloc[:, 1:] = val
     
     return
 
