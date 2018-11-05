@@ -8,73 +8,74 @@ Created on Thu Nov  1 17:39:00 2018
 
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import log_loss
+
+import utils
 
 M = 14
-N = 999
 
 # =============================================================================
-# y_true1
+# load
 # =============================================================================
-y_true = np.random.randn(N, M)
+y_true = pd.read_pickle('../data/y_true.pkl').values
 
-argmax = y_true.argmax(1)
-for i,e in enumerate(argmax):
-    y_true[i] = 0
-    y_true[i, e] = 1
+y_pred = pd.read_pickle('../data/oof.pkl')
 
-weights = np.random.uniform(size=M)
-
-
-# =============================================================================
-# y_true2
-# =============================================================================
-y_true = np.random.randn(N, M)
-
-for i in range(M):
-    if np.random.uniform()>0.5:
-        y_true[:, i] *= 3
-argmax = y_true.argmax(1)
-for i,e in enumerate(argmax):
-    y_true[i] = 0
-    y_true[i, e] = 1
-
-weights = np.random.uniform(size=M)
 weights = np.array([1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1])
+
+
+tr = pd.read_pickle('../data/train.pkl')
+
+idx_gal = tr[tr['hostgal_photoz'] == 0].index
+idx_exgal = tr[tr['hostgal_photoz'] != 0].index
+
+
+y_pred.iloc[idx_gal, [1, 3, 4, 6, 7, 9, 10, 11, 13]] = 0
+y_pred.iloc[idx_exgal, [0, 2, 5, 8, 12]] = 0
+
+y_pred = y_pred.values.astype(float)
+y_pred /= y_pred.sum(1)[:,None]
+
+for i in range(14):
+    print( log_loss(y_true[:,i], y_pred[:,i]) )
+
+tmp = y_true * y_pred
+
+tr['loss'] = 1 - tmp.max(1)
+
+
 
 # =============================================================================
 # y_pred
 # =============================================================================
-tmp = np.random.uniform(size=M)
-y_pred = np.array([tmp for i in range(N)])
 
 
-
-def eval_sub(y_true, y_pred, myweight=None):
-    y_pred = y_pred.copy()
-    
-    if myweight is None:
-        myweight = np.ones(M)
-    for i in range(M):
-        y_pred[:,i] *= myweight[i]
-    
-    # normalize
-    y_pred /= y_pred.sum(1)[:,None]
-    
-    logloss = 0
-    for i in range(M):
-        tmp = 0
-        w = weights[i]
-        for j in range(N):
-            tmp += (y_true[j,i] * np.log( y_pred[j,i] ))
-        logloss += w * tmp / sum(y_true[:,i])
-    logloss /= -sum(weights)
-    return logloss
-
-y_true.sum(0)
-#y_pred[:,1] *= 2
-eval_sub(y_true, y_pred)
-
-eval_sub(y_true, y_pred, weights)
+#def eval_sub(y_true, y_pred, myweight=None):
+#    y_pred = y_pred.copy()
+#    N = y_true.shape[0]
+#    if myweight is None:
+#        myweight = np.ones(M)
+#    for i in range(M):
+#        y_pred[:,i] *= myweight[i]
+#    
+#    # normalize
+#    y_pred /= y_pred.sum(1)[:,None]
+#    
+#    logloss = 0
+#    for i in range(M):
+#        tmp = 0
+#        w = weights[i]
+#        for j in range(N):
+#            tmp += (y_true[j,i] * np.log( y_pred[j,i] ))
+#        logloss += w * tmp / sum(y_true[:,i])
+#    logloss /= -sum(weights)
+#    return logloss
+#
+#
+#eval_sub(y_true.values, y_pred.values.astype(float))
+#
+#eval_sub(y_true, y_pred, weights)
 
 # =============================================================================
 # 
@@ -110,12 +111,12 @@ def multi_weighted_logloss(y_true, y_pred, myweight=None):
     # we gave a special process for that class
     y_log_ones = np.sum(y_true * y_p_log, axis=0)
     # Get the number of positives for each class
-    nb_pos = y_true.sum(axis=0).astype(float)
+    nb_pos = np.nansum(y_true, axis=0).astype(float)
     # Weight average and divide by the number of positives
     class_arr = np.array([class_weight[k] for k in sorted(class_weight.keys())])
     y_w = y_log_ones * class_arr / nb_pos
-
-    loss = - np.sum(y_w) / np.sum(class_arr)
+    
+    loss = - np.nansum(y_w) / np.sum(class_arr)
     return loss
 
 
@@ -176,6 +177,39 @@ def gradient_descent(f, X, learning_rate, max_iter):
             print("[{:3d}] X = {}, f(X) = {:.7f}".format(i, X, f(X)))
         
     return X
+
+def validation(X_train, X_test, y_train, y_test, learning_rate=0.1, max_iter=9999):
+    weight = np.ones(X_train.shape[1])
+    f1 = lambda X: multi_weighted_logloss(X_train, y_train, weight)
+    f2 = lambda X: multi_weighted_logloss(X_test, y_test, weight)
+    
+    for i in range(max_iter):
+        weight -= (learning_rate * calc_gradient(f1, weight))
+        if i%50==0:
+            print(f'[{i:3d}] train: {f1(weight):.7f}    test: {f2(weight):.7f}')
+    
+    return
+
+# =============================================================================
+# 
+# =============================================================================
+
+multi_weighted_logloss(y_true, y_pred, myweight=None)
+multi_weighted_logloss(y_true[:888], y_pred[:888], myweight=None)
+
+t_train, t_test, p_train, p_test = train_test_split(y_true, y_pred,
+                                                    test_size=0.33, 
+                                                    random_state=42)
+
+
+multi_weighted_logloss(t_train, p_train, myweight=None)
+multi_weighted_logloss(t_test, p_test, myweight=None)
+
+validation(t_train, t_test, p_train, p_test)
+
+
+
+
 
 f = lambda X: multi_weighted_logloss(y_true, y_pred, X)
 

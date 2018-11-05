@@ -57,6 +57,9 @@ param = {
 
 label_name = 'f001_hostgal_specz'
 
+
+feature_size = 1000
+
 # =============================================================================
 # load
 # =============================================================================
@@ -77,11 +80,43 @@ print(f'X_train.shape {X_train.shape}')
 gc.collect()
 
 
+# =============================================================================
+# feature selection
+# =============================================================================
+dtrain = lgb.Dataset(X_train[y_train!=0], y_train[y_train!=0],
+                     free_raw_data=False)
+gc.collect()
+
+model_all = []
+for i in range(LOOP):
+    ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, stratified=False,
+                         early_stopping_rounds=100, verbose_eval=50,
+                         seed=SEED)
+    model_all += models
+
+imp = ex.getImp(model_all)
+imp['split'] /= imp['split'].max()
+imp['gain'] /= imp['gain'].max()
+imp['total'] = imp['split'] + imp['gain']
+
+imp.sort_values('total', ascending=False, inplace=True)
+imp.reset_index(drop=True, inplace=True)
+
+COL = imp.head(feature_size).feature.tolist()
+
+
+def read(f):
+    df = pd.read_pickle(f)
+    col = list( set(df.columns) & set(COL) )
+    return df[col]
+
+
+
 files_te = sorted(glob('../data/test_f*.pkl'))
 
 X_test = pd.concat([
-                pd.read_pickle(f) for f in tqdm(files_te, mininterval=60)
-               ], axis=1)
+                read(f) for f in tqdm(files_te, mininterval=60)
+               ], axis=1)[COL]
     
 # hostgal_photoz==0 -> hostgal_specz=0?
 X_test.loc[X_test['f001_hostgal_photoz']==0, label_name] = 0
@@ -97,6 +132,9 @@ print(f'X_test.shape {X_test.shape}')
 
 gc.collect()
 
+# =============================================================================
+# cv2
+# =============================================================================
 
 X_train_train, y_train_train = X_train[~y_train.isnull()], y_train[~y_train.isnull()]
 X_train_test,  y_train_test  = X_train[y_train.isnull()],  y_train[y_train.isnull()]
@@ -104,11 +142,13 @@ X_train_test,  y_train_test  = X_train[y_train.isnull()],  y_train[y_train.isnul
 X_test_train, y_test_train = X_test[~y_test.isnull()], y_test[~y_test.isnull()]
 X_test_test,  y_test_test  = X_test[y_test.isnull()],  y_test[y_test.isnull()]
 
-# =============================================================================
-# cv
-# =============================================================================
-X = pd.concat([X_train_train, X_test_train])
+X = pd.concat([X_train_train, X_test_train])[COL]
 y = pd.concat([y_train_train, y_test_train])
+
+del X_train_train, X_test_train
+del y_train_train, y_test_train
+gc.collect()
+
 
 # remove 0
 X = X[y!=0]
