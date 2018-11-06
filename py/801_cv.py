@@ -128,6 +128,26 @@ imp[imp.gain>0].feature.map(lambda x: x.split('_')[0]).value_counts()
 imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
 
 
+
+# =============================================================================
+# estimate feature size
+# =============================================================================
+print('estimate feature size')
+
+COL = imp.feature.tolist()
+
+for i in np.arange(50, 1000, 50):
+    dtrain = lgb.Dataset(X[COL[:i]], y, #categorical_feature=CAT, 
+                         free_raw_data=False)
+    gc.collect()
+    param['seed'] = np.random.randint(9999)
+    ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
+                         feval=utils.lgb_multi_weighted_logloss,
+                         early_stopping_rounds=100, verbose_eval=50,
+                         seed=SEED)
+
+
+
 # =============================================================================
 # 
 # =============================================================================
