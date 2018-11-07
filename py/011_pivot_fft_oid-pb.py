@@ -48,17 +48,31 @@ def fft(n):
         except:
             return None, None
         return peri, amp[n]
-    fft_.__name__ = 'q%s' % n
+    fft_.__name__ = 'fft%s' % n
     return fft_
 
+def fft_max(x):
+    N = x.shape[0]
+    # 高速フーリエ変換(FFT)
+    F = np.fft.fft(x)
+    # FFT結果（複素数）を絶対値に変換
+    F_abs = np.abs(F)
+    # 振幅を元に信号に揃える
+    F_abs_amp = F_abs / N * 2 # 交流成分はデータ数で割って2倍する
+    F_abs_amp[0] = F_abs_amp[0] / 2 # 直流成分（今回は扱わないけど）は2倍不要
+    F_abs_amp = F_abs_amp[:int(N/2)+1]
+    try:
+        peri = F_abs_amp.argmax()
+    except:
+        return None, None
+    return peri, max(F_abs_amp)
+
+
 num_aggregations = {
-    'flux':        [fft(0), fft(1)],
-    'flux_norm1':        [fft(0), fft(1)],
-    'flux_norm2':        [fft(0), fft(1)],
-    'flux_err':        [fft(0), fft(1)],
-#    'flux_norm1':  ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
-#    'flux_norm2':  ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
-#    'flux_err':    ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
+    'flux':        [fft_max, fft(0), fft(1)],
+    'flux_norm1':  [fft_max, fft(0), fft(1)],
+    'flux_norm2':  [fft_max, fft(0), fft(1)],
+    'flux_err':    [fft_max, fft(0), fft(1)],
     }
 
 def aggregate(df, output_path, drop_oid=True):
@@ -71,16 +85,11 @@ def aggregate(df, output_path, drop_oid=True):
     
     pt.columns = pd.Index([f'pb{e[2]}_{e[0]}_{e[1]}' for e in pt.columns.tolist()])
     
-    # std / mean
-    col_std = [c for c in pt.columns if c.endswith('_std')]
-    for c in col_std:
-        pt[f'{c}-d-mean'] = pt[c]/pt[c.replace('_std', '_mean')]
-    
-    # max / min, max - min
-    col_max = [c for c in pt.columns if c.endswith('_max')]
-    for c in col_max:
-        pt[f'{c}-d-min'] = pt[c]/pt[c.replace('_max', '_min')]
-        pt[f'{c}-m-min'] = pt[c]-pt[c.replace('_max', '_min')]
+    col = pt.columns
+    for c in col:
+        pt[f'{c}_peri'] = pt[c].map(lambda x: x[0])
+        pt[f'{c}_amp'] = pt[c].map(lambda x: x[1])
+    pt.drop(col, axis=1, inplace=True)
     
     # compare passband
     col = pd.Series([f'{c[3:]}' for c in pt.columns if c.startswith('pb0')])
