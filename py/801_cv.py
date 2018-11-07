@@ -136,7 +136,9 @@ print('estimate feature size')
 
 COL = imp.feature.tolist()
 
-for i in np.arange(50, 1000, 50):
+for i in np.arange(50, 400, 50):
+    print(f'\n==== feature size: {i}====')
+    
     dtrain = lgb.Dataset(X[COL[:i]], y, #categorical_feature=CAT, 
                          free_raw_data=False)
     gc.collect()
@@ -151,19 +153,16 @@ for i in np.arange(50, 1000, 50):
 # =============================================================================
 # 
 # =============================================================================
-#from itertools import combinations
-#
-#X = X.rank(method='dense')
-#
-#comb = list(combinations(imp.feature, 2))
-#
-#col_drop = []
-#for c1,c2 in comb:
-#    if c2 in col_drop:
-#        continue
-#    if X[c1].corr(X[c2])==1:
-#        print(c2)
-#        col_drop.append(c2)
+
+dtrain = lgb.Dataset(X[COL[:150]], y, #categorical_feature=CAT, 
+                     free_raw_data=False)
+ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
+                     feval=utils.lgb_multi_weighted_logloss,
+                     early_stopping_rounds=100, verbose_eval=50,
+                     seed=SEED)
+
+y_pred = ex.eval_oob(X, y, models, SEED, stratified=True, shuffle=True, 
+                     n_class=y.unique().shape[0])
 
 
 
@@ -178,6 +177,6 @@ y_pred.to_pickle('../data/y_pred.pkl')
 
 #==============================================================================
 utils.end(__file__)
-#utils.stop_instance()
+utils.stop_instance()
 
 
