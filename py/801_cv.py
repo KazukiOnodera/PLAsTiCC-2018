@@ -151,17 +151,19 @@ for i in np.arange(50, 400, 50):
 
 
 # =============================================================================
-# 
+# best
 # =============================================================================
 
-dtrain = lgb.Dataset(X[COL[:150]], y, #categorical_feature=CAT, 
+dtrain = lgb.Dataset(X[COL[:200]], y, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
                      feval=utils.lgb_multi_weighted_logloss,
                      early_stopping_rounds=100, verbose_eval=50,
                      seed=SEED)
 
-y_pred = ex.eval_oob(X[COL[:150]], y, models, SEED, stratified=True, shuffle=True, 
+score = ret['wloss-mean'][-1]
+
+y_pred = ex.eval_oob(X[COL[:200]], y, models, SEED, stratified=True, shuffle=True, 
                      n_class=y.unique().shape[0])
 
 
@@ -172,6 +174,87 @@ y_true = pd.get_dummies(y)
 
 y_true.to_pickle('../data/y_true.pkl')
 y_pred.to_pickle('../data/y_pred.pkl')
+
+
+# =============================================================================
+# confusion matrix
+# =============================================================================
+import matplotlib as mpl
+mpl.use('Agg')
+from matplotlib import pyplot as plt
+from tqdm import tqdm
+from sklearn.metrics import confusion_matrix
+import itertools
+
+unique_y = np.unique(y)
+class_map = dict()
+for i,val in enumerate(unique_y):
+    class_map[val] = i
+        
+y_map = np.zeros((y.shape[0],))
+y_map = np.array([class_map[val] for val in y])
+
+# http://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        print("Normalized confusion matrix")
+    else:
+        print('Confusion matrix, without normalization')
+
+    print(cm)
+    
+    plt.figure(figsize=(12,12))
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    fmt = '.2f' if normalize else 'd'
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, format(cm[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+    
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    plt.tight_layout()
+    plt.savefig('LOG/CM_{__file__}.png')
+
+
+
+cnf_matrix = confusion_matrix(y_map, np.argmax(y_pred.values, axis=-1))
+np.set_printoptions(precision=2)
+
+class_names = ['class_6',
+             'class_15',
+             'class_16',
+             'class_42',
+             'class_52',
+             'class_53',
+             'class_62',
+             'class_64',
+             'class_65',
+             'class_67',
+             'class_88',
+             'class_90',
+             'class_92',
+             'class_95']
+
+foo = plot_confusion_matrix(cnf_matrix, classes=class_names,normalize=True,
+                      title='Confusion Matrix')
+
+utils.send_line(f'Confusion Matrix wmlogloss: {score}', png='LOG/CM_{__file__}.png')
 
 
 
