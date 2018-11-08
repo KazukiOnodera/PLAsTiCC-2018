@@ -161,7 +161,7 @@ ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD,
                      early_stopping_rounds=100, verbose_eval=50,
                      seed=SEED)
 
-y_pred = ex.eval_oob(X, y, models, SEED, stratified=True, shuffle=True, 
+y_pred = ex.eval_oob(X[COL[:150]], y, models, SEED, stratified=True, shuffle=True, 
                      n_class=y.unique().shape[0])
 
 
