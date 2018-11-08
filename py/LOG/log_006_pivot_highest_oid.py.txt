@@ -1,7 +1,7 @@
 rm: cannot remove '../feature/t*_f006*': No such file or directory
 
 #==============================================================================
-# START!!! 006_pivot_highest_oid.py    PID: 5414    time: 2018-10-31 12:41:13.148920
+# START!!! 006_pivot_highest_oid.py    PID: 10121    time: 2018-10-31 17:29:12.246354
 #==============================================================================
 
 rm: cannot remove '../data/tmp_f006*': No such file or directory
@@ -10,4 +10,4 @@ rm: cannot remove '../data/tmp_f006*': No such file or directory
 # SUCCESS !!! 006_pivot_highest_oid.py
 #==============================================================================
 
-time: 10.29min
+time: 13.08min

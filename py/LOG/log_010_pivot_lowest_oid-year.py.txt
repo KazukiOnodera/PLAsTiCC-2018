@@ -1,0 +1,14 @@
+rm: cannot remove '../data/t*_f010*': No such file or directory
+rm: cannot remove '../feature/t*_f010*': No such file or directory
+
+#==============================================================================
+# START!!! 010_pivot_lowest_oid-year.py    PID: 8682    time: 2018-11-03 12:56:29.540581
+#==============================================================================
+
+rm: cannot remove '../data/tmp_f010*': No such file or directory
+
+#==============================================================================
+# SUCCESS !!! 010_pivot_lowest_oid-year.py
+#==============================================================================
+
+time: 30.49min

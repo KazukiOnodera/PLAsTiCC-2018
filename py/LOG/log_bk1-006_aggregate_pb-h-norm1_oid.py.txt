@@ -1,0 +1,14 @@
+rm: cannot remove '../data/t*_fbk1-006*': No such file or directory
+rm: cannot remove '../feature/t*_fbk1-006*': No such file or directory
+
+#==============================================================================
+# START!!! bk1-006_aggregate_pb-h-norm1_oid.py    PID: 4437    time: 2018-11-03 05:34:59.665749
+#==============================================================================
+
+rm: cannot remove '../data/tmp_fbk1-006*': No such file or directory
+
+#==============================================================================
+# SUCCESS !!! bk1-006_aggregate_pb-h-norm1_oid.py
+#==============================================================================
+
+time: 8.87min
