@@ -224,7 +224,7 @@ sub = pd.concat([sub[['object_id']], df], axis=1)
 
 # class_99
 sub.to_pickle('../data/y_pred_raw.pkl')
-utils.postprocess(sub)
+utils.postprocess(sub, method='oli')
 
 sub.to_csv(SUBMIT_FILE_PATH, index=False, compression='gzip')
 
