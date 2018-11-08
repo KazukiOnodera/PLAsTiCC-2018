@@ -30,14 +30,16 @@ def quantile(n):
     quantile_.__name__ = 'q%s' % n
     return quantile_
 
+stats = ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)]
+
 num_aggregations = {
 #    'mjd':      ['min', 'max', 'size'],
 #    'passband': ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
-    'flux':        ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
-    'flux_norm1':  ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
-    'flux_norm2':  ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
-    'flux_err':    ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
-    'detected':    ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
+    'flux':        stats,
+    'flux_norm1':  stats,
+    'flux_norm2':  stats,
+    'flux_err':    stats,
+    'detected':    stats,
     }
 
 def aggregate(df, output_path, drop_oid=True):
