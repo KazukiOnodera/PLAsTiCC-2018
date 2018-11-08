@@ -229,7 +229,7 @@ def plot_confusion_matrix(cm, classes,
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
     plt.tight_layout()
-    plt.savefig('LOG/CM_{__file__}.png')
+    plt.savefig(f'LOG/CM_{__file__}.png')
 
 
 
@@ -254,7 +254,7 @@ class_names = ['class_6',
 foo = plot_confusion_matrix(cnf_matrix, classes=class_names,normalize=True,
                       title='Confusion Matrix')
 
-utils.send_line(f'Confusion Matrix wmlogloss: {score}', png='LOG/CM_{__file__}.png')
+utils.send_line(f'Confusion Matrix wmlogloss: {score}', png=f'LOG/CM_{__file__}.png')
 
 
 

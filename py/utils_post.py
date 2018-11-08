@@ -109,7 +109,7 @@ def gradient_descent(f, X, learning_rate, max_iter, is_print=True):
         if score_bk < score:
             break
         score_bk = score
-        if is_print and i%50==0:
+        if is_print and i%100==0:
             print("[{:3d}] X = {}, f(X) = {:.7f}".format(i, X, score))
         
     return X
