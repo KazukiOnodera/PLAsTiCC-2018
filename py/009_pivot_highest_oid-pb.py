@@ -16,6 +16,7 @@ import numpy as np
 import pandas as pd
 import os
 from glob import glob
+from scipy.stats import kurtosis
 from multiprocessing import cpu_count, Pool
 from itertools import combinations
 import utils
@@ -31,7 +32,10 @@ def quantile(n):
     quantile_.__name__ = 'q%s' % n
     return quantile_
 
-stats = ['min', 'max', 'mean', 'median', 'std', 'kurt', quantile(25), quantile(75)]
+def kurt(x):
+    return kurtosis(x)
+
+stats = ['min', 'max', 'mean', 'median', 'std', kurt, quantile(25), quantile(75)]
 
 num_aggregations = {
     'flux':        stats,
