@@ -181,7 +181,6 @@ for i in np.arange(50, 400, 50):
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     
-    utils.send_line(f"feature size: {i}    wloss-mean: {ret['wloss-mean'][-1]}")
     score = ret['wloss-mean'][-1]
     utils.send_line(f"feature size: {i}    wloss-mean: {score}")
     
@@ -295,7 +294,7 @@ ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD,
 
 score = ret['wloss-mean'][-1]
 
-y_pred_exgal = ex.eval_oob(X_gal[COL[:N]], y_exgal, models, SEED, stratified=True, shuffle=True, 
+y_pred_exgal = ex.eval_oob(X_exgal[COL[:N]], y_exgal, models, SEED, stratified=True, shuffle=True, 
                            n_class=y_exgal.unique().shape[0])
 
 # =============================================================================
