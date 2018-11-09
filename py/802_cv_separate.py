@@ -158,7 +158,9 @@ print(imp.head(200).feature.map(lambda x: x.split('_')[0]).value_counts())
 
 imp.to_csv(f'LOG/imp_{__file__}_gal.csv', index=False)
 
-
+"""
+imp = pd.read_csv('LOG/imp_802_cv_separate.py_gal.csv')
+"""
 
 # =============================================================================
 # estimate feature size(gal)
@@ -194,6 +196,7 @@ for i in np.arange(50, 400, 50):
 # best(gal)
 # =============================================================================
 N = best_N
+#N = 150
 dtrain = lgb.Dataset(X_gal[COL[:N]], y_gal, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
@@ -253,6 +256,13 @@ print(imp.head(200).feature.map(lambda x: x.split('_')[0]).value_counts())
 imp.to_csv(f'LOG/imp_{__file__}_exgal.csv', index=False)
 
 
+"""
+param['num_class'] = 9
+imp = pd.read_csv('LOG/imp_802_cv_separate.py_exgal.csv')
+COL = imp.feature.tolist()
+
+"""
+
 
 # =============================================================================
 # estimate feature size(exgal)
@@ -285,6 +295,7 @@ for i in np.arange(50, 400, 50):
 # best(exgal)
 # =============================================================================
 N = best_N
+#N = 250
 dtrain = lgb.Dataset(X_exgal[COL[:N]], y_exgal, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
@@ -313,6 +324,7 @@ y_pred_exgal.columns = [f'class_{di_exgal[x]}' for x in range(len(di_exgal))]
 y_pred = pd.concat([y_pred_gal, y_pred_exgal], 
                    ignore_index=True).fillna(0)
 
+y_pred = y_pred[[f'class_{c}' for c in utils.classes]]
 
 loss = utils.multi_weighted_logloss(y.values, y_pred.values)
 
