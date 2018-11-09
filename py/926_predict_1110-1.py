@@ -35,14 +35,14 @@ print('SEED:', SEED)
 
 NFOLD = 5
 
-LOOP = 1
+LOOP = 5
 
 param = {
          'objective': 'multiclass',
 #         'num_class': 14,
          'metric': 'multi_logloss',
          
-         'learning_rate': 0.2,
+         'learning_rate': 0.01,
          'max_depth': 6,
          'num_leaves': 63,
          'max_bin': 255,
@@ -142,7 +142,7 @@ for i in range(2):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils.lgb_multi_weighted_logloss,
+                         feval=utils.lgb_multi_weighted_logloss_gal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     y_pred = ex.eval_oob(X_gal, y_gal, models, SEED, stratified=True, shuffle=True, 
@@ -204,7 +204,7 @@ for i in range(2):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils.lgb_multi_weighted_logloss,
+                         feval=utils.lgb_multi_weighted_logloss_exgal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     y_pred = ex.eval_oob(X_exgal, y_exgal, models, SEED, stratified=True, shuffle=True, 
@@ -282,6 +282,7 @@ y = pd.concat([y_gal.replace(di_gal), y_exgal.replace(di_exgal)],
 
 loss = utils.multi_weighted_logloss(y.values, y_pred.values)
 
+print(f'CV wloss: {loss}')
 
 # =============================================================================
 # weight
@@ -294,14 +295,15 @@ weight = utils_post.get_weight(y_true, y_pred.values, eta=0.1, nround=9999)
 weight = np.append(weight, 1)
 print(list(weight))
 
-#weight = np.array([0.87608653, 0.72238794, 0.2590674 , 0.1300367 , 1.11833844,
-#                   1.95931595, 0.3388923 , 2.29716221, 0.19067337, 0.90162932,
-#                   0.46783924, 0.06632756, 0.53624486, 0.86411252])
+weight = np.array([0.87608653, 0.72238794, 0.2590674 , 0.1300367 , 1.11833844,
+                   1.95931595, 0.3388923 , 2.29716221, 0.19067337, 0.90162932,
+                   0.46783924, 0.06632756, 0.53624486, 0.86411252])
 
 y_pred_tr = y_pred.copy()
 # =============================================================================
 # test
 # =============================================================================
+is_gal = pd.read_pickle('../data/te_is_gal.pkl')
 
 files_te = sorted(glob('../data/test_f*.pkl'))
 
@@ -309,7 +311,7 @@ def read(f):
     df = pd.read_pickle(f)
     col_gal = list( set(df.columns) & set(COL_gal) )
     col_exgal = list( set(df.columns) & set(COL_exgal) )
-    return df[col_gal], df[col_exgal]
+    return df[is_gal][col_gal], df[~is_gal][col_exgal]
 
 test_list = [read(f) for f in tqdm(files_te, mininterval=60)]
 
@@ -355,10 +357,13 @@ y_pred_all = y_pred_all[[f'class_{c}' for c in utils.classes]]
 
 
 
-oid = pd.read_csv('../input/sample_submission.csv.zip', usecols=['object_id']).object_id
+oid = pd.concat([pd.read_pickle('../data/te_oid_gal.pkl'), 
+                 pd.read_pickle('../data/te_oid_exgal.pkl')], 
+            ignore_index=True)
+
 
 sub = y_pred_all.copy()
-sub['object_id'] = oid.values
+sub['object_id'] = oid['object_id'].values
 sub = sub[['object_id']+[f'class_{c}' for c in utils.classes]]
 
 

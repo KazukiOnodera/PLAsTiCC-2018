@@ -76,6 +76,7 @@ if __name__ == "__main__":
     # test
     # =================
     test     = pd.read_csv('../input/test_set_metadata.csv.zip')
+    (test['hostgal_photoz'] == 0).to_pickle('../data/te_is_gal.pkl')
     test[test['hostgal_photoz'] == 0][['object_id']].reset_index(drop=True).to_pickle('../data/te_oid_gal.pkl')
     test[test['hostgal_photoz'] != 0][['object_id']].reset_index(drop=True).to_pickle('../data/te_oid_exgal.pkl')
     
