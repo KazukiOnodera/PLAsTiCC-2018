@@ -225,6 +225,10 @@ sub = pd.concat([sub[['object_id']], df], axis=1)
 # class_99
 sub.to_pickle('../data/y_pred_raw.pkl')
 utils.postprocess(sub, method='oli')
+
+#weight = np.array([0.99890379, 1.03253755, 0.24371138, 0.17544405, 1.78726454,
+#1.49413711, 0.49543226, 3.1784595 , 0.1955218 , 1.40734184,
+#0.6220276 , 0.07591669, 0.56700101, 1.2241892, 1 ])
 #utils.postprocess(sub, weight=weight, method='giba')
 
 print(sub.iloc[:, 1:].idxmax(1).value_counts(normalize=True))
