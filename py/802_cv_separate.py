@@ -5,6 +5,8 @@ Created on Fri Nov  9 18:41:58 2018
 
 @author: kazuki.onodera
 """
+
+
 import numpy as np
 import pandas as pd
 import os, gc
@@ -34,7 +36,7 @@ LOOP = 1
 
 param = {
          'objective': 'multiclass',
-         'num_class': 14,
+#         'num_class': 14,
          'metric': 'multi_logloss',
          
          'learning_rate': 0.01,
@@ -109,10 +111,14 @@ y_exgal = target_replace(y_exgal)
 del X, y
 gc.collect()
 
+print(f'X_gal.shape: {X_gal.shape}')
+print(f'X_exgal.shape: {X_exgal.shape}')
 
 # =============================================================================
 # cv(gal)
 # =============================================================================
+param['num_class'] = 5
+
 dtrain = lgb.Dataset(X_gal, y_gal, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
@@ -124,7 +130,7 @@ for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils.lgb_multi_weighted_logloss,
+                         feval=utils.lgb_multi_weighted_logloss_gal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     y_pred = ex.eval_oob(X_gal, y_gal, models, SEED, stratified=True, shuffle=True, 
@@ -197,6 +203,8 @@ y_pred_gal = ex.eval_oob(X_gal[COL[:N]], y_gal, models, SEED, stratified=True, s
 # =============================================================================
 # cv(exgal)
 # =============================================================================
+param['num_class'] = 9
+
 dtrain = lgb.Dataset(X_exgal, y_exgal, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
