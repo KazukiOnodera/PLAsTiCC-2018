@@ -61,6 +61,9 @@ if __name__ == "__main__":
     # train
     # =================
     train     = pd.read_csv('../input/training_set_metadata.csv')
+    (train['hostgal_photoz'] == 0).to_pickle('../data/tr_is_gal.pkl')
+    train[train['hostgal_photoz'] == 0][['object_id']].reset_index(drop=True).to_pickle('../data/tr_oid_gal.pkl')
+    train[train['hostgal_photoz'] != 0][['object_id']].reset_index(drop=True).to_pickle('../data/tr_oid_exgal.pkl')
     train.to_pickle('../data/train.pkl')
     train[['target']].to_pickle('../data/target.pkl')
     
@@ -73,8 +76,8 @@ if __name__ == "__main__":
     # test
     # =================
     test     = pd.read_csv('../input/test_set_metadata.csv.zip')
-    test[test['hostgal_photoz'] == 0][['object_id']].reset_index(drop=True).to_pickle('../data/oid_gal.pkl')
-    test[test['hostgal_photoz'] != 0][['object_id']].reset_index(drop=True).to_pickle('../data/oid_exgal.pkl')
+    test[test['hostgal_photoz'] == 0][['object_id']].reset_index(drop=True).to_pickle('../data/te_oid_gal.pkl')
+    test[test['hostgal_photoz'] != 0][['object_id']].reset_index(drop=True).to_pickle('../data/te_oid_exgal.pkl')
     
     
     test.to_pickle('../data/test.pkl')

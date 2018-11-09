@@ -528,8 +528,8 @@ def savefig_sub(sub, path):
 
 def postprocess(sub:pd.DataFrame, weight=None, method='giba'):
     
-    oid_gal   = pd.read_pickle('../data/oid_gal.pkl').object_id
-    oid_exgal = pd.read_pickle('../data/oid_exgal.pkl').object_id
+    oid_gal   = pd.read_pickle('../data/te_oid_gal.pkl').object_id
+    oid_exgal = pd.read_pickle('../data/te_oid_exgal.pkl').object_id
     sub.loc[sub.object_id.isin(oid_gal),  [f'class_{i}' for i in classes_exgal]] = 0
     sub.loc[sub.object_id.isin(oid_exgal),[f'class_{i}' for i in classes_gal]] = 0
     
