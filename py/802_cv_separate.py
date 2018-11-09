@@ -117,6 +117,7 @@ print(f'X_exgal.shape: {X_exgal.shape}')
 # =============================================================================
 # cv(gal)
 # =============================================================================
+print('==== GAL ====')
 param['num_class'] = 5
 
 dtrain = lgb.Dataset(X_gal, y_gal, #categorical_feature=CAT, 
@@ -193,7 +194,7 @@ for i in np.arange(50, 400, 50):
 # =============================================================================
 # best(gal)
 # =============================================================================
-N = 150
+N = best_N
 dtrain = lgb.Dataset(X_gal[COL[:N]], y_gal, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
@@ -211,6 +212,7 @@ y_pred_gal = ex.eval_oob(X_gal[COL[:N]], y_gal, models, SEED, stratified=True, s
 # =============================================================================
 # cv(exgal)
 # =============================================================================
+print('==== EXGAL ====')
 param['num_class'] = 9
 
 dtrain = lgb.Dataset(X_exgal, y_exgal, #categorical_feature=CAT, 
@@ -283,7 +285,7 @@ for i in np.arange(50, 400, 50):
 # =============================================================================
 # best(exgal)
 # =============================================================================
-N = 150
+N = best_N
 dtrain = lgb.Dataset(X_exgal[COL[:N]], y_exgal, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
