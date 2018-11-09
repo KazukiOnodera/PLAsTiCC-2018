@@ -301,9 +301,8 @@ y_pred_exgal = ex.eval_oob(X_exgal[COL[:N]], y_exgal, models, SEED, stratified=T
 # concat
 # =============================================================================
 
-y = pd.concat([y_gal, y_exgal], 
+y = pd.concat([y_gal.replace(di_gal), y_exgal.replace(di_exgal)], 
               ignore_index=True)
-
 
 y_pred_gal = pd.DataFrame(y_pred_gal)
 y_pred_gal.columns = [f'class_{di_gal[x]}' for x in range(len(di_gal))]
