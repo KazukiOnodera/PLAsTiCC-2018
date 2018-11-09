@@ -316,7 +316,7 @@ y_pred = pd.concat([y_pred_gal, y_pred_exgal],
                    ignore_index=True).fillna(0)
 
 
-loss = utils.multi_weighted_logloss(y, y_pred)
+loss = utils.multi_weighted_logloss(y.values, y_pred.values)
 
 
 
