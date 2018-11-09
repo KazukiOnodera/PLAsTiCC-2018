@@ -329,6 +329,17 @@ y_pred = y_pred[[f'class_{c}' for c in utils.classes]]
 loss = utils.multi_weighted_logloss(y.values, y_pred.values)
 
 
+# =============================================================================
+# weight
+# =============================================================================
+import utils_post
+
+y_true = pd.get_dummies(y)
+
+weight = utils_post.get_weight(y_true, y_pred.values, eta=0.1, nround=9999)
+weight = np.append(weight, 1)
+print(list(weight))
+
 
 # =============================================================================
 # confusion matrix

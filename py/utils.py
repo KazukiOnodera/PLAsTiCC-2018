@@ -354,6 +354,8 @@ def lgb_multi_weighted_logloss_gal(y_preds, train_data):
         class_weight_gal[99] = 2
     
     y_p = y_preds.reshape(y_true.shape[0], len(classes_gal), order='F')
+    # normalize
+    y_p /= y_p.sum(1)[:,None]
 
     # Trasform y_true in dummies
     y_ohe = pd.get_dummies(y_true)
@@ -389,6 +391,8 @@ def lgb_multi_weighted_logloss_exgal(y_preds, train_data):
         class_weight_exgal[99] = 2
     
     y_p = y_preds.reshape(y_true.shape[0], len(classes_exgal), order='F')
+    # normalize
+    y_p /= y_p.sum(1)[:,None]
 
     # Trasform y_true in dummies
     y_ohe = pd.get_dummies(y_true)
@@ -444,7 +448,7 @@ def lgb_multi_weighted_logloss(y_preds, train_data):
     loss = - np.sum(y_w) / np.sum(class_arr)
     return 'wloss', loss, False
 
-def multi_weighted_logloss(y_true, y_preds):
+def multi_weighted_logloss(y_true:np.array, y_preds:np.array):
     """
     @author olivier https://www.kaggle.com/ogrellier
     multi logloss for PLAsTiCC challenge
@@ -457,7 +461,8 @@ def multi_weighted_logloss(y_true, y_preds):
     if len(np.unique(y_true)) > 14:
         classes.append(99)
         class_weight[99] = 2
-    y_p = y_preds
+        
+    y_p = y_preds/y_preds.sum(1)[:,None]
     # Trasform y_true in dummies
     y_ohe = pd.get_dummies(y_true)
     # Normalize rows and limit y_preds to 1e-15, 1-1e-15
