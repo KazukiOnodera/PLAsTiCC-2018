@@ -67,8 +67,8 @@ N_FEATURES_exgal = 250
 # =============================================================================
 # load
 # =============================================================================
-COL_gal   = pd.read_csv('LOG/imp_802_cv.py_gal.csv').head(N_FEATURES_gal).feature.tolist()
-COL_exgal = pd.read_csv('LOG/imp_802_cv.py_exgal.csv').head(N_FEATURES_exgal).feature.tolist()
+COL_gal   = pd.read_csv('LOG/imp_802_cv_separate.py_gal.csv').head(N_FEATURES_gal).feature.tolist()
+COL_exgal = pd.read_csv('LOG/imp_802_cv_separate.py_exgal.csv').head(N_FEATURES_exgal).feature.tolist()
 
 files_tr = sorted(glob('../data/train_f*.pkl'))
 [print(f) for f in files_tr]
