@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri Nov  9 07:58:56 2018
+Created on Fri Nov  9 11:06:19 2018
 
 @author: Kazuki
 """
-
 
 import numpy as np
 import pandas as pd
@@ -23,9 +22,9 @@ import utils
 utils.start(__file__)
 #==============================================================================
 
-SUBMIT_FILE_PATH = '../output/1109-1.csv.gz'
+SUBMIT_FILE_PATH = '../output/1109-2.csv.gz'
 
-COMMENT = 'top300 features'
+COMMENT = 'top??? features'
 
 EXE_SUBMIT = True
 
@@ -248,5 +247,3 @@ if EXE_SUBMIT:
 #==============================================================================
 utils.end(__file__)
 utils.stop_instance()
-
-

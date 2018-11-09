@@ -25,7 +25,7 @@ import utils
 SEED = np.random.randint(9999)
 print('SEED:', SEED)
 
-#DROP = ['f001_hostgal_specz']
+DROP = ['f001_hostgal_specz', 'f001_distmod', 'f701_hostgal_specz']
 
 NFOLD = 5
 
@@ -66,7 +66,7 @@ X = pd.concat([
                ], axis=1)
 y = utils.load_target().target
 
-#X.drop(DROP+[c for c in X.columns if 'mjd' in c], axis=1, inplace=True)
+X.drop(DROP, axis=1, inplace=True)
 
 target_dict = {}
 target_dict_r = {}
