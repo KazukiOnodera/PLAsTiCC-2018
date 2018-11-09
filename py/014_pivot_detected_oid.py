@@ -40,7 +40,6 @@ num_aggregations = {
     'flux_norm1':  stats,
     'flux_norm2':  stats,
     'flux_err':    stats,
-    'detected':    stats,
     }
 
 def aggregate(df, output_path, drop_oid=True):

@@ -25,7 +25,9 @@ import utils
 SEED = np.random.randint(9999)
 print('SEED:', SEED)
 
-DROP = ['f001_hostgal_specz', 'f001_distmod', 'f701_hostgal_specz']
+#DROP = ['f001_hostgal_specz', 'f001_distmod', 'f701_hostgal_specz']
+
+DROP = []
 
 NFOLD = 5
 
@@ -137,7 +139,7 @@ print('estimate feature size')
 COL = imp.feature.tolist()
 
 for i in np.arange(50, 400, 50):
-    print(f'\n==== feature size: {i}====')
+    print(f'\n==== feature size: {i} ====')
     
     dtrain = lgb.Dataset(X[COL[:i]], y, #categorical_feature=CAT, 
                          free_raw_data=False)
@@ -155,8 +157,8 @@ for i in np.arange(50, 400, 50):
 # =============================================================================
 # best
 # =============================================================================
-
-dtrain = lgb.Dataset(X[COL[:200]], y, #categorical_feature=CAT, 
+N = 150
+dtrain = lgb.Dataset(X[COL[:N]], y, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
                      feval=utils.lgb_multi_weighted_logloss,
@@ -165,7 +167,7 @@ ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD,
 
 score = ret['wloss-mean'][-1]
 
-y_pred = ex.eval_oob(X[COL[:200]], y, models, SEED, stratified=True, shuffle=True, 
+y_pred = ex.eval_oob(X[COL[:N]], y, models, SEED, stratified=True, shuffle=True, 
                      n_class=y.unique().shape[0])
 
 
