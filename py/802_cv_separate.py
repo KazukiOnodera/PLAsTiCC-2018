@@ -101,11 +101,11 @@ def target_replace(y):
         target_dict[e] = i
         target_dict_r[i] = e
     
-    return y.replace(target_dict)
+    return y.replace(target_dict), target_dict_r
 
 
-y_gal = target_replace(y_gal)
-y_exgal = target_replace(y_exgal)
+y_gal, di_gal = target_replace(y_gal)
+y_exgal, di_exgal = target_replace(y_exgal)
 
 
 del X, y
@@ -165,6 +165,8 @@ imp.to_csv(f'LOG/imp_{__file__}_gal.csv', index=False)
 print('estimate feature size')
 
 COL = imp.feature.tolist()
+best_score = 9999
+best_N = 0
 
 for i in np.arange(50, 400, 50):
     print(f'\n==== feature size: {i} ====')
@@ -179,6 +181,12 @@ for i in np.arange(50, 400, 50):
                          seed=SEED)
     
     utils.send_line(f"feature size: {i}    wloss-mean: {ret['wloss-mean'][-1]}")
+    score = ret['wloss-mean'][-1]
+    utils.send_line(f"feature size: {i}    wloss-mean: {score}")
+    
+    if score < best_score:
+        best_score = score
+        best_N = i
 
 
 
@@ -251,7 +259,8 @@ imp.to_csv(f'LOG/imp_{__file__}_exgal.csv', index=False)
 print('estimate feature size')
 
 COL = imp.feature.tolist()
-
+best_score = 9999
+best_N = 0
 for i in np.arange(50, 400, 50):
     print(f'\n==== feature size: {i} ====')
     
@@ -263,8 +272,12 @@ for i in np.arange(50, 400, 50):
                          feval=utils.lgb_multi_weighted_logloss_exgal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
+    score = ret['wloss-mean'][-1]
+    utils.send_line(f"feature size: {i}    wloss-mean: {score}")
     
-    utils.send_line(f"feature size: {i}    wloss-mean: {ret['wloss-mean'][-1]}")
+    if score < best_score:
+        best_score = score
+        best_N = i
 
 
 # =============================================================================
@@ -286,11 +299,23 @@ y_pred_exgal = ex.eval_oob(X_gal[COL[:N]], y_exgal, models, SEED, stratified=Tru
 # =============================================================================
 # concat
 # =============================================================================
+
 y = pd.concat([y_gal, y_exgal], 
               ignore_index=True)
 
+
+y_pred_gal = pd.DataFrame(y_pred_gal)
+y_pred_gal.columns = [f'class_{di_gal[x]}' for x in range(len(di_gal))]
+
+y_pred_exgal = pd.DataFrame(y_pred_exgal)
+y_pred_exgal.columns = [f'class_{di_exgal[x]}' for x in range(len(di_exgal))]
+
 y_pred = pd.concat([y_pred_gal, y_pred_exgal], 
-              ignore_index=True)
+                   ignore_index=True).fillna(0)
+
+
+loss = utils.multi_weighted_logloss(y, y_pred)
+
 
 
 # =============================================================================
@@ -371,7 +396,7 @@ class_names = ['class_6',
 foo = plot_confusion_matrix(cnf_matrix, classes=class_names,normalize=True,
                       title='Confusion Matrix')
 
-utils.send_line(f'Confusion Matrix wmlogloss: {score}', png=f'LOG/CM_{__file__}.png')
+utils.send_line(f'Confusion Matrix wmlogloss: {loss}', png=f'LOG/CM_{__file__}.png')
 
 
 
