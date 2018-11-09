@@ -24,7 +24,7 @@ utils.start(__file__)
 
 SUBMIT_FILE_PATH = '../output/1109-2.csv.gz'
 
-COMMENT = 'top??? features'
+COMMENT = 'top200 features'
 
 EXE_SUBMIT = True
 
@@ -61,7 +61,7 @@ param = {
          'verbose':-1,
          }
 
-N_FEATURES = 300
+N_FEATURES = 200
 
 # =============================================================================
 # load
