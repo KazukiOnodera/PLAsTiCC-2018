@@ -174,7 +174,7 @@ for i in np.arange(50, 400, 50):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils.lgb_multi_weighted_logloss,
+                         feval=utils.lgb_multi_weighted_logloss_gal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     
@@ -189,7 +189,7 @@ N = 150
 dtrain = lgb.Dataset(X_gal[COL[:N]], y_gal, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                     feval=utils.lgb_multi_weighted_logloss,
+                     feval=utils.lgb_multi_weighted_logloss_gal,
                      early_stopping_rounds=100, verbose_eval=50,
                      seed=SEED)
 
@@ -216,7 +216,7 @@ for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils.lgb_multi_weighted_logloss,
+                         feval=utils.lgb_multi_weighted_logloss_exgal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     y_pred = ex.eval_oob(X_exgal, y_exgal, models, SEED, stratified=True, shuffle=True, 
@@ -260,7 +260,7 @@ for i in np.arange(50, 400, 50):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils.lgb_multi_weighted_logloss,
+                         feval=utils.lgb_multi_weighted_logloss_exgal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     
@@ -274,7 +274,7 @@ N = 150
 dtrain = lgb.Dataset(X_exgal[COL[:N]], y_exgal, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                     feval=utils.lgb_multi_weighted_logloss,
+                     feval=utils.lgb_multi_weighted_logloss_exgal,
                      early_stopping_rounds=100, verbose_eval=50,
                      seed=SEED)
 
