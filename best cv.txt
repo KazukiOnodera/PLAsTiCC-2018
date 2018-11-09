@@ -67,3 +67,22 @@
 [1650]	cv_agg's multi_logloss: 0.608256 + 0.00881062	cv_agg's wloss: 0.933754 + 0.0131928
 [1700]	cv_agg's multi_logloss: 0.607925 + 0.00893286	cv_agg's wloss: 0.93402 + 0.0132807
 CV auc-mean: 0.6082332090019087 + 0.008743133410321565
+
+
+In [9]: best.iloc[:, 1:].idxmax(1).value_counts(normalize=True)
+Out[9]: 
+class_99    0.696029
+class_15    0.069422
+class_92    0.053586
+class_64    0.029919
+class_16    0.028859
+class_65    0.026411
+class_88    0.025851
+class_95    0.018372
+class_52    0.018022
+class_67    0.015222
+class_62    0.014629
+class_6     0.002568
+class_42    0.000733
+class_53    0.000378
+dtype: float64
