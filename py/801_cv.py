@@ -147,6 +147,8 @@ for i in np.arange(50, 400, 50):
                          feval=utils.lgb_multi_weighted_logloss,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
+    
+    utils.send_line(f"feature size: {i}    wloss-mean: {ret['wloss-mean'][-1]}")
 
 
 
