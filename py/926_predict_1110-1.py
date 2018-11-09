@@ -26,7 +26,7 @@ SUBMIT_FILE_PATH = '../output/1110-1.csv.gz'
 
 COMMENT = 'galactic cut'
 
-EXE_SUBMIT = False
+EXE_SUBMIT = True
 
 SEED = np.random.randint(9999)
 np.random.seed(SEED)
