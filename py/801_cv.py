@@ -260,6 +260,6 @@ utils.send_line(f'Confusion Matrix wmlogloss: {score}', png=f'LOG/CM_{__file__}.
 
 #==============================================================================
 #utils.end(__file__)
-utils.stop_instance()
+#utils.stop_instance()
 
 
