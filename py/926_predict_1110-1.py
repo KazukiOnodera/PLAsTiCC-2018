@@ -389,6 +389,46 @@ if EXE_SUBMIT:
     print('submit')
     utils.submit(SUBMIT_FILE_PATH, COMMENT)
 
+"""
+
+SUBMIT_FILE_PATH = '../output/1110-1_post.csv.gz'
+
+COMMENT = 'cur weight'
+
+sub = pd.read_pickle('../data/y_pred_raw.pkl')
+weight = np.array([0.8315192871685131, 0.9236110790771515, 0.20787756675658042, 
+0.15388583406725131, 1.3287023446613135, 1.3542253901062942, 0.39899868175571807, 
+2.438122807557637, 0.20053317780765934, 1.0631339564849398, 0.5212355765638879, 
+0.07375455659250263, 0.5213834585484625, 0.9650715511377852, 1.0])
+
+utils.postprocess(sub, weight, method='oli')
+
+print(sub.iloc[:, 1:].idxmax(1).value_counts(normalize=True))
+
+In [5]: print(sub.iloc[:, 1:].idxmax(1).value_counts(normalize=True))
+   ...: 
+class_99    0.575663
+class_64    0.134502
+class_92    0.052943
+class_42    0.052751
+class_15    0.041038
+class_52    0.029075
+class_16    0.028046
+class_65    0.026185
+class_88    0.022181
+class_90    0.012165
+class_67    0.011078
+class_62    0.010848
+class_95    0.002213
+class_6     0.000929
+class_53    0.000384
+dtype: float64
+
+sub.to_csv(SUBMIT_FILE_PATH, index=False, compression='gzip')
+
+utils.submit(SUBMIT_FILE_PATH, COMMENT)
+
+"""
 
 #==============================================================================
 utils.end(__file__)
