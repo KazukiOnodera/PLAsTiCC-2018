@@ -83,7 +83,7 @@ def aggregate(df, output_path, drop_oid=True):
             pt[f'{c1}-d-{c2}'] = pt[c1] / pt[c2]
     
     if usecols is not None:
-        col = [c.replace(f'{PREF}_', '') for c in pt.columns if c not in usecols]
+        col = [c for c in pt.columns if c not in usecols]
         pt.drop(col, axis=1, inplace=True)
     
     if drop_oid:
@@ -113,6 +113,7 @@ if __name__ == "__main__":
     if is_test:
         imp = pd.read_csv('LOG/imp_801_cv.py.csv')
         usecols = imp[imp.feature.str.startswith(f'{PREF}')][imp.gain>0].feature.tolist()
+        usecols = [c.replace(f'{PREF}_', '') for c in usecols]
         usecols += ['object_id']
         
         os.system(f'rm ../data/tmp_{PREF}*')
