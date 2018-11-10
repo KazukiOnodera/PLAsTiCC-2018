@@ -38,7 +38,7 @@ param = {
          'num_class': 14,
          'metric': 'multi_logloss',
          
-         'learning_rate': 0.01,
+#         'learning_rate': 0.01,
          'max_depth': 6,
          'num_leaves': 63,
          'max_bin': 255,
@@ -91,6 +91,7 @@ gc.collect()
 # =============================================================================
 # cv
 # =============================================================================
+param['learning_rate'] = 0.1
 dtrain = lgb.Dataset(X, y, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
@@ -139,6 +140,7 @@ imp = pd.read_csv('LOG/imp_801_cv.py.csv')
 # estimate feature size
 # =============================================================================
 print('estimate feature size')
+param['learning_rate'] = 0.01
 
 COL = imp.feature.tolist()
 
