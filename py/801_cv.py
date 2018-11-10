@@ -142,7 +142,7 @@ print('estimate feature size')
 
 COL = imp.feature.tolist()
 
-for i in np.arange(50, 400, 20):
+for i in np.arange(100, 400, 50):
     print(f'\n==== feature size: {i} ====')
     
     dtrain = lgb.Dataset(X[COL[:i]], y, #categorical_feature=CAT, 
