@@ -24,7 +24,7 @@ import utils
 
 PREF = 'f020'
 
-is_test = False
+is_test = True
 
 
 os.system(f'rm ../data/t*_{PREF}*')
