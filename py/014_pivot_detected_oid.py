@@ -22,7 +22,7 @@ import utils
 
 PREF = 'f014'
 
-is_test = False
+is_test = True
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
