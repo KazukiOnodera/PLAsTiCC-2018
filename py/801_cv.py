@@ -131,8 +131,8 @@ print(imp.head(200).feature.map(lambda x: x.split('_')[0]).value_counts())
 imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
 
 """
-
-imp = pd.read_csv('LOG/imp_801_cv.py.csv')
+__file__ = '801_cv.py'
+imp = pd.read_csv(f'LOG/imp_{__file__}.csv')
 
 """
 

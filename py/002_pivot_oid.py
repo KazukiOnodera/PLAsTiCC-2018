@@ -33,8 +33,8 @@ def quantile(n):
 stats = ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)]
 
 num_aggregations = {
-#    'mjd':      ['min', 'max', 'size'],
-#    'passband': ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
+    'mjd':      ['min', 'max', 'size'],
+    'passband': ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
     'flux':        stats,
     'flux_norm1':  stats,
     'flux_norm2':  stats,
@@ -57,11 +57,12 @@ def aggregate(df, output_path, drop_oid=True):
     for c in col_std:
         pt[f'{c}-d-mean'] = pt[c]/pt[c.replace('_std', '_mean')]
     
-    # max / min, max - min
+    # max / min, max - min, (max - min)/mean
     col_max = [c for c in pt.columns if c.endswith('_max')]
     for c in col_max:
         pt[f'{c}-d-min'] = pt[c]/pt[c.replace('_max', '_min')]
         pt[f'{c}-m-min'] = pt[c]-pt[c.replace('_max', '_min')]
+        pt[f'{c}-m-min-d-mean'] = pt[f'{c}-m-min']/pt[c.replace('_max', '_mean')]
     
     if drop_oid:
         pt.reset_index(drop=True, inplace=True)
