@@ -36,7 +36,7 @@ def quantile(n):
 
 stats = ['min', 'max', 'mean', 'median', 'sum', 'std', quantile(25), quantile(75)]
 
-usecols = ['flux', 'flux_norm1', 'flux_norm2', 'flux_err', 'detected']
+COL = ['flux', 'flux_norm1', 'flux_norm2', 'flux_err', 'detected']
 
 def aggregate(df, output_path, drop_oid=True):
     """
@@ -44,7 +44,7 @@ def aggregate(df, output_path, drop_oid=True):
     """
     
     pt = pd.pivot_table(df, index=['object_id', 'date'], columns=['passband'], 
-                        values=usecols)
+                        values=COL)
     pt.columns = pd.Index([f'pb{e[1]}_{e[0]}' for e in pt.columns.tolist()])
     pt.reset_index(inplace=True)
     

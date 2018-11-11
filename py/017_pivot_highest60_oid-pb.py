@@ -24,6 +24,9 @@ import utils
 
 PREF = 'f017'
 
+is_test = True
+
+
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
 
@@ -90,6 +93,9 @@ def aggregate(df, output_path, drop_oid=True):
             pt[f'{c1}-d-{c2}'] = pt[c1] / pt[c2]
     
     
+    if usecols is not None:
+        col = [c for c in pt.columns if c not in usecols]
+        pt.drop(col, axis=1, inplace=True)
     
     if drop_oid:
         pt.reset_index(drop=True, inplace=True)
@@ -110,23 +116,31 @@ def multi(args):
 if __name__ == "__main__":
     utils.start(__file__)
     
+    usecols = None
     aggregate(pd.read_pickle('../data/train_log.pkl'), f'../data/train_{PREF}.pkl')
     
+    
     # test
-    os.system(f'rm ../data/tmp_{PREF}*')
-    argss = []
-    for i,file in enumerate(utils.TEST_LOGS):
-        argss.append([file, f'../data/tmp_{PREF}{i}.pkl'])
-    pool = Pool( cpu_count() )
-    pool.map(multi, argss)
-    pool.close()
-    df = pd.concat([pd.read_pickle(f) for f in glob(f'../data/tmp_{PREF}*')], 
-                    ignore_index=True)
-    df.sort_values(f'{PREF}_object_id', inplace=True)
-    df.reset_index(drop=True, inplace=True)
-    del df[f'{PREF}_object_id']
-    df.to_pickle(f'../data/test_{PREF}.pkl')
-    os.system(f'rm ../data/tmp_{PREF}*')
+    if is_test:
+        imp = pd.read_csv('LOG/imp_801_cv.py.csv')
+        usecols = imp[imp.feature.str.startswith(f'{PREF}')][imp.gain>0].feature.tolist()
+        usecols = [c.replace(f'{PREF}_', '') for c in usecols]
+        usecols += ['object_id']
+        
+        os.system(f'rm ../data/tmp_{PREF}*')
+        argss = []
+        for i,file in enumerate(utils.TEST_LOGS):
+            argss.append([file, f'../data/tmp_{PREF}{i}.pkl'])
+        pool = Pool( cpu_count() )
+        pool.map(multi, argss)
+        pool.close()
+        df = pd.concat([pd.read_pickle(f) for f in glob(f'../data/tmp_{PREF}*')], 
+                        ignore_index=True)
+        df.sort_values(f'{PREF}_object_id', inplace=True)
+        df.reset_index(drop=True, inplace=True)
+        del df[f'{PREF}_object_id']
+        df.to_pickle(f'../data/test_{PREF}.pkl')
+        os.system(f'rm ../data/tmp_{PREF}*')
     
     utils.end(__file__)
 
