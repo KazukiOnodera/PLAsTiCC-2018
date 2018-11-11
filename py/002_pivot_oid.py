@@ -62,7 +62,10 @@ def aggregate(df, output_path, drop_oid=True):
     for c in col_max:
         pt[f'{c}-d-min'] = pt[c]/pt[c.replace('_max', '_min')]
         pt[f'{c}-m-min'] = pt[c]-pt[c.replace('_max', '_min')]
-        pt[f'{c}-m-min-d-mean'] = pt[f'{c}-m-min']/pt[c.replace('_max', '_mean')]
+        try:
+            pt[f'{c}-m-min-d-mean'] = pt[f'{c}-m-min']/pt[c.replace('_max', '_mean')]
+        except:
+            pass
     
     if drop_oid:
         pt.reset_index(drop=True, inplace=True)
