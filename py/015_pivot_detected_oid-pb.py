@@ -56,6 +56,7 @@ def aggregate(df, output_path, drop_oid=True):
     tmp = pd.pivot_table(tmp, index=['object_id'], columns=['passband'])
     tmp.columns = pd.Index([f'pb{e[1]}_detected_dates_max-m-min' for e in tmp.columns.tolist()])
     
+    pt = pd.concat([pt, tmp], axis=1)
     
     # std / mean
     col_std = [c for c in pt.columns if c.endswith('_std')]

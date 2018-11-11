@@ -54,7 +54,9 @@ def aggregate(df, output_path, drop_oid=True):
     
     pt.columns = pd.Index([f'd{e[2]}_{e[0]}_{e[1]}' for e in pt.columns.tolist()])
     
-    pt['detected_dates'] = df.groupby('object_id').mjd.max() -  df.groupby('object_id').mjd.min()
+    tmp = df[df.detected==1]
+    pt['detected_dates'] = tmp.groupby('object_id').mjd.max() -  tmp.groupby('object_id').mjd.min()
+    
     
     # std / mean
     col_std = [c for c in pt.columns if c.endswith('_std')]
