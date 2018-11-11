@@ -145,7 +145,7 @@ param['learning_rate'] = 0.01
 
 COL = imp.feature.tolist()
 
-for i in np.arange(100, 400, 50):
+for i in np.arange(100, 500, 50):
     print(f'\n==== feature size: {i} ====')
     
     dtrain = lgb.Dataset(X[COL[:i]], y, #categorical_feature=CAT, 
