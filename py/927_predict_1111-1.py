@@ -251,6 +251,70 @@ if EXE_SUBMIT:
     utils.submit(SUBMIT_FILE_PATH, COMMENT)
 
 
+"""
+
+SUBMIT_FILE_PATH = '../output/1111-1_post.csv.gz'
+
+COMMENT = 'cur weight'
+
+sub = pd.read_pickle('../data/y_pred_raw.pkl')
+print(sub.iloc[:, 1:].idxmax(1).value_counts(normalize=True))
+
+==== before: 1.283 ====
+class_42    0.349992
+class_90    0.216656
+class_65    0.164483
+class_62    0.052752
+class_92    0.052643
+class_15    0.045008
+class_16    0.035043
+class_88    0.022590
+class_64    0.022131
+class_52    0.019255
+class_67    0.012529
+class_6     0.004383
+class_95    0.002175
+class_53    0.000361
+dtype: float64
+
+
+weight = np.array([0.6982877770877463, 0.9570686160138555, 0.17924931579021885, 
+0.1698051470477293, 1.6798908593635689, 1.1705951264354688, 0.47562338461914955, 
+2.2612328100163808, 0.19469582519573891, 1.2710014023290797, 0.4606230830965776, 
+0.06841068945315132, 0.4540140674600115, 0.946940888866237, 1.0])
+
+utils.postprocess(sub, weight, method='oli')
+
+print(sub.iloc[:, 1:].idxmax(1).value_counts(normalize=True))
+
+==== after ====
+class_99    0.673234
+class_92    0.051506
+class_52    0.048801
+class_64    0.043668
+class_42    0.037416
+class_15    0.032857
+class_16    0.027810
+class_65    0.026261
+class_88    0.016774
+class_62    0.012978
+class_67    0.012454
+class_90    0.011902
+class_95    0.002858
+class_6     0.001115
+class_53    0.000368
+
+
+
+
+
+
+
+sub.to_csv(SUBMIT_FILE_PATH, index=False, compression='gzip')
+
+utils.submit(SUBMIT_FILE_PATH, COMMENT)
+
+"""
 #==============================================================================
 utils.end(__file__)
 utils.stop_instance()
