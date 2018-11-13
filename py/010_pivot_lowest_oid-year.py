@@ -23,7 +23,7 @@ import utils
 
 PREF = 'f010'
 
-is_test = False
+is_test = True
 GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
 
 
