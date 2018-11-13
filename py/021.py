@@ -58,15 +58,15 @@ def aggregate(df, output_path, drop_oid=True):
     
     """
     
-    # highest -60 ~ peak date
+    # peak date ~ 60
     idxmax = df.groupby('object_id').flux.idxmax()
     base = df.iloc[idxmax][['object_id', 'date']]
     li = [base]
     for i in range(60):
         i += 1
-        lag = base.copy()
-        lag['date'] += i
-        li.append(lag)
+        lead = base.copy()
+        lead['date'] += i
+        li.append(lead)
     
     keep = pd.concat(li)
     
@@ -105,6 +105,7 @@ def aggregate(df, output_path, drop_oid=True):
         tmp['ind'] = tmp.groupby('object_id')['ind'].cumsum()
         tmp = tmp[tmp['ind']<=max_index]
         col_drop = [c for c in tmp.columns if 'date' in c]
+        col_drop.remove('date_diff')
         tmp.drop(col_drop, axis=1, inplace=True)
         
         tmp = pd.pivot_table(tmp, index=['object_id'], columns=['ind'], )
