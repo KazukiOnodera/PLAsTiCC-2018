@@ -106,7 +106,9 @@ def aggregate(df, output_path, drop_oid=True):
         tmp = tmp[tmp['ind']<=max_index]
         
         col_drop = [c for c in tmp.columns if 'date' in c]
-        tmp[f'date_diff_{c}'] = tmp['date_diff']
+        if c.endswith('detected'):
+            pb = c[:2]
+            tmp[f'pb{pb}_date_diff'] = tmp['date_diff']
         tmp.drop(col_drop, axis=1, inplace=True)
         
         tmp = pd.pivot_table(tmp, index=['object_id'], columns=['ind'], )
