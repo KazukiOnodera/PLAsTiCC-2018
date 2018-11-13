@@ -5,8 +5,7 @@ Created on Tue Nov 13 04:08:53 2018
 
 @author: Kazuki
 
-
-focus on highest date to 60days before
+ピークからの変化率
 
 keys: object_id, passband
 
@@ -19,13 +18,12 @@ import os
 from glob import glob
 from scipy.stats import kurtosis
 from multiprocessing import cpu_count, Pool
-from itertools import combinations
 import utils
 
 PREF = 'f021'
 
-is_test = True
-
+is_test = False
+max_index = 30
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
@@ -41,7 +39,7 @@ def kurt(x):
 
 stats = ['min', 'max', 'mean', 'median', 'std', kurt, quantile(25), quantile(75)]
 
-num_aggregations = {
+num_aggregations1 = {
     'flux':        stats,
     'flux_norm1':  stats,
     'flux_norm2':  stats,
@@ -54,7 +52,7 @@ def aggregate(df, output_path, drop_oid=True):
     tr = utils.load_train()
     oids = tr[tr.target==15].object_id
     
-    df = pd.read_pickle('../data/train_log.pkl')
+    df = pd.read_pickle('../data/train_log.pkl').head(9999)
     
     df = df[df.object_id.isin(oids)].reset_index(drop=True)
     
@@ -74,33 +72,47 @@ def aggregate(df, output_path, drop_oid=True):
     
     df = pd.merge(keep, df, on=['object_id', 'date'], how='inner')
     
-    pt = pd.pivot_table(df, index=['object_id', 'date'], columns=['passband'], )
+    pt = pd.pivot_table(df, index=['object_id', 'date'], columns=['passband'], 
+                        values=list(num_aggregations1.keys()))
 #                        aggfunc=num_aggregations)
     
-    pt['flux']
+    pt.columns = pd.Index([f'pb{e[1]}_{e[0]}' for e in pt.columns.tolist()])
+    pt.reset_index(inplace=True)
     
+    feature = []
+    col = pt.columns
+    for c in col[2:]:
+        
+        df_diff = pt[['object_id', 'date', c]].dropna().diff().add_suffix('_diff')
+        df_diff_abs = df_diff.abs().add_suffix('_abs')
+        
+        df_chng = pt[['object_id', 'date', c]].dropna().pct_change().add_suffix('_chng')
+        df_chng_abs = df_chng.abs().add_suffix('_abs')
+        
+        
+        tmp = pd.concat([df_diff, df_diff_abs, df_chng, df_chng_abs], axis=1)
+        tmp.loc[pt['object_id'] != pt['object_id'].shift()] = np.nan
+        col2 = [c for c in tmp.columns if 'object_id' in c]
+        tmp.drop(col2, axis=1, inplace=True)
+        tmp['object_id'] = pt['object_id']
+        
+        tmp[f'{c}_diff']     /= tmp['date_diff'] # change rate per day
+        tmp[f'{c}_diff_abs'] /= tmp['date_diff']
+        tmp[f'{c}_chng']     /= tmp['date_diff']
+        tmp[f'{c}_chng_abs'] /= tmp['date_diff']
+        
+        tmp['ind'] = 1
+        tmp['ind'] = tmp.groupby('object_id')['ind'].cumsum()
+        tmp = tmp[tmp['ind']<=max_index]
+        col_drop = [c for c in tmp.columns if 'date' in c]
+        tmp.drop(col_drop, axis=1, inplace=True)
+        
+        tmp = pd.pivot_table(tmp, index=['object_id'], columns=['ind'], )
+        
+        feature.append(tmp)
     
-    pt.columns = pd.Index([f'pb{e[2]}_{e[0]}_{e[1]}' for e in pt.columns.tolist()])
-    
-    # std / mean
-    col_std = [c for c in pt.columns if c.endswith('_std')]
-    for c in col_std:
-        pt[f'{c}-d-mean'] = pt[c]/pt[c.replace('_std', '_mean')]
-    
-    # max / min, max - min
-    col_max = [c for c in pt.columns if c.endswith('_max')]
-    for c in col_max:
-        pt[f'{c}-d-min'] = pt[c]/pt[c.replace('_max', '_min')]
-        pt[f'{c}-m-min'] = pt[c]-pt[c.replace('_max', '_min')]
-    
-    # compare passband
-    col = pd.Series([f'{c[3:]}' for c in pt.columns if c.startswith('pb0')])
-    for c1,c2 in list(combinations(range(6), 2)):
-        col1 = (f'pb{c1}'+col).tolist()
-        col2 = (f'pb{c2}'+col).tolist()
-        for c1,c2 in zip(col1, col2):
-            pt[f'{c1}-d-{c2}'] = pt[c1] / pt[c2]
-    
+    pt = pd.concat(feature, axis=1)
+    pt.columns = pd.Index([f'{e[0]}_date{e[1]}' for e in pt.columns.tolist()])
     
     if usecols is not None:
         col = [c for c in pt.columns if c not in usecols]
