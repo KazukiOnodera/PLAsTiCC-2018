@@ -20,7 +20,7 @@ import utils
 
 PREF = 'f005'
 
-is_test = False
+is_test = True
 GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
 
 os.system(f'rm ../data/t*_{PREF}*')
