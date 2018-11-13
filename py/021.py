@@ -107,7 +107,7 @@ def aggregate(df, output_path, drop_oid=True):
         
         col_drop = [c for c in tmp.columns if 'date' in c]
         if c.endswith('detected'):
-            pb = c[:2]
+            pb = c[:3]
             tmp[f'pb{pb}_date_diff'] = tmp['date_diff']
         tmp.drop(col_drop, axis=1, inplace=True)
         
