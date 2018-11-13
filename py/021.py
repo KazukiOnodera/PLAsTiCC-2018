@@ -104,8 +104,9 @@ def aggregate(df, output_path, drop_oid=True):
         tmp['ind'] = 1
         tmp['ind'] = tmp.groupby('object_id')['ind'].cumsum()
         tmp = tmp[tmp['ind']<=max_index]
+        
         col_drop = [c for c in tmp.columns if 'date' in c]
-        col_drop.remove('date_diff')
+        tmp[f'date_diff_{c}'] = tmp['date_diff']
         tmp.drop(col_drop, axis=1, inplace=True)
         
         tmp = pd.pivot_table(tmp, index=['object_id'], columns=['ind'], )
