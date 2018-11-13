@@ -30,12 +30,12 @@ if __name__ == "__main__":
     utils.start(__file__)
     
     train = utils.load_train().drop(['object_id', 'target'], axis=1)
-    mk_feats(train)
+#    mk_feats(train)
     train.add_prefix(PREF+'_').to_pickle(f'../data/train_{PREF}.pkl')
     
     test  = utils.load_test().drop(['object_id'], axis=1)
     test.loc[test.hostgal_photoz==0, 'hostgal_specz'] = 0
-    mk_feats(test)
+#    mk_feats(test)
     test.add_prefix(PREF+'_').to_pickle(f'../data/test_{PREF}.pkl')
     
     utils.end(__file__)

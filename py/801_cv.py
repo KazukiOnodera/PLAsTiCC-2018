@@ -171,7 +171,7 @@ for i in np.arange(100, 500, 50):
 # =============================================================================
 # best
 # =============================================================================
-N = 150
+N = best_N
 dtrain = lgb.Dataset(X[COL[:N]], y, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
