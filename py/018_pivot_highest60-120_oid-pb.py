@@ -24,7 +24,9 @@ import utils
 
 PREF = 'f018'
 
-is_test = False
+is_test = True
+GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
+
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
@@ -119,7 +121,7 @@ if __name__ == "__main__":
     
     # test
     if is_test:
-        imp = pd.read_csv('LOG/imp_801_cv.py.csv')
+        imp = pd.read_csv('LOG/imp_801_cv.py.csv').head(GENERATE_FEATURE_SIZE)
         usecols = imp[imp.feature.str.startswith(f'{PREF}')][imp.gain>0].feature.tolist()
         usecols = [c.replace(f'{PREF}_', '') for c in usecols]
         usecols += ['object_id']
@@ -140,5 +142,3 @@ if __name__ == "__main__":
         os.system(f'rm ../data/tmp_{PREF}*')
     
     utils.end(__file__)
-
-

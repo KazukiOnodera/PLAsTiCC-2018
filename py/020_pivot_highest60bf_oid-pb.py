@@ -25,6 +25,7 @@ import utils
 PREF = 'f020'
 
 is_test = True
+GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
 
 
 os.system(f'rm ../data/t*_{PREF}*')
@@ -92,7 +93,6 @@ def aggregate(df, output_path, drop_oid=True):
         for c1,c2 in zip(col1, col2):
             pt[f'{c1}-d-{c2}'] = pt[c1] / pt[c2]
     
-    
     if usecols is not None:
         col = [c for c in pt.columns if c not in usecols]
         pt.drop(col, axis=1, inplace=True)
@@ -119,10 +119,9 @@ if __name__ == "__main__":
     usecols = None
     aggregate(pd.read_pickle('../data/train_log.pkl'), f'../data/train_{PREF}.pkl')
     
-    
     # test
     if is_test:
-        imp = pd.read_csv('LOG/imp_801_cv.py.csv')
+        imp = pd.read_csv('LOG/imp_801_cv.py.csv').head(GENERATE_FEATURE_SIZE)
         usecols = imp[imp.feature.str.startswith(f'{PREF}')][imp.gain>0].feature.tolist()
         usecols = [c.replace(f'{PREF}_', '') for c in usecols]
         usecols += ['object_id']
@@ -143,5 +142,3 @@ if __name__ == "__main__":
         os.system(f'rm ../data/tmp_{PREF}*')
     
     utils.end(__file__)
-
-
