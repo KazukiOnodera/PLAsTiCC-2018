@@ -144,6 +144,8 @@ print('estimate feature size')
 param['learning_rate'] = 0.01
 
 COL = imp.feature.tolist()
+best_score = 9999
+best_N = 0
 
 for i in np.arange(100, 500, 50):
     print(f'\n==== feature size: {i} ====')
@@ -157,7 +159,12 @@ for i in np.arange(100, 500, 50):
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     
-    utils.send_line(f"feature size: {i}    wloss-mean: {ret['wloss-mean'][-1]}")
+    score = ret['wloss-mean'][-1]
+    utils.send_line(f"feature size: {i}    wloss-mean: {score}")
+    
+    if score < best_score:
+        best_score = score
+        best_N = i
 
 
 
