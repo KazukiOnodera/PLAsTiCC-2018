@@ -58,6 +58,11 @@ num_aggregations = {
     'detected':    stats,
     }
 
+
+fcp = {'fft_coefficient': [{'coeff': 0, 'attr': 'abs'},
+                           {'coeff': 1, 'attr': 'abs'}],
+        'kurtosis' : None, 'skewness' : None}
+
 def aggregate(df, output_path, drop_oid=True):
     """
     df = pd.read_pickle('../data/train_log.pkl').head(999)
