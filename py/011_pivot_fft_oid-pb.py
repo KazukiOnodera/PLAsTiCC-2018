@@ -16,12 +16,16 @@ import pandas as pd
 import os
 from glob import glob
 from multiprocessing import cpu_count, Pool
+
+import sys
+argvs = sys.argv
+
 from itertools import combinations
 import utils
 
 PREF = 'f011'
 
-is_test = True
+is_test = int(argvs[1])
 GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
 
 os.system(f'rm ../data/t*_{PREF}*')

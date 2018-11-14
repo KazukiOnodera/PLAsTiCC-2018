@@ -16,11 +16,15 @@ import os
 from glob import glob
 from multiprocessing import cpu_count, Pool
 from tsfresh.feature_extraction import extract_features
+
+import sys
+argvs = sys.argv
+
 import utils
 
 PREF = 'f022'
 
-is_test = False
+is_test = int(argvs[1])
 GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
 
 os.system(f'rm ../data/t*_{PREF}*')

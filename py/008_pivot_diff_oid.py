@@ -17,12 +17,20 @@ import numpy as np
 import pandas as pd
 import os
 from glob import glob
+from scipy.stats import kurtosis
 from multiprocessing import cpu_count, Pool
+
+import sys
+argvs = sys.argv
+
 import utils
 
 PREF = 'f008'
 
-is_test = True
+if len(argvs[1])>1:
+    is_test = int(argvs[1])
+else:
+    is_test = 0
 GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
 
 
@@ -37,7 +45,9 @@ def quantile(n):
 
 stats = ['min', 'max', 'mean', 'median', 'sum', 'std', quantile(25), quantile(75)]
 
-COL = ['flux', 'flux_norm1', 'flux_norm2', 'flux_err', 'detected']
+
+
+COL = ['flux', 'flux_norm1', 'flux_norm2', 'flux_err', 'detected', 'flux_ratio_sq', 'flux_by_flux_ratio_sq']
 
 def aggregate(df, output_path, drop_oid=True):
     """

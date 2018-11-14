@@ -29,6 +29,10 @@ COLUMN_TO_TYPE = {
 }
 
 def preprocess(df):
+    
+    df['flux_ratio_sq'] = np.power(df['flux'] / df['flux_err'], 2.0)
+    df['flux_by_flux_ratio_sq'] = df['flux'] * df['flux_ratio_sq']
+    
     df['date'] = df.mjd.astype(int)
     
     df['year'] = ( df.date - df.groupby(['object_id']).date.transform('min') )/365

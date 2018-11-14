@@ -18,12 +18,16 @@ import os
 from glob import glob
 from scipy.stats import kurtosis
 from multiprocessing import cpu_count, Pool
+
+import sys
+argvs = sys.argv
+
 from itertools import combinations
 import utils
 
 PREF = 'f010'
 
-is_test = True
+is_test = int(argvs[1])
 GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
 
 
