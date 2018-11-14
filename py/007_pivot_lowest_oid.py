@@ -27,7 +27,7 @@ import utils
 
 PREF = 'f007'
 
-if len(argvs[1])>1:
+if len(argvs)>1:
     is_test = int(argvs[1])
 else:
     is_test = 0
