@@ -43,9 +43,8 @@ def quantile(n):
     quantile_.__name__ = 'q%s' % n
     return quantile_
 
-stats = ['min', 'max', 'mean', 'median', 'sum', 'std', quantile(25), quantile(75)]
-
-
+stats = ['min', 'max', 'mean', 'median', 'sum', 'std', 'skew',
+         quantile(25), quantile(75)]
 
 COL = ['flux', 'flux_norm1', 'flux_norm2', 'flux_err', 'detected', 'flux_ratio_sq', 'flux_by_flux_ratio_sq']
 

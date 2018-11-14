@@ -43,7 +43,8 @@ def quantile(n):
 def kurt(x):
     return kurtosis(x)
 
-stats = ['min', 'max', 'mean', 'median', 'std', kurt, quantile(25), quantile(75)]
+stats = ['min', 'max', 'mean', 'median', 'std','skew',
+         kurt, quantile(25), quantile(75)]
 
 num_aggregations = {
     'flux':        stats,
@@ -51,6 +52,8 @@ num_aggregations = {
     'flux_norm2':  stats,
     'flux_err':    stats,
     'detected':    stats,
+    'flux_ratio_sq': stats,
+    'flux_by_flux_ratio_sq': stats,
     
     'date_diff':   stats,
     }
