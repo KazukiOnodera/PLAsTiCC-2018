@@ -17,7 +17,9 @@ import numpy as np
 import pandas as pd
 import os
 from glob import glob
+from scipy.stats import kurtosis
 from multiprocessing import cpu_count, Pool
+from tsfresh.feature_extraction import extract_features
 
 import sys
 argvs = sys.argv
@@ -26,7 +28,10 @@ import utils
 
 PREF = 'f014'
 
-is_test = int(argvs[1])
+if len(argvs[1])>1:
+    is_test = int(argvs[1])
+else:
+    is_test = 0
 GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
 
 os.system(f'rm ../data/t*_{PREF}*')
@@ -38,16 +43,25 @@ def quantile(n):
     quantile_.__name__ = 'q%s' % n
     return quantile_
 
-stats = ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)]
+def kurt(x):
+    return kurtosis(x)
+
+stats = ['min', 'max', 'mean', 'median', 'std', kurt, quantile(25), quantile(75)]
+
 
 num_aggregations = {
-#    'mjd':      ['min', 'max', 'size'],
-#    'passband': ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
     'flux':        stats,
     'flux_norm1':  stats,
     'flux_norm2':  stats,
     'flux_err':    stats,
+    'detected':    stats,
+    'flux_ratio_sq': stats,
+    'flux_by_flux_ratio_sq': stats,
     }
+
+fcp = {'fft_coefficient': [{'coeff': 0, 'attr': 'abs'},
+                           {'coeff': 1, 'attr': 'abs'}],
+        'kurtosis' : None, 'skewness' : None}
 
 def aggregate(df, output_path, drop_oid=True):
     """
@@ -73,6 +87,36 @@ def aggregate(df, output_path, drop_oid=True):
     for c in col_max:
         pt[f'{c}-d-min'] = pt[c]/pt[c.replace('_max', '_min')]
         pt[f'{c}-m-min'] = pt[c]-pt[c.replace('_max', '_min')]
+    
+    
+    if usecols is None:
+        n_jobs = cpu_count()
+    else:
+        n_jobs = 1
+    ts1 = extract_features(df, column_id='object_id', column_sort='mjd', 
+                                 column_kind='passband', column_value = 'flux', 
+                                 default_fc_parameters = fcp, n_jobs=n_jobs)
+    ts1.index.name = 'object_id'
+    
+    ts2 = extract_features(df, column_id='object_id', column_sort='mjd', 
+                                 column_kind='passband', column_value = 'flux_norm1', 
+                                 default_fc_parameters = fcp, n_jobs=n_jobs)
+    ts2.index.name = 'object_id'
+    
+    ts3 = extract_features(df, column_id='object_id', column_sort='mjd', 
+                                 column_kind='passband', column_value = 'flux_ratio_sq', 
+                                 default_fc_parameters = fcp, n_jobs=n_jobs)
+    ts3.index.name = 'object_id'
+    
+    ts4 = extract_features(df, column_id='object_id', column_sort='mjd', 
+                                 column_kind='passband', column_value = 'flux_by_flux_ratio_sq', 
+                                 default_fc_parameters = fcp, n_jobs=n_jobs)
+    ts4.index.name = 'object_id'
+    
+    
+    pt = pd.concat([pt, ts1, ts2, ts3, ts4], axis=1)
+    
+    
     
     if usecols is not None:
         col = [c for c in pt.columns if c not in usecols]

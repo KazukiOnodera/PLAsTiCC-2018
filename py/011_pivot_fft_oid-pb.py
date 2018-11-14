@@ -25,7 +25,10 @@ import utils
 
 PREF = 'f011'
 
-is_test = int(argvs[1])
+if len(argvs[1])>1:
+    is_test = int(argvs[1])
+else:
+    is_test = 0
 GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
 
 os.system(f'rm ../data/t*_{PREF}*')

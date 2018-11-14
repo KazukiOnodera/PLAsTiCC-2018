@@ -28,7 +28,10 @@ import utils
 
 PREF = 'f010'
 
-is_test = int(argvs[1])
+if len(argvs[1])>1:
+    is_test = int(argvs[1])
+else:
+    is_test = 0
 GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
 
 
@@ -48,8 +51,6 @@ stats = ['min', 'max', 'mean', 'median', 'std', kurt, quantile(25), quantile(75)
 
 
 num_aggregations = {
-    'mjd':      ['min', 'max', 'size'],
-#    'passband': ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
     'flux':        stats,
     'flux_norm1':  stats,
     'flux_norm2':  stats,
