@@ -101,24 +101,28 @@ def aggregate(df, output_path, drop_oid=True):
         pt[f'{c}-d-min'] = pt[c]/pt[c.replace('_max', '_min')]
         pt[f'{c}-m-min'] = pt[c]-pt[c.replace('_max', '_min')]
     
+    if usecols is None:
+        n_jobs = cpu_count()
+    else:
+        n_jobs = 1
     ts1 = extract_features(df, column_id='object_id', column_sort='mjd', 
                                  column_kind='passband', column_value = 'flux', 
-                                 default_fc_parameters = fcp, n_jobs=4)
+                                 default_fc_parameters = fcp, n_jobs=n_jobs)
     ts1.index.name = 'object_id'
     
     ts2 = extract_features(df, column_id='object_id', column_sort='mjd', 
                                  column_kind='passband', column_value = 'flux_norm1', 
-                                 default_fc_parameters = fcp, n_jobs=4)
+                                 default_fc_parameters = fcp, n_jobs=n_jobs)
     ts2.index.name = 'object_id'
     
     ts3 = extract_features(df, column_id='object_id', column_sort='mjd', 
                                  column_kind='passband', column_value = 'flux_ratio_sq', 
-                                 default_fc_parameters = fcp, n_jobs=4)
+                                 default_fc_parameters = fcp, n_jobs=n_jobs)
     ts3.index.name = 'object_id'
     
     ts4 = extract_features(df, column_id='object_id', column_sort='mjd', 
                                  column_kind='passband', column_value = 'flux_by_flux_ratio_sq', 
-                                 default_fc_parameters = fcp, n_jobs=4)
+                                 default_fc_parameters = fcp, n_jobs=n_jobs)
     ts4.index.name = 'object_id'
     
     pt = pd.concat([pt, ts1, ts2, ts3, ts4], axis=1)
