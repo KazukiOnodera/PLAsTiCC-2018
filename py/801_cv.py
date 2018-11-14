@@ -25,7 +25,7 @@ import utils
 SEED = np.random.randint(9999)
 print('SEED:', SEED)
 
-DROP = ['f001_hostgal_specz', 'f701_hostgal_specz'] # 'f001_distmod', 
+DROP = ['f001_hostgal_specz', 'f001_distmod', 'f701_hostgal_specz'] # 
 
 #DROP = []
 

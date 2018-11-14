@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Oct 30 18:58:58 2018
+Created on Wed Nov 14 17:08:44 2018
 
-@author: kazuki.onodera
+@author: Kazuki
 
-
-keys: object_id
-
-
+from
+https://www.kaggle.com/iprapas/ideas-from-kernels-and-discussion-lb-1-135
 
 """
 
@@ -17,9 +15,10 @@ import pandas as pd
 import os
 from glob import glob
 from multiprocessing import cpu_count, Pool
+from tsfresh.feature_extraction import extract_features
 import utils
 
-PREF = 'f002'
+PREF = 'f022'
 
 is_test = True
 GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
@@ -36,29 +35,34 @@ def quantile(n):
 stats = ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)]
 
 num_aggregations = {
-    'mjd':      ['min', 'max', 'size'],
-#    'passband': ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
-    'flux':        stats,
-    'flux_norm1':  stats,
-    'flux_norm2':  stats,
-    'flux_err':    stats,
-    'detected':    stats,
+#    'mjd':      ['min', 'max', 'size'],
+##    'passband': ['min', 'max', 'mean', 'median', 'std', quantile(25), quantile(75)],
+#    'flux':        stats,
+#    'flux_norm1':  stats,
+#    'flux_norm2':  stats,
+#    'flux_err':    stats,
+#    'detected':    stats,
+    'flux_ratio_sq':stats,
+    'flux_by_flux_ratio_sq':stats,
     }
+
+fcp = {'fft_coefficient': [{'coeff': 0, 'attr': 'abs'},
+                           {'coeff': 1, 'attr': 'abs'}],
+        'kurtosis' : None, 'skewness' : None}
+
 
 def aggregate(df, output_path, drop_oid=True):
     """
-    df = pd.read_pickle('../data/train_log.pkl')
+    df = pd.read_pickle('../data/train_log.pkl').head(999)
     """
+    
+    df['flux_ratio_sq'] = np.power(df['flux'] / df['flux_err'], 2.0)
+    df['flux_by_flux_ratio_sq'] = df['flux'] * df['flux_ratio_sq']
     
     pt = pd.pivot_table(df, index=['object_id'], 
                         aggfunc=num_aggregations)
     
     pt.columns = pd.Index([f'{e[0]}_{e[1]}' for e in pt.columns.tolist()])
-    
-    # std / mean
-    col_std = [c for c in pt.columns if c.endswith('_std')]
-    for c in col_std:
-        pt[f'{c}-d-mean'] = pt[c]/pt[c.replace('_std', '_mean')]
     
     # max / min, max - min, (max - min)/mean
     col_max = [c for c in pt.columns if c.endswith('_max')]
@@ -69,6 +73,28 @@ def aggregate(df, output_path, drop_oid=True):
             pt[f'{c}-m-min-d-mean'] = pt[f'{c}-m-min']/pt[c.replace('_max', '_mean')]
         except:
             pass
+    
+    # std / mean
+    col_std = [c for c in pt.columns if c.endswith('_std')]
+    for c in col_std:
+        pt[f'{c}-d-mean'] = pt[c]/pt[c.replace('_std', '_mean')]
+    
+    agg_df_ts = extract_features(df, column_id='object_id', column_sort='mjd', 
+                                 column_kind='passband', column_value = 'flux', 
+                                 default_fc_parameters = fcp, n_jobs=4)
+    agg_df_ts.index.name = 'object_id'
+    
+    pt = pd.concat([pt, agg_df_ts], axis=1)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     if usecols is not None:
         col = [c for c in pt.columns if c not in usecols]

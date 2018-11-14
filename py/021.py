@@ -22,7 +22,7 @@ import utils
 
 PREF = 'f021'
 
-is_test = False
+is_test = True
 GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
 max_index = 30
 
