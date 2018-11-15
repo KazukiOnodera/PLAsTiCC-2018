@@ -115,7 +115,7 @@ def aggregate(df, output_path, drop_oid=True):
     if usecols is None:
         n_jobs = cpu_count()
     else:
-        n_jobs = 1
+        n_jobs = 0
     ts1 = extract_features(df, column_id='object_id', column_sort='mjd', 
                                  column_kind='passband', column_value = 'flux', 
                                  default_fc_parameters = fcp, n_jobs=n_jobs).add_prefix('a_')
