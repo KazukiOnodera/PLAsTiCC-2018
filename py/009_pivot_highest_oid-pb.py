@@ -164,6 +164,7 @@ if __name__ == "__main__":
         df.reset_index(drop=True, inplace=True)
         del df[f'{PREF}_object_id']
         df.to_pickle(f'../data/test_{PREF}.pkl')
+        utils.save_test_features(df)
         os.system(f'rm ../data/tmp_{PREF}*')
     
     utils.end(__file__)

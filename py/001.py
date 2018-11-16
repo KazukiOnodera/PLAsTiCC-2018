@@ -37,6 +37,7 @@ if __name__ == "__main__":
     test.loc[test.hostgal_photoz==0, 'hostgal_specz'] = 0
 #    mk_feats(test)
     test.add_prefix(PREF+'_').to_pickle(f'../data/test_{PREF}.pkl')
+    utils.save_test_features(test)
     
     utils.end(__file__)
 

@@ -217,7 +217,7 @@ for i in np.arange(200, 500, 50):
         best_score = score
         best_N = i
 
-
+print('best_N', best_N)
 
 # =============================================================================
 # best
@@ -226,7 +226,8 @@ N = best_N
 dtrain = lgb.Dataset(X[COL[:N]], y, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                     feval=utils.lgb_multi_weighted_logloss,
+                     fobj=utils_metric.wloss_objective, 
+                     feval=utils_metric.wloss_metric,
                      early_stopping_rounds=100, verbose_eval=50,
                      seed=SEED)
 

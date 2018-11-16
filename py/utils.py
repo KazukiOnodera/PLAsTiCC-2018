@@ -166,6 +166,16 @@ def read_pickles(path, col=None, use_tqdm=True):
 #        df = pd.concat([pd.read_feather(f)[col] for f in tqdm(sorted(glob(path+'/*')))])
 #    return df
 
+def to_pkl_gzip(df, path):
+    df.to_pickle(path)
+    os.system('gzip ' + path)
+#    os.system('rm ' + path)
+    return
+    
+def save_test_features(df):
+    for c in df.columns:
+        df[[c]].to_pickle(f'../feature/test_{c}.pkl')
+    return
 
 # =============================================================================
 # 
@@ -235,13 +245,7 @@ def reduce_mem_usage(df):
         df[col_float64] = df[col_float64].astype(np.float64)
     if len(col_cat)>0:
         df[col_cat] = df[col_cat].astype('category')
-
-
-def to_pkl_gzip(df, path):
-    df.to_pickle(path)
-    os.system('gzip ' + path)
-    os.system('rm ' + path)
-    return
+        
 
 def check_var(df, var_limit=0, sample_size=None):
     if sample_size is not None:
