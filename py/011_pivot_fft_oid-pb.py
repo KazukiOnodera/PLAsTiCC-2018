@@ -137,7 +137,7 @@ if __name__ == "__main__":
     
     # test
     if is_test:
-        imp = pd.read_csv('LOG/imp_801_cv.py.csv').head(GENERATE_FEATURE_SIZE)
+        imp = pd.read_csv(utils.IMP_FILE).head(utils.GENERATE_FEATURE_SIZE)
         usecols = imp[imp.feature.str.startswith(f'{PREF}')][imp.gain>0].feature.tolist()
         usecols = [c.replace(f'{PREF}_', '') for c in usecols]
         usecols += ['object_id']

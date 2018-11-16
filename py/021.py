@@ -31,7 +31,7 @@ if len(argvs)>1:
     is_test = int(argvs[1])
 else:
     is_test = 0
-GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
+
 max_index = 30
 
 os.system(f'rm ../data/t*_{PREF}*')
@@ -55,6 +55,8 @@ num_aggregations1 = {
     'flux_norm2':  stats,
     'flux_err':    stats,
     'detected':    stats,
+    'flux_ratio_sq': stats,
+    'flux_by_flux_ratio_sq': stats,
     }
 
 fcp = {'fft_coefficient': [{'coeff': 0, 'attr': 'abs'},
@@ -133,34 +135,6 @@ def aggregate(df, output_path, drop_oid=True):
     pt = pd.concat(feature, axis=1)
     pt.columns = pd.Index([f'{e[0]}_date{e[1]}' for e in pt.columns.tolist()])
     
-    if usecols is None:
-        n_jobs = cpu_count()
-    else:
-        n_jobs = 0
-    ts1 = extract_features(df, column_id='object_id', column_sort='mjd', 
-                                 column_kind='passband', column_value = 'flux', 
-                                 default_fc_parameters = fcp, n_jobs=n_jobs).add_prefix('a_')
-    ts1.index.name = 'object_id'
-    
-#    ts2 = extract_features(df, column_id='object_id', column_sort='mjd', 
-#                                 column_kind='passband', column_value = 'flux_norm1', 
-#                                 default_fc_parameters = fcp, n_jobs=n_jobs).add_prefix('b_')
-#    ts2.index.name = 'object_id'
-#    
-#    ts3 = extract_features(df, column_id='object_id', column_sort='mjd', 
-#                                 column_kind='passband', column_value = 'flux_ratio_sq', 
-#                                 default_fc_parameters = fcp, n_jobs=n_jobs).add_prefix('c_')
-#    ts3.index.name = 'object_id'
-#    
-#    ts4 = extract_features(df, column_id='object_id', column_sort='mjd', 
-#                                 column_kind='passband', column_value = 'flux_by_flux_ratio_sq', 
-#                                 default_fc_parameters = fcp, n_jobs=n_jobs).add_prefix('d_')
-#    ts4.index.name = 'object_id'
-    
-    pt = pd.concat([pt, ts1, 
-#                    ts2, ts3, ts4
-                    ], axis=1)
-    
     
     if usecols is not None:
         col = [c for c in pt.columns if c not in usecols]
@@ -190,7 +164,7 @@ if __name__ == "__main__":
     
     # test
     if is_test:
-        imp = pd.read_csv('LOG/imp_801_cv.py.csv').head(GENERATE_FEATURE_SIZE)
+        imp = pd.read_csv(utils.IMP_FILE).head(utils.GENERATE_FEATURE_SIZE)
         usecols = imp[imp.feature.str.startswith(f'{PREF}')][imp.gain>0].feature.tolist()
         usecols = [c.replace(f'{PREF}_', '') for c in usecols]
         usecols += ['object_id']
