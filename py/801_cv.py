@@ -18,11 +18,8 @@ import lgbextension as ex
 import lightgbm as lgb
 from multiprocessing import cpu_count
 
-import torch
-#import torch.nn.functional as F
-from torch.autograd import grad
 
-import utils
+import utils, utils_metric
 #utils.start(__file__)
 #==============================================================================
 
@@ -63,78 +60,6 @@ param = {
 # =============================================================================
 # def
 # =============================================================================
-classes = [6, 15, 16, 42, 52, 53, 62, 64, 65, 67, 88, 90, 92, 95]
-class_weight = {6: 1, 15: 2, 16: 1, 42: 1, 52: 1, 53: 1, 62: 1,
-                64: 2, 65: 1, 67: 1, 88: 1, 90: 1, 92: 1, 95: 1}
-weight_tensor = torch.tensor(list(class_weight.values()),
-                             requires_grad=False).type(torch.FloatTensor)
-class_dict = {c: i for i, c in enumerate(classes)}
-
-# this is a reimplementation of the above loss function using pytorch expressions.
-# Alternatively this can be done in pure numpy (not important here)
-# note that this function takes raw output instead of probabilities from the booster
-# Also be aware of the index order in LightDBM when reshaping (see LightGBM docs 'fobj')
-def wloss_metric(preds, train_data):
-    y_t = torch.tensor(train_data.get_label(), requires_grad=False).type(torch.LongTensor)
-    y_h = torch.zeros(
-        y_t.shape[0], len(classes), requires_grad=False).scatter(1, y_t.reshape(-1, 1), 1)
-    y_h /= y_h.sum(dim=0, keepdim=True)
-    y_p = torch.tensor(preds, requires_grad=False).type(torch.FloatTensor)
-    if len(y_p.shape) == 1:
-        y_p = y_p.reshape(len(classes), -1).transpose(0, 1)
-    ln_p = torch.log_softmax(y_p, dim=1)
-    wll = torch.sum(y_h * ln_p, dim=0)
-    loss = -torch.dot(weight_tensor, wll) / torch.sum(weight_tensor)
-    return 'wloss', loss.numpy() * 1., False
-
-def wloss_objective(preds, train_data):
-    y_t = torch.tensor(train_data.get_label(), requires_grad=False).type(torch.LongTensor)
-    y_h = torch.zeros(
-        y_t.shape[0], len(classes), requires_grad=False).scatter(1, y_t.reshape(-1, 1), 1)
-    ys = y_h.sum(dim=0, keepdim=True)
-    y_h /= ys
-    y_p = torch.tensor(preds, requires_grad=True).type(torch.FloatTensor)
-    y_r = y_p.reshape(len(classes), -1).transpose(0, 1)
-    ln_p = torch.log_softmax(y_r, dim=1)
-    wll = torch.sum(y_h * ln_p, dim=0)
-    loss = -torch.dot(weight_tensor, wll)
-    grads = grad(loss, y_p, create_graph=True)[0]
-    grads *= float(len(classes)) / torch.sum(1 / ys)  # scale up grads
-    hess = torch.ones(y_p.shape)  # haven't bothered with properly doing hessian yet
-    return grads.detach().numpy(), \
-        hess.detach().numpy()
-        
-def akiyama_metric(y_true, y_preds):
-    '''
-    y_true:１次元のnp.array
-    y_pred:softmax後の１4次元のnp.array
-    '''
-    class99_prob = 1/9
-    class99_weight = 2
-            
-    y_p = y_preds * (1-class99_prob)
-    y_p = np.clip(a=y_p, a_min=1e-15, a_max=1 - 1e-15)
-    y_p_log = np.log(y_p)
-    
-    y_true_ohe = pd.get_dummies(y_true).values
-    nb_pos = y_true_ohe.sum(axis=0).astype(float)
-    
-#    classes = [6, 15, 16, 42, 52, 53, 62, 64, 65, 67, 88, 90, 92, 95]
-    class_weight = {6: 1, 15: 2, 16: 1, 42: 1, 52: 1, 53: 1, 62: 1, 64: 2, 65: 1, 
-                    67: 1, 88: 1, 90: 1, 92: 1, 95: 1}
-    class_arr = np.array([class_weight[k] for k in sorted(class_weight.keys())])
-    
-    y_log_ones = np.sum(y_true_ohe * y_p_log, axis=0)
-    y_w = y_log_ones * class_arr / nb_pos
-    score = - np.sum(y_w) / (np.sum(class_arr)+class99_weight)\
-        + (class99_weight/(np.sum(class_arr)+class99_weight))*(-np.log(class99_prob))
-
-    return score
-
-def softmax(x, axis=1):
-    z = np.exp(x)
-    return z / np.sum(z, axis=axis, keepdims=True)
-
 
 # =============================================================================
 # load
@@ -183,7 +108,7 @@ for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils.lgb_multi_weighted_logloss,
+                         feval=utils_metric.lgb_multi_weighted_logloss,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models
@@ -234,8 +159,8 @@ for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                            fobj=wloss_objective, 
-                            feval=wloss_metric,
+                            fobj=utils_metric.wloss_objective, 
+                            feval=utils_metric.wloss_metric,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models
@@ -272,7 +197,7 @@ COL = imp.feature.tolist()
 best_score = 9999
 best_N = 0
 
-for i in np.arange(100, 500, 50):
+for i in np.arange(200, 500, 50):
     print(f'\n==== feature size: {i} ====')
     
     dtrain = lgb.Dataset(X[COL[:i]], y, #categorical_feature=CAT, 
@@ -280,8 +205,8 @@ for i in np.arange(100, 500, 50):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         fobj=wloss_objective, 
-                         feval=wloss_metric,
+                         fobj=utils_metric.wloss_objective, 
+                         feval=utils_metric.wloss_metric,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     
@@ -312,7 +237,7 @@ y_pred = ex.eval_oob(X[COL[:N]], y, models, SEED, stratified=True, shuffle=True,
 
 tmp = y_pred.copy()
 
-y_pred = pd.DataFrame(softmax(y_pred.astype(float).values))
+y_pred = pd.DataFrame(utils_metric.softmax(y_pred.astype(float).values))
 
 
 y_true = pd.get_dummies(y)
@@ -379,7 +304,7 @@ def plot_confusion_matrix(cm, classes,
 
 
 
-cnf_matrix = confusion_matrix(y_map, np.argmax(y_pred.values, axis=-1))
+cnf_matrix = confusion_matrix(y_map, np.argmax(y_pred.astype(float).values, axis=-1))
 np.set_printoptions(precision=2)
 
 class_names = ['class_6',
