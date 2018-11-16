@@ -90,8 +90,9 @@ def aggregate(df, output_path, drop_oid=True):
     # q75 - q25, q90 - q10
     col = [c for c in pt.columns if c.endswith('_q75')]
     for c in col:
-        pt['q75-m-q25'] = pt[c] - pt[c.replace('_q75', '_q25')]
-        pt['q90-m-q10'] = pt[c.replace('_q75', '_q90')] - pt[c.replace('_q75', '_q10')]
+        x = c.replace('_q75', '')
+        pt[f'{x}_q75-m-q25'] = pt[c] - pt[c.replace('_q75', '_q25')]
+        pt[f'{x}_q90-m-q10'] = pt[c.replace('_q75', '_q90')] - pt[c.replace('_q75', '_q10')]
     
     
     if usecols is not None:
