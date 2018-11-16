@@ -47,7 +47,7 @@ def kurt(x):
     return kurtosis(x)
 
 stats = ['min', 'max', 'mean', 'median', 'std','skew',
-         kurt, quantile(25), quantile(75)]
+         kurt, quantile(10), quantile(25), quantile(75), quantile(90)]
 
 num_aggregations = {
     'flux':        stats,
@@ -108,6 +108,13 @@ def aggregate(df, output_path, drop_oid=True):
         col2 = (f'pb{c2}'+col).tolist()
         for c1,c2 in zip(col1, col2):
             pt[f'{c1}-d-{c2}'] = pt[c1] / pt[c2]
+    
+    # q75 - q25, q90 - q10
+    col = [c for c in pt.columns if c.endswith('_q75')]
+    for c in col:
+        pt['q75-m-q25'] = pt[c] - pt[c.replace('_q75', '_q25')]
+        pt['q90-m-q10'] = pt[c.replace('_q75', '_q90')] - pt[c.replace('_q75', '_q10')]
+    
     
     
     if usecols is not None:

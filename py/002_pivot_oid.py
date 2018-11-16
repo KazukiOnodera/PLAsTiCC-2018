@@ -46,7 +46,7 @@ def kurt(x):
     return kurtosis(x)
 
 stats = ['min', 'max', 'mean', 'median', 'std','skew',
-         kurt, quantile(25), quantile(75)]
+         kurt, quantile(10), quantile(25), quantile(75), quantile(90)]
 
 
 num_aggregations = {
@@ -89,6 +89,16 @@ def aggregate(df, output_path, drop_oid=True):
             pt[f'{c}-m-min-d-mean'] = pt[f'{c}-m-min']/pt[c.replace('_max', '_mean')]
         except:
             pass
+    
+    # q75 - q25, q90 - q10
+    col = [c for c in pt.columns if c.endswith('_q75')]
+    for c in col:
+        pt['q75-m-q25'] = pt[c] - pt[c.replace('_q75', '_q25')]
+        pt['q90-m-q10'] = pt[c.replace('_q75', '_q90')] - pt[c.replace('_q75', '_q10')]
+    
+    
+    
+    
     
     if usecols is None:
         n_jobs = cpu_count()

@@ -42,8 +42,11 @@ def quantile(n):
     quantile_.__name__ = 'q%s' % n
     return quantile_
 
-stats = ['min', 'max', 'mean', 'median', 'sum', 'std', 'skew',
-         quantile(25), quantile(75)]
+def kurt(x):
+    return kurtosis(x)
+
+stats = ['min', 'max', 'mean', 'median', 'std','skew',
+         kurt, quantile(10), quantile(25), quantile(75), quantile(90)]
 
 COL = ['flux', 'flux_norm1', 'flux_norm2', 'flux_err', 'detected', 'flux_ratio_sq', 'flux_by_flux_ratio_sq']
 
@@ -98,6 +101,13 @@ def aggregate(df, output_path, drop_oid=True):
         for c in col_max:
             df_agg[f'{c}-d-min'] = df_agg[c]/df_agg[c.replace('_max', '_min')]
             df_agg[f'{c}-m-min'] = df_agg[c]-df_agg[c.replace('_max', '_min')]
+    
+        # q75 - q25, q90 - q10
+        col = [c for c in pt.columns if c.endswith('_q75')]
+        for c in col:
+            pt['q75-m-q25'] = pt[c] - pt[c.replace('_q75', '_q25')]
+            pt['q90-m-q10'] = pt[c.replace('_q75', '_q90')] - pt[c.replace('_q75', '_q10')]
+        
             
         feature.append(df_agg)
     

@@ -47,7 +47,7 @@ def kurt(x):
     return kurtosis(x)
 
 stats = ['min', 'max', 'mean', 'median', 'std','skew',
-         kurt, quantile(25), quantile(75)]
+         kurt, quantile(10), quantile(25), quantile(75), quantile(90)]
 
 num_aggregations1 = {
     'flux':        stats,

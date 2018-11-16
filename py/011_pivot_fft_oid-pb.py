@@ -29,7 +29,6 @@ if len(argvs)>1:
     is_test = int(argvs[1])
 else:
     is_test = 0
-GENERATE_FEATURE_SIZE = utils.GENERATE_FEATURE_SIZE
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')

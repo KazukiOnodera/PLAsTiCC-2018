@@ -45,7 +45,7 @@ def kurt(x):
     return kurtosis(x)
 
 stats = ['min', 'max', 'mean', 'median', 'std','skew',
-         kurt, quantile(25), quantile(75)]
+         kurt, quantile(10), quantile(25), quantile(75), quantile(90)]
 
 
 num_aggregations = {
@@ -90,6 +90,23 @@ def aggregate(df, output_path, drop_oid=True):
                         aggfunc=num_aggregations)
     
     pt.columns = pd.Index([f'm{e[2]}_pb{e[3]}_{e[0]}_{e[1]}' for e in pt.columns.tolist()])
+    
+    # std / mean
+    col_std = [c for c in pt.columns if c.endswith('_std')]
+    for c in col_std:
+        pt[f'{c}-d-mean'] = pt[c]/pt[c.replace('_std', '_mean')]
+    
+    # max / min, max - min
+    col_max = [c for c in pt.columns if c.endswith('_max')]
+    for c in col_max:
+        pt[f'{c}-d-min'] = pt[c]/pt[c.replace('_max', '_min')]
+        pt[f'{c}-m-min'] = pt[c]-pt[c.replace('_max', '_min')]
+    
+    # q75 - q25, q90 - q10
+    col = [c for c in pt.columns if c.endswith('_q75')]
+    for c in col:
+        pt['q75-m-q25'] = pt[c] - pt[c.replace('_q75', '_q25')]
+        pt['q90-m-q10'] = pt[c.replace('_q75', '_q90')] - pt[c.replace('_q75', '_q10')]
     
     # compare month
     col = pd.Series([f'{c[2:]}' for c in pt.columns if c.startswith('m0_')])
