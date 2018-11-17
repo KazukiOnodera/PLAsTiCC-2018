@@ -1,8 +1,7 @@
-rm: cannot remove '../data/t*_f001*': No such file or directory
 rm: cannot remove '../feature/t*_f001*': No such file or directory
 
 #==============================================================================
-# START!!! 001.py    PID: 5140    time: 2018-10-30 08:00:42.415224
+# START!!! 001.py    PID: 3702    time: 2018-11-13 05:41:28.592146
 #==============================================================================
 
 
@@ -10,4 +9,4 @@ rm: cannot remove '../feature/t*_f001*': No such file or directory
 # SUCCESS !!! 001.py
 #==============================================================================
 
-time: 0.11min
+time: 0.10min

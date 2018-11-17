@@ -1,14 +1,11 @@
-rm: cannot remove '../data/t*_f009*': No such file or directory
-rm: cannot remove '../feature/t*_f009*': No such file or directory
 
 #==============================================================================
-# START!!! 009_pivot_highest_oid-pb.py    PID: 7960    time: 2018-11-03 12:00:26.861352
+# START!!! 009_pivot_highest_oid-pb.py    PID: 15261    time: 2018-11-17 06:14:34.674068
 #==============================================================================
 
-rm: cannot remove '../data/tmp_f009*': No such file or directory
 
 #==============================================================================
 # SUCCESS !!! 009_pivot_highest_oid-pb.py
 #==============================================================================
 
-time: 28.77min
+time: 68.69min
