@@ -197,27 +197,29 @@ print('akiyama_metric:', a_score)
 # model
 # =============================================================================
 
-#gc.collect()
-#
-#
-#np.random.seed(SEED)
-#
-#model_all = []
-#for i in range(LOOP):
-#    print('building', i)
-#    gc.collect()
-#    param['seed'] = np.random.randint(9999)
-#    model = lgb.train(param, dtrain, num_boost_round=nround_mean, valid_sets=None, 
-#                      valid_names=None, fobj=None, feval=None, init_model=None, 
-#                      feature_name='auto', categorical_feature='auto', 
-#                      early_stopping_rounds=None, evals_result=None, 
-#                      verbose_eval=True, learning_rates=None, 
-#                      keep_training_booster=False, callbacks=None)
-#    
-#    model_all.append(model)
-#
-#
-#del dtrain, X; gc.collect()
+gc.collect()
+
+
+np.random.seed(SEED)
+
+model_all = []
+for i in range(LOOP):
+    print('building', i)
+    gc.collect()
+    param['seed'] = np.random.randint(9999)
+    model = lgb.train(param, dtrain, num_boost_round=nround_mean, 
+                      fobj=utils_metric.wloss_objective, 
+                      feval=utils_metric.wloss_metric,
+                      valid_sets=None, valid_names=None, init_model=None, 
+                      feature_name='auto', categorical_feature='auto', 
+                      early_stopping_rounds=None, evals_result=None, 
+                      verbose_eval=True, learning_rates=None, 
+                      keep_training_booster=False, callbacks=None)
+    
+    model_all.append(model)
+
+
+del dtrain, X; gc.collect()
 
 # =============================================================================
 # test
