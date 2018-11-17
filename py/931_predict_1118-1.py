@@ -124,7 +124,7 @@ model_all = []
 nround_mean = 0
 wloss_list = []
 y_preds = []
-for i in range(2):
+for i in range(1):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
@@ -139,7 +139,7 @@ for i in range(2):
     nround_mean += len(ret['wloss-mean'])
     wloss_list.append( ret['wloss-mean'][-1] )
 
-nround_mean = int((nround_mean/2) * 1.3)
+nround_mean = int((nround_mean/1) * 1.3)
 
 result = f"CV wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
 print(result)
@@ -197,29 +197,29 @@ print('akiyama_metric:', a_score)
 # model
 # =============================================================================
 
-gc.collect()
-
-
-np.random.seed(SEED)
-
-model_all = []
-for i in range(LOOP):
-    print('building', i)
-    gc.collect()
-    param['seed'] = np.random.randint(9999)
-    model = lgb.train(param, dtrain, num_boost_round=nround_mean, 
-                      fobj=utils_metric.wloss_objective, 
-                      feval=utils_metric.wloss_metric,
-                      valid_sets=None, valid_names=None, init_model=None, 
-                      feature_name='auto', categorical_feature='auto', 
-                      early_stopping_rounds=None, evals_result=None, 
-                      verbose_eval=True, learning_rates=None, 
-                      keep_training_booster=False, callbacks=None)
-    
-    model_all.append(model)
-
-
-del dtrain, X; gc.collect()
+#gc.collect()
+#
+#
+#np.random.seed(SEED)
+#
+#model_all = []
+#for i in range(LOOP):
+#    print('building', i)
+#    gc.collect()
+#    param['seed'] = np.random.randint(9999)
+#    model = lgb.train(param, dtrain, num_boost_round=nround_mean, 
+#                      fobj=utils_metric.wloss_objective, 
+#                      feval=utils_metric.wloss_metric,
+#                      valid_names=None, init_model=None, 
+#                      feature_name='auto', categorical_feature='auto', 
+#                      early_stopping_rounds=None, evals_result=None, 
+#                      verbose_eval=True, learning_rates=None, 
+#                      keep_training_booster=False, callbacks=None)
+#    
+#    model_all.append(model)
+#
+#
+#del dtrain, X; gc.collect()
 
 # =============================================================================
 # test
