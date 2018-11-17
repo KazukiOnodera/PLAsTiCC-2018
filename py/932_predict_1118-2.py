@@ -265,7 +265,7 @@ df = pd.DataFrame(y_pred_all, columns=sub.columns[1:-1])
 sub = pd.concat([sub[['object_id']], df], axis=1)
 
 # class_99
-sub.to_pickle('../data/y_pred_raw.pkl')
+sub.to_pickle(f'../data/y_pred_raw_{__file__}.pkl')
 utils.postprocess(sub, method='oli')
 #utils.postprocess(sub, weight=weight, method='giba')
 
