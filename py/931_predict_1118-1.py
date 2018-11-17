@@ -18,15 +18,11 @@ import lgbextension as ex
 import lightgbm as lgb
 from multiprocessing import cpu_count
 
-import torch
-#import torch.nn.functional as F
-from torch.autograd import grad
-
-import utils
+import utils, utils_metric
 utils.start(__file__)
 #==============================================================================
 
-SUBMIT_FILE_PATH = '../output/1116-1.csv.gz'
+SUBMIT_FILE_PATH = '../output/1118-1.csv.gz'
 
 COMMENT = 'top300 features'
 
@@ -47,7 +43,7 @@ param = {
          'num_class': 14,
          'metric': 'multi_logloss',
          
-         'learning_rate': 0.1,
+         'learning_rate': 0.5,
          'max_depth': 3,
          'num_leaves': 63,
          'max_bin': 255,
@@ -65,94 +61,31 @@ param = {
          'verbose':-1,
          }
 
-N_FEATURES = 400
+N_FEATURES = 300
 
-# =============================================================================
-# def
-# =============================================================================
-classes = [6, 15, 16, 42, 52, 53, 62, 64, 65, 67, 88, 90, 92, 95]
-class_weight = {6: 1, 15: 2, 16: 1, 42: 1, 52: 1, 53: 1, 62: 1,
-                64: 2, 65: 1, 67: 1, 88: 1, 90: 1, 92: 1, 95: 1}
-weight_tensor = torch.tensor(list(class_weight.values()),
-                             requires_grad=False).type(torch.FloatTensor)
-class_dict = {c: i for i, c in enumerate(classes)}
-
-# this is a reimplementation of the above loss function using pytorch expressions.
-# Alternatively this can be done in pure numpy (not important here)
-# note that this function takes raw output instead of probabilities from the booster
-# Also be aware of the index order in LightDBM when reshaping (see LightGBM docs 'fobj')
-def wloss_metric(preds, train_data):
-    y_t = torch.tensor(train_data.get_label(), requires_grad=False).type(torch.LongTensor)
-    y_h = torch.zeros(
-        y_t.shape[0], len(classes), requires_grad=False).scatter(1, y_t.reshape(-1, 1), 1)
-    y_h /= y_h.sum(dim=0, keepdim=True)
-    y_p = torch.tensor(preds, requires_grad=False).type(torch.FloatTensor)
-    if len(y_p.shape) == 1:
-        y_p = y_p.reshape(len(classes), -1).transpose(0, 1)
-    ln_p = torch.log_softmax(y_p, dim=1)
-    wll = torch.sum(y_h * ln_p, dim=0)
-    loss = -torch.dot(weight_tensor, wll) / torch.sum(weight_tensor)
-    return 'wloss', loss.numpy() * 1., False
-
-def wloss_objective(preds, train_data):
-    y_t = torch.tensor(train_data.get_label(), requires_grad=False).type(torch.LongTensor)
-    y_h = torch.zeros(
-        y_t.shape[0], len(classes), requires_grad=False).scatter(1, y_t.reshape(-1, 1), 1)
-    ys = y_h.sum(dim=0, keepdim=True)
-    y_h /= ys
-    y_p = torch.tensor(preds, requires_grad=True).type(torch.FloatTensor)
-    y_r = y_p.reshape(len(classes), -1).transpose(0, 1)
-    ln_p = torch.log_softmax(y_r, dim=1)
-    wll = torch.sum(y_h * ln_p, dim=0)
-    loss = -torch.dot(weight_tensor, wll)
-    grads = grad(loss, y_p, create_graph=True)[0]
-    grads *= float(len(classes)) / torch.sum(1 / ys)  # scale up grads
-    hess = torch.ones(y_p.shape)  # haven't bothered with properly doing hessian yet
-    return grads.detach().numpy(), \
-        hess.detach().numpy()
-        
-def akiyama_metric(y_true, y_preds):
-    '''
-    y_true:１次元のnp.array
-    y_pred:softmax後の１4次元のnp.array
-    '''
-    class99_prob = 1/9
-    class99_weight = 2
-            
-    y_p = y_preds * (1-class99_prob)
-    y_p = np.clip(a=y_p, a_min=1e-15, a_max=1 - 1e-15)
-    y_p_log = np.log(y_p)
-    
-    y_true_ohe = pd.get_dummies(y_true).values
-    nb_pos = y_true_ohe.sum(axis=0).astype(float)
-    
-#    classes = [6, 15, 16, 42, 52, 53, 62, 64, 65, 67, 88, 90, 92, 95]
-    class_weight = {6: 1, 15: 2, 16: 1, 42: 1, 52: 1, 53: 1, 62: 1, 64: 2, 65: 1, 
-                    67: 1, 88: 1, 90: 1, 92: 1, 95: 1}
-    class_arr = np.array([class_weight[k] for k in sorted(class_weight.keys())])
-    
-    y_log_ones = np.sum(y_true_ohe * y_p_log, axis=0)
-    y_w = y_log_ones * class_arr / nb_pos
-    score = - np.sum(y_w) / (np.sum(class_arr)+class99_weight)\
-        + (class99_weight/(np.sum(class_arr)+class99_weight))*(-np.log(class99_prob))
-
-    return score
-
-def softmax(x, axis=1):
-    z = np.exp(x)
-    return z / np.sum(z, axis=axis, keepdims=True)
-
+remove_pref = 'f019'
 
 # =============================================================================
 # load
 # =============================================================================
 COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(N_FEATURES).feature.tolist()
 
+COL = [c for c in COL if not c.startswith(remove_pref)] # TODO: del
+
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
 
 files_tr = []
 for pref in PREFS:
     files_tr += glob(f'../data/train_{pref}*.pkl')
+
+files_te = [f'../feature/test_{c}.pkl' for c in COL]
+sw = False
+for i in files_te:
+    if os.path.exists(i)==False:
+        print(i)
+        sw = True
+if sw:
+    raise Exception()
 
 X = pd.concat([
                 pd.read_pickle(f) for f in tqdm(files_tr, mininterval=60)
@@ -195,7 +128,8 @@ for i in range(2):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         fobj=wloss_objective, feval=wloss_metric,
+                         fobj=utils_metric.wloss_objective, 
+                         feval=utils_metric.wloss_metric,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     y_pred = ex.eval_oob(X, y, models, SEED, stratified=True, shuffle=True, 
@@ -225,26 +159,39 @@ png = f'LOG/imp_{__file__}.png'
 utils.savefig_imp(imp, png, x='total', title=f'{__file__}')
 utils.send_line(result, png)
 
-# =============================================================================
-# weight
-# =============================================================================
-import utils_post
-
 for i,y_pred in enumerate(y_preds):
+    y_pred = pd.DataFrame(utils_metric.softmax(y_pred.astype(float).values))
     if i==0:
         tmp = y_pred
     else:
         tmp += y_pred
 tmp /= len(y_preds)
-tmp.to_pickle('../data/oof.pkl')
+y_preds = tmp.copy().values.astype(float)
 
-tmp = tmp.values.astype(float)
+a_score = utils_metric.akiyama_metric(y.values, y_preds)
+print('akiyama_metric:', a_score)
 
-y_true = pd.get_dummies(y)
 
-weight = utils_post.get_weight(y_true, tmp, eta=0.1, nround=9999)
-weight = np.append(weight, 1)
-print(list(weight))
+# =============================================================================
+# weight
+# =============================================================================
+#import utils_post
+#
+#for i,y_pred in enumerate(y_preds):
+#    if i==0:
+#        tmp = y_pred
+#    else:
+#        tmp += y_pred
+#tmp /= len(y_preds)
+#tmp.to_pickle('../data/oof.pkl')
+#
+#tmp = tmp.values.astype(float)
+#
+#y_true = pd.get_dummies(y)
+#
+#weight = utils_post.get_weight(y_true, tmp, eta=0.1, nround=9999)
+#weight = np.append(weight, 1)
+#print(list(weight))
 
 # =============================================================================
 # model
@@ -277,25 +224,32 @@ print(list(weight))
 # =============================================================================
 
 
-files_te = []
-for pref in PREFS:
-    files_te += glob(f'../data/test_{pref}*.pkl')
+#files_te = []
+#for pref in PREFS:
+#    files_te += glob(f'../data/test_{pref}*.pkl')
+#
+#
+#def read(f):
+#    df = pd.read_pickle(f)
+#    col = list( set(df.columns) & set(COL) )
+#    return df[col]
+#
+#X_test = pd.concat([
+#                read(f) for f in tqdm(files_te, mininterval=60)
+#               ], axis=1)[COL]
 
-
-def read(f):
-    df = pd.read_pickle(f)
-    col = list( set(df.columns) & set(COL) )
-    return df[col]
 
 X_test = pd.concat([
-                read(f) for f in tqdm(files_te, mininterval=60)
+                pd.read_pickle(f) for f in tqdm(files_te, mininterval=10)
                ], axis=1)[COL]
 
 gc.collect()
-    
+
+
 for i,model in enumerate(tqdm(model_all)):
     gc.collect()
     y_pred = model.predict(X_test)
+    y_pred = utils_metric.softmax(y_pred)
     if i==0:
         y_pred_all = y_pred
     else:
