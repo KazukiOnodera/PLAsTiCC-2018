@@ -50,7 +50,7 @@ TEST_LOGS = sorted(glob('../data/test_log*.pkl'))
 
 GENERATE_FEATURE_SIZE = 3000
 
-GENERATE_TEST = False
+GENERATE_TEST = True
 
 IMP_FILE = 'LOG/imp_801_cv.py-2.csv'
 

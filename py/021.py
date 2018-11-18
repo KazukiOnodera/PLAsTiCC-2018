@@ -132,9 +132,9 @@ def aggregate(df, output_path, drop_oid=True):
     pt.columns = pd.Index([f'{e[0]}_date{e[1]}' for e in pt.columns.tolist()])
     
     
-    if usecols is not None:
-        col = [c for c in pt.columns if c not in usecols]
-        pt.drop(col, axis=1, inplace=True)
+#    if usecols is not None:
+#        col = [c for c in pt.columns if c not in usecols]
+#        pt.drop(col, axis=1, inplace=True)
     
     if drop_oid:
         pt.reset_index(drop=True, inplace=True)
@@ -177,8 +177,8 @@ if __name__ == "__main__":
         df.sort_values(f'{PREF}_object_id', inplace=True)
         df.reset_index(drop=True, inplace=True)
         del df[f'{PREF}_object_id']
-        df.to_pickle(f'../data/test_{PREF}.pkl')
-        utils.save_test_features(df)
+        utils.to_pkl_gzip(df, f'../data/test_{PREF}.pkl')
+        utils.save_test_features(df[usecols])
         os.system(f'rm ../data/tmp_{PREF}*')
     
     utils.end(__file__)
