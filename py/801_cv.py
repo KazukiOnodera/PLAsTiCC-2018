@@ -45,7 +45,7 @@ param = {
          'max_bin': 255,
          
          'min_child_weight': 10,
-#         'min_data_in_leaf': 150,
+         'min_data_in_leaf': 50,
          'reg_lambda': 0.5,  # L2 regularization term on weights.
          'reg_alpha': 0.5,  # L1 regularization term on weights.
          

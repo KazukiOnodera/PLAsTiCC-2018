@@ -22,7 +22,7 @@ python -u 017_pivot_highest60_oid-pb.py > LOG/log_017_pivot_highest60_oid-pb.py.
 
 
 python -u 018_pivot_highest60-120_oid-pb.py > LOG/log_018_pivot_highest60-120_oid-pb.py.txt
-python -u 019_month_change.py > LOG/log_019_month_change.py.txt
+#python -u 019_month_change.py > LOG/log_019_month_change.py.txt
 python -u 020_pivot_highest60bf_oid-pb.py > LOG/log_020_pivot_highest60bf_oid-pb.py.txt
 python -u 021.py > LOG/log_021.py.txt
 

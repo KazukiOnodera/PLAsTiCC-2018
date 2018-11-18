@@ -28,6 +28,6 @@ nohup python -u 017_pivot_highest60_oid-pb.py 0 > LOG/log_017_pivot_highest60_oi
 sleep 60
 
 nohup python -u 018_pivot_highest60-120_oid-pb.py 0 > LOG/log_018_pivot_highest60-120_oid-pb.py.txt &
-nohup python -u 019_month_change.py 0 > LOG/log_019_month_change.py.txt &
+#nohup python -u 019_month_change.py 0 > LOG/log_019_month_change.py.txt &
 nohup python -u 020_pivot_highest60bf_oid-pb.py 0 > LOG/log_020_pivot_highest60bf_oid-pb.py.txt &
 nohup python -u 021.py 0 > LOG/log_021.py.txt &
