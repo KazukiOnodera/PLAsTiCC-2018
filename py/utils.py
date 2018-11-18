@@ -170,8 +170,8 @@ def read_pickles(path, col=None, use_tqdm=True):
 
 def to_pkl_gzip(df, path):
     df.to_pickle(path)
+    os.system('rm ' + path + '.gz')
     os.system('gzip ' + path)
-#    os.system('rm ' + path)
     return
     
 def save_test_features(df):

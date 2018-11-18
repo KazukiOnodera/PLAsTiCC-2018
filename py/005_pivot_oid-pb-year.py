@@ -117,8 +117,8 @@ if __name__ == "__main__":
     if utils.GENERATE_TEST:
         imp = pd.read_csv(utils.IMP_FILE).head(utils.GENERATE_FEATURE_SIZE)
         usecols = imp[imp.feature.str.startswith(f'{PREF}')][imp.gain>0].feature.tolist()
-        usecols = [c.replace(f'{PREF}_', '') for c in usecols]
-        usecols += ['object_id']
+#        usecols = [c.replace(f'{PREF}_', '') for c in usecols]
+#        usecols += ['object_id']
         
         os.system(f'rm ../data/tmp_{PREF}*')
         argss = []
