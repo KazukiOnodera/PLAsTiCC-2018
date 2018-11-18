@@ -1,14 +1,11 @@
-rm: cannot remove '../data/t*_f011*': No such file or directory
-rm: cannot remove '../feature/t*_f011*': No such file or directory
 
 #==============================================================================
-# START!!! 011_pivot_fft_oid-pb.py    PID: 4556    time: 2018-11-07 18:23:17.054672
+# START!!! 011_pivot_fft_oid-pb.py    PID: 17478    time: 2018-11-17 08:32:21.041449
 #==============================================================================
 
-rm: cannot remove '../data/tmp_f011*': No such file or directory
 
 #==============================================================================
 # SUCCESS !!! 011_pivot_fft_oid-pb.py
 #==============================================================================
 
-time: 24.79min
+time: 15.57min
