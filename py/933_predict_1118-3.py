@@ -63,10 +63,14 @@ param = {
 
 N_FEATURES = 300
 
+remove_pref = 'f019'
+
 # =============================================================================
 # load
 # =============================================================================
 COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(N_FEATURES).feature.tolist()
+
+COL = [c for c in COL if not c.startswith(remove_pref)] # TODO: del
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
 
