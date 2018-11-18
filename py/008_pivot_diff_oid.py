@@ -27,11 +27,6 @@ import utils
 
 PREF = 'f008'
 
-if len(argvs)>1:
-    is_test = int(argvs[1])
-else:
-    is_test = 0
-
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
@@ -48,7 +43,9 @@ def kurt(x):
 stats = ['min', 'max', 'mean', 'median', 'std','skew',
          kurt, quantile(10), quantile(25), quantile(75), quantile(90)]
 
-COL = ['flux', 'flux_norm1', 'flux_norm2', 'flux_err', 'detected', 'flux_ratio_sq', 'flux_by_flux_ratio_sq']
+COL = ['flux', 'flux_norm1', 'flux_norm2', 
+       'flux_err', 'detected', 'flux_ratio_sq', 'flux_by_flux_ratio_sq',
+       'lumi']
 
 def aggregate(df, output_path, drop_oid=True):
     """
@@ -142,7 +139,7 @@ if __name__ == "__main__":
     
     
     # test
-    if is_test:
+    if utils.GENERATE_TEST:
         imp = pd.read_csv(utils.IMP_FILE).head(utils.GENERATE_FEATURE_SIZE)
         usecols = imp[imp.feature.str.startswith(f'{PREF}')][imp.gain>0].feature.tolist()
         usecols = [c.replace(f'{PREF}_', '') for c in usecols]

@@ -29,12 +29,6 @@ import utils
 
 PREF = 'f020'
 
-if len(argvs)>1:
-    is_test = int(argvs[1])
-else:
-    is_test = 0
-
-
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
@@ -57,6 +51,7 @@ num_aggregations = {
     'flux_norm2':  stats,
     'flux_err':    stats,
     'detected':    stats,
+    'lumi': stats,
     }
 
 
@@ -142,7 +137,7 @@ if __name__ == "__main__":
     aggregate(pd.read_pickle('../data/train_log.pkl'), f'../data/train_{PREF}.pkl')
     
     # test
-    if is_test:
+    if utils.GENERATE_TEST:
         imp = pd.read_csv(utils.IMP_FILE).head(utils.GENERATE_FEATURE_SIZE)
         usecols = imp[imp.feature.str.startswith(f'{PREF}')][imp.gain>0].feature.tolist()
         usecols = [c.replace(f'{PREF}_', '') for c in usecols]

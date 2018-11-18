@@ -27,11 +27,6 @@ import utils
 
 PREF = 'f002'
 
-if len(argvs)>1:
-    is_test = int(argvs[1])
-else:
-    is_test = 0
-
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
@@ -45,7 +40,7 @@ def quantile(n):
 def kurt(x):
     return kurtosis(x)
 
-stats = ['min', 'max', 'mean', 'median', 'std','skew',
+stats = ['min', 'max', 'mean', 'median', 'std', 'skew',
          kurt, quantile(10), quantile(25), quantile(75), quantile(90)]
 
 
@@ -59,6 +54,7 @@ num_aggregations = {
     'detected':    stats,
     'flux_ratio_sq': stats,
     'flux_by_flux_ratio_sq': stats,
+    'lumi': stats,
     }
 
 fcp = {'fft_coefficient': [{'coeff': 0, 'attr': 'abs'},
@@ -156,7 +152,7 @@ if __name__ == "__main__":
     aggregate(pd.read_pickle('../data/train_log.pkl'), f'../data/train_{PREF}.pkl')
     
     # test
-    if is_test:
+    if utils.GENERATE_TEST:
         imp = pd.read_csv(utils.IMP_FILE).head(utils.GENERATE_FEATURE_SIZE)
         usecols = imp[imp.feature.str.startswith(f'{PREF}')][imp.gain>0].feature.tolist()
         usecols = [c.replace(f'{PREF}_', '') for c in usecols]

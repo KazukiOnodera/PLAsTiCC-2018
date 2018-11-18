@@ -50,6 +50,8 @@ TEST_LOGS = sorted(glob('../data/test_log*.pkl'))
 
 GENERATE_FEATURE_SIZE = 3000
 
+GENERATE_TEST = True
+
 IMP_FILE = 'LOG/imp_801_cv.py-2.csv'
 
 classes_gal = [6, 16, 53, 65, 92]

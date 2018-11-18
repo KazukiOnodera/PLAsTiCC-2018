@@ -1,17 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Nov 11 00:37:50 2018
+Created on Sun Nov 18 13:38:31 2018
 
 @author: Kazuki
-
-
-focus on highest date to 60 to 120days later
-
-keys: object_id, passband
-
-
 """
+
 
 import numpy as np
 import pandas as pd
@@ -24,10 +18,14 @@ from tsfresh.feature_extraction import extract_features
 import sys
 argvs = sys.argv
 
-from itertools import combinations
 import utils
 
-PREF = 'f018'
+PREF = 'f022'
+
+if len(argvs)>1:
+    is_test = int(argvs[1])
+else:
+    is_test = 0
 
 
 os.system(f'rm ../data/t*_{PREF}*')
@@ -47,16 +45,8 @@ stats = ['min', 'max', 'mean', 'median', 'std','skew',
 
 
 num_aggregations = {
-    'flux':        stats,
-    'flux_norm1':  stats,
-    'flux_norm2':  stats,
-    'flux_err':    stats,
-    'detected':    stats,
-    'flux_ratio_sq': stats,
-    'flux_by_flux_ratio_sq': stats,
-    'lumi': stats,
+    'lumi':        stats,
     }
-
 
 fcp = {'fft_coefficient': [{'coeff': 0, 'attr': 'abs'},
                            {'coeff': 1, 'attr': 'abs'}],
@@ -64,38 +54,28 @@ fcp = {'fft_coefficient': [{'coeff': 0, 'attr': 'abs'},
 
 def aggregate(df, output_path, drop_oid=True):
     """
-    df = pd.read_pickle('../data/train_log.pkl').head(999)
+    df = pd.read_pickle('../data/train_log.pkl')
     """
     
-    # highest date ~ +60
-    idxmax = df.groupby('object_id').flux.idxmax()
-    base = df.iloc[idxmax][['object_id', 'date']]
-    li = [base]
-    for i in range(60, 120):
-        i += 1
-        lead = base.copy()
-        lead['date'] += i
-        li.append(lead)
-    
-    keep = pd.concat(li)
-    
-    df = pd.merge(keep, df, on=['object_id', 'date'], how='inner')
-    
-    pt = pd.pivot_table(df, index=['object_id'], columns=['passband'], 
+    pt = pd.pivot_table(df, index=['object_id'], 
                         aggfunc=num_aggregations)
     
-    pt.columns = pd.Index([f'pb{e[2]}_{e[0]}_{e[1]}' for e in pt.columns.tolist()])
+    pt.columns = pd.Index([f'{e[0]}_{e[1]}' for e in pt.columns.tolist()])
     
     # std / mean
     col_std = [c for c in pt.columns if c.endswith('_std')]
     for c in col_std:
         pt[f'{c}-d-mean'] = pt[c]/pt[c.replace('_std', '_mean')]
     
-    # max / min, max - min
+    # max / min, max - min, (max - min)/mean
     col_max = [c for c in pt.columns if c.endswith('_max')]
     for c in col_max:
         pt[f'{c}-d-min'] = pt[c]/pt[c.replace('_max', '_min')]
         pt[f'{c}-m-min'] = pt[c]-pt[c.replace('_max', '_min')]
+        try:
+            pt[f'{c}-m-min-d-mean'] = pt[f'{c}-m-min']/pt[c.replace('_max', '_mean')]
+        except:
+            pass
     
     # q75 - q25, q90 - q10
     col = [c for c in pt.columns if c.endswith('_q75')]
@@ -104,13 +84,37 @@ def aggregate(df, output_path, drop_oid=True):
         pt[f'{x}_q75-m-q25'] = pt[c] - pt[c.replace('_q75', '_q25')]
         pt[f'{x}_q90-m-q10'] = pt[c.replace('_q75', '_q90')] - pt[c.replace('_q75', '_q10')]
     
-    # compare passband
-    col = pd.Series([f'{c[3:]}' for c in pt.columns if c.startswith('pb0')])
-    for c1,c2 in list(combinations(range(6), 2)):
-        col1 = (f'pb{c1}'+col).tolist()
-        col2 = (f'pb{c2}'+col).tolist()
-        for c1,c2 in zip(col1, col2):
-            pt[f'{c1}-d-{c2}'] = pt[c1] / pt[c2]
+    
+    
+    
+    
+    if usecols is None:
+        n_jobs = cpu_count()
+    else:
+        n_jobs = 0
+    ts1 = extract_features(df, column_id='object_id', column_sort='mjd', 
+                                 column_kind='passband', column_value = 'flux', 
+                                 default_fc_parameters = fcp, n_jobs=n_jobs).add_prefix('a_')
+    ts1.index.name = 'object_id'
+    
+#    ts2 = extract_features(df, column_id='object_id', column_sort='mjd', 
+#                                 column_kind='passband', column_value = 'flux_norm1', 
+#                                 default_fc_parameters = fcp, n_jobs=n_jobs).add_prefix('b_')
+#    ts2.index.name = 'object_id'
+#    
+#    ts3 = extract_features(df, column_id='object_id', column_sort='mjd', 
+#                                 column_kind='passband', column_value = 'flux_ratio_sq', 
+#                                 default_fc_parameters = fcp, n_jobs=n_jobs).add_prefix('c_')
+#    ts3.index.name = 'object_id'
+#    
+#    ts4 = extract_features(df, column_id='object_id', column_sort='mjd', 
+#                                 column_kind='passband', column_value = 'flux_by_flux_ratio_sq', 
+#                                 default_fc_parameters = fcp, n_jobs=n_jobs).add_prefix('d_')
+#    ts4.index.name = 'object_id'
+    
+    pt = pd.concat([pt, ts1, 
+#                    ts2, ts3, ts4
+                    ], axis=1)
     
     if usecols is not None:
         col = [c for c in pt.columns if c not in usecols]
@@ -136,10 +140,14 @@ if __name__ == "__main__":
     utils.start(__file__)
     
     usecols = None
-    aggregate(pd.read_pickle('../data/train_log.pkl'), f'../data/train_{PREF}.pkl')
+    df = pd.read_pickle('../data/train_log.pkl')
+    tr = utils.load_train()
+    df = pd.merge(df, tr[['object_id', 'distmod']], on='object_id', how='left')
+    df['lumi'] = df['flux'] * 4 * np.pi * 10 ** ((df['distmod']+5)/2.5)
+    aggregate(df, f'../data/train_{PREF}.pkl')
     
     # test
-    if utils.GENERATE_TEST:
+    if is_test:
         imp = pd.read_csv(utils.IMP_FILE).head(utils.GENERATE_FEATURE_SIZE)
         usecols = imp[imp.feature.str.startswith(f'{PREF}')][imp.gain>0].feature.tolist()
         usecols = [c.replace(f'{PREF}_', '') for c in usecols]
@@ -162,3 +170,5 @@ if __name__ == "__main__":
         os.system(f'rm ../data/tmp_{PREF}*')
     
     utils.end(__file__)
+
+

@@ -143,7 +143,7 @@ imp = pd.read_csv(f'LOG/imp_{__file__}-1.csv')
 # =============================================================================
 COL = imp.feature.tolist()[:3000]
 
-param['learning_rate'] = 0.1
+param['learning_rate'] = 0.5
 dtrain = lgb.Dataset(X[COL], y, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
@@ -187,7 +187,7 @@ imp.to_csv(f'LOG/imp_{__file__}-2.csv', index=False)
 # estimate feature size
 # =============================================================================
 print('estimate feature size')
-param['learning_rate'] = 0.1
+param['learning_rate'] = 0.5
 
 COL = imp.feature.tolist()
 best_score = 9999

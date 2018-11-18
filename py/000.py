@@ -72,6 +72,9 @@ if __name__ == "__main__":
     train[['target']].to_pickle('../data/target.pkl')
     
     train_log = pd.read_csv('../input/training_set.csv.zip', dtype=COLUMN_TO_TYPE)
+    train_log = pd.merge(train_log, train[['object_id', 'distmod']], on='object_id', how='left')
+    train_log['lumi'] = train_log['flux'] * 4 * np.pi * 10 ** ((train_log['distmod']+5)/2.5)
+    del train_log['distmod']
     preprocess(train_log)
     train_log.to_pickle('../data/train_log.pkl')
     
@@ -89,9 +92,9 @@ if __name__ == "__main__":
     
     test_log = pd.read_csv('../input/test_set.csv.zip', dtype=COLUMN_TO_TYPE)
     
-#    pool = Pool(cpu_count())
-#    pool.map(multi, range(utils.SPLIT_SIZE))
-#    pool.close()
+    test_log = pd.merge(test_log, test[['object_id', 'distmod']], on='object_id', how='left')
+    test_log['lumi'] = test_log['flux'] * 4 * np.pi * 10 ** ((test_log['distmod']+5)/2.5)
+    del test_log['distmod']
     
     for i in tqdm(range(utils.SPLIT_SIZE), mininterval=15):
         gc.collect()
