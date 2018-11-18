@@ -1,6 +1,6 @@
 
 # nohup sh run.sh &
-python -u 002_pivot_oid.py > LOG/log_002_pivot_oid.py.txt
+#python -u 002_pivot_oid.py > LOG/log_002_pivot_oid.py.txt
 python -u 003_pivot_oid-pb.py > LOG/log_003_pivot_oid-pb.py.txt
 python -u 004_pivot_oid-year.py > LOG/log_004_pivot_oid-year.py.txt
 
