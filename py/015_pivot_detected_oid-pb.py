@@ -14,8 +14,9 @@ keys: object_id, passband
 
 import numpy as np
 import pandas as pd
-import os
+import os, gc
 from glob import glob
+from tqdm import tqdm
 from scipy.stats import kurtosis
 from multiprocessing import cpu_count, Pool
 from tsfresh.feature_extraction import extract_features
@@ -145,8 +146,9 @@ if __name__ == "__main__":
         pool = Pool( cpu_count() )
         pool.map(multi, argss)
         pool.close()
-        df = pd.concat([pd.read_pickle(f) for f in glob(f'../data/tmp_{PREF}*')], 
+        df = pd.concat([pd.read_pickle(f) for f in tqdm(glob(f'../data/tmp_{PREF}*'))], 
                         ignore_index=True)
+        gc.collect()
         df.sort_values(f'{PREF}_object_id', inplace=True)
         df.reset_index(drop=True, inplace=True)
         del df[f'{PREF}_object_id']
