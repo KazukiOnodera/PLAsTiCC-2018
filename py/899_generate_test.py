@@ -33,14 +33,16 @@ files_te = [f'../feature/test_{c}.pkl' for c in COL]
 gen_features = []
 for i in files_te:
     if os.path.exists(i)==False:
-        gen_features.append(i[16:])
-
+        gen_features.append(i[16:-4])
+gen_features = sorted(gen_features)
+print(gen_features)
 
 gen_prefs = sorted(set([x.split('_')[0] for x in gen_features]))
 
 def multi(pref):
     df = pd.read_pickle(f'../data/test_{pref}.pkl.gz')
     col = list( set(df.columns) & set(gen_features) )
+    print(pref, col)
     utils.save_test_features(df[col])
     return
 
