@@ -119,15 +119,16 @@ for j in range(MOD_N):
 # cv
 # =============================================================================
 
-dtrain = lgb.Dataset(X, y, #categorical_feature=CAT, 
-                     free_raw_data=False)
 gc.collect()
 
 model_all = []
 nround_mean = 0
 wloss_list = []
 y_preds = []
-for i in range(1):
+for i in range(MOD_N):
+    dtrain = lgb.Dataset(X[feature_set[i]], y.values, #categorical_feature=CAT, 
+                     free_raw_data=False)
+    
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
@@ -135,32 +136,34 @@ for i in range(1):
                          feval=utils_metric.wloss_metric,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
-    y_pred = ex.eval_oob(X, y, models, SEED, stratified=True, shuffle=True, 
-                         n_class=y.unique().shape[0])
+    y_pred = ex.eval_oob(X[feature_set[i]], y.values, models, SEED, stratified=True, shuffle=True, 
+                         n_class=True)
     y_preds.append(y_pred)
     model_all += models
     nround_mean += len(ret['wloss-mean'])
     wloss_list.append( ret['wloss-mean'][-1] )
 
-nround_mean = int((nround_mean/1) * 1.3)
+nround_mean = int((nround_mean/MOD_N) * 1.3)
 
 result = f"CV wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
 print(result)
-
-imp = ex.getImp(model_all)
-imp['split'] /= imp['split'].max()
-imp['gain'] /= imp['gain'].max()
-imp['total'] = imp['split'] + imp['gain']
-
-imp.sort_values('total', ascending=False, inplace=True)
-imp.reset_index(drop=True, inplace=True)
+utils.send_line(result)
 
 
-imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
-
-png = f'LOG/imp_{__file__}.png'
-utils.savefig_imp(imp, png, x='total', title=f'{__file__}')
-utils.send_line(result, png)
+#imp = ex.getImp(model_all)
+#imp['split'] /= imp['split'].max()
+#imp['gain'] /= imp['gain'].max()
+#imp['total'] = imp['split'] + imp['gain']
+#
+#imp.sort_values('total', ascending=False, inplace=True)
+#imp.reset_index(drop=True, inplace=True)
+#
+#
+#imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
+#
+#png = f'LOG/imp_{__file__}.png'
+#utils.savefig_imp(imp, png, x='total', title=f'{__file__}')
+#utils.send_line(result, png)
 
 for i,y_pred in enumerate(y_preds):
     y_pred = pd.DataFrame(utils_metric.softmax(y_pred.astype(float).values))
@@ -181,49 +184,38 @@ utils.send_line(f'akiyama_metric: {a_score}')
 # model
 # =============================================================================
 
-#gc.collect()
-#
-#
-#np.random.seed(SEED)
-#
-#model_all = []
-#for i in range(LOOP):
-#    print('building', i)
-#    gc.collect()
-#    param['seed'] = np.random.randint(9999)
-#    model = lgb.train(param, dtrain, num_boost_round=nround_mean, 
-#                      fobj=utils_metric.wloss_objective, 
-#                      feval=utils_metric.wloss_metric,
-#                      valid_names=None, init_model=None, 
-#                      feature_name='auto', categorical_feature='auto', 
-#                      early_stopping_rounds=None, evals_result=None, 
-#                      verbose_eval=True, learning_rates=None, 
-#                      keep_training_booster=False, callbacks=None)
-#    
-#    model_all.append(model)
-#
-#
-#del dtrain, X; gc.collect()
+gc.collect()
+
+
+np.random.seed(SEED)
+
+model_all = []
+for i in range(MOD_N):
+    
+    dtrain = lgb.Dataset(X[feature_set[i]], y, #categorical_feature=CAT, 
+                         free_raw_data=False)
+    gc.collect()
+    
+    print('building', i)
+    gc.collect()
+    param['seed'] = np.random.randint(9999)
+    model = lgb.train(param, dtrain, num_boost_round=nround_mean, 
+                      fobj=utils_metric.wloss_objective, 
+                      feval=utils_metric.wloss_metric,
+                      valid_names=None, init_model=None, 
+                      feature_name='auto', categorical_feature='auto', 
+                      early_stopping_rounds=None, evals_result=None, 
+                      verbose_eval=True, learning_rates=None, 
+                      keep_training_booster=False, callbacks=None)
+    
+    model_all.append(model)
+
+
+del dtrain, X; gc.collect()
 
 # =============================================================================
 # test
 # =============================================================================
-
-
-#files_te = []
-#for pref in PREFS:
-#    files_te += glob(f'../data/test_{pref}*.pkl')
-#
-#
-#def read(f):
-#    df = pd.read_pickle(f)
-#    col = list( set(df.columns) & set(COL) )
-#    return df[col]
-#
-#X_test = pd.concat([
-#                read(f) for f in tqdm(files_te, mininterval=60)
-#               ], axis=1)[COL]
-
 
 X_test = pd.concat([
                 pd.read_pickle(f) for f in tqdm(files_te, mininterval=10)
@@ -234,7 +226,7 @@ gc.collect()
 
 for i,model in enumerate(tqdm(model_all)):
     gc.collect()
-    y_pred = model.predict(X_test)
+    y_pred = model.predict(X_test[feature_set[i]])
     y_pred = utils_metric.softmax(y_pred)
     if i==0:
         y_pred_all = y_pred
