@@ -1,0 +1,32 @@
+In [11]: lgb.train(param, dtrain, 999, fobj=utils_metric.wloss_objective, 
+    ...:                              feval=utils_metric.wloss_metric,)
+    ...:                              
+---------------------------------------------------------------------------
+RuntimeError                              Traceback (most recent call last)
+<ipython-input-11-12ca33893e75> in <module>()
+      1 lgb.train(param, dtrain, 999, fobj=utils_metric.wloss_objective, 
+----> 2                              feval=utils_metric.wloss_metric,)
+      3 
+
+~/anaconda3/lib/python3.6/site-packages/lightgbm/engine.py in train(params, train_set, num_boost_round, valid_sets, valid_names, fobj, feval, init_model, feature_name, categorical_feature, early_stopping_rounds, evals_result, verbose_eval, learning_rates, keep_training_booster, callbacks)
+    202                                     evaluation_result_list=None))
+    203 
+--> 204         booster.update(fobj=fobj)
+    205 
+    206         evaluation_result_list = []
+
+~/anaconda3/lib/python3.6/site-packages/lightgbm/basic.py in update(self, train_set, fobj)
+   1533                 self.reset_parameter({"objective": "none"})
+   1534                 self.__set_objective_to_none = True
+-> 1535             grad, hess = fobj(self.__inner_predict(0), self.train_set)
+   1536             return self.__boost(grad, hess)
+   1537 
+
+~/PLAsTiCC-2018/py/utils_metric.py in wloss_objective(preds, train_data)
+    223 
+    224 def wloss_objective(preds, train_data):
+--> 225     y_t = torch.tensor(train_data.get_label(), requires_grad=False).type(torch.LongTensor)
+    226     y_h = torch.zeros(
+    227         y_t.shape[0], len(classes), requires_grad=False).scatter(1, y_t.reshape(-1, 1), 1)
+
+RuntimeError: Could not infer dtype of numpy.int64

@@ -237,7 +237,27 @@ def wloss_objective(preds, train_data):
     hess = torch.ones(y_p.shape)  # haven't bothered with properly doing hessian yet
     return grads.detach().numpy(), \
         hess.detach().numpy()
-        
+
+def guchio_objective(preds, train_data):
+    class_weight = {6: 1, 15: 2, 16: 1, 42: 1, 52: 1, 53: 1, 62: 1, 64: 2, 65: 1, 67: 1, 88: 1, 90: 1, 92: 1, 95: 1}
+    weight_tensor = torch.tensor(list(class_weight.values()),
+                             requires_grad=False).type(torch.FloatTensor)
+    y_t = torch.tensor(train_data.get_label(), requires_grad=False).type(torch.LongTensor)
+    y_h = torch.zeros(
+        y_t.shape[0], len(classes), requires_grad=False).scatter(1, y_t.reshape(-1, 1), 1)
+    ys = y_h.sum(dim=0, keepdim=True)
+    y_h /= ys
+    y_p = torch.tensor(preds, requires_grad=True).type(torch.FloatTensor)
+    y_r = y_p.reshape(len(classes), -1).transpose(0, 1)
+    ln_p = torch.log_softmax(y_r, dim=1)
+    wll = torch.sum(y_h * ln_p, dim=0)
+    loss = -torch.dot(weight_tensor, wll)
+    grads = grad(loss, y_p, create_graph=True)[0]
+    grads *= float(len(classes)) / torch.sum(1 / ys)  # scale up grads
+    hess = torch.ones(y_p.shape)  # haven't bothered with properly doing hessian yet
+    return grads.detach().numpy(), \
+        hess.detach().numpy()
+
 def akiyama_metric(y_true, y_preds):
     '''
     y_true:１次元のnp.array

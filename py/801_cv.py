@@ -26,7 +26,7 @@ import utils, utils_metric
 SEED = np.random.randint(9999)
 print('SEED:', SEED)
 
-DROP = ['f001_hostgal_specz', 'f001_distmod', 'f701_hostgal_specz'] # 
+DROP = ['f001_hostgal_specz', 'f001_distmod',]# 'f701_hostgal_specz'] # 
 
 #DROP = []
 
@@ -193,7 +193,7 @@ COL = imp.feature.tolist()
 best_score = 9999
 best_N = 0
 
-for i in np.arange(200, 500, 50):
+for i in np.arange(100, 500, 50):
     print(f'\n==== feature size: {i} ====')
     
     dtrain = lgb.Dataset(X[COL[:i]], y, #categorical_feature=CAT, 
