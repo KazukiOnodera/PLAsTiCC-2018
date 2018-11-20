@@ -37,7 +37,7 @@ param = {
          'num_class': 14,
          'metric': 'multi_logloss',
          
-         'learning_rate': 0.5,
+         'learning_rate': 0.9,
          'max_depth': 3,
          'num_leaves': 63,
          'max_bin': 255,
@@ -130,7 +130,7 @@ for j in range(MOD_N):
                              feval=utils_metric.wloss_metric,
                              early_stopping_rounds=100, verbose_eval=50,
                              seed=SEED)
-        y_pred = ex.eval_oob(X, y.values, models, SEED, stratified=True, shuffle=True, 
+        y_pred = ex.eval_oob(X[col], y.values, models, SEED, stratified=True, shuffle=True, 
                              n_class=y.unique().shape[0])
         y_preds.append(y_pred)
         model_all += models
