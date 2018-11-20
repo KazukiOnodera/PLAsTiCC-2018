@@ -33,19 +33,25 @@ max_index = 30
 if __name__ == "__main__":
     utils.start(__file__)
     
+#    imp = pd.read_csv(utils.IMP_FILE).head(utils.GENERATE_FEATURE_SIZE)
+#    usecols = imp[imp.feature.str.startswith(f'{PREF}')][imp.gain>0].feature.tolist()
+#    usecols = [c.replace(f'{PREF}_', '') for c in usecols]
+#    usecols += ['object_id']
+#    
+#    df = pd.concat([pd.read_pickle(f) for f in tqdm(glob(f'../data/tmp_{PREF}*'))], 
+#                    ignore_index=True)
+#    df.sort_values(f'{PREF}_object_id', inplace=True)
+#    df.reset_index(drop=True, inplace=True)
+#    del df[f'{PREF}_object_id']
+#    utils.to_pkl_gzip(df, f'../data/test_{PREF}.pkl')
+#    utils.save_test_features(df[usecols])
+#    os.system(f'rm ../data/tmp_{PREF}*')
+    
     imp = pd.read_csv(utils.IMP_FILE).head(utils.GENERATE_FEATURE_SIZE)
     usecols = imp[imp.feature.str.startswith(f'{PREF}')][imp.gain>0].feature.tolist()
-    usecols = [c.replace(f'{PREF}_', '') for c in usecols]
-    usecols += ['object_id']
-    
-    df = pd.concat([pd.read_pickle(f) for f in tqdm(glob(f'../data/tmp_{PREF}*'))], 
-                    ignore_index=True)
-    df.sort_values(f'{PREF}_object_id', inplace=True)
-    df.reset_index(drop=True, inplace=True)
-    del df[f'{PREF}_object_id']
-    utils.to_pkl_gzip(df, f'../data/test_{PREF}.pkl')
+    df = pd.read_pickle(f'../data/test_{PREF}.pkl.gz')
     utils.save_test_features(df[usecols])
-    os.system(f'rm ../data/tmp_{PREF}*')
+    
     
     utils.end(__file__)
 
