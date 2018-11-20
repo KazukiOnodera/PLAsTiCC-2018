@@ -143,6 +143,7 @@ for i in range(MOD_N):
     wloss_list.append( ret['wloss-mean'][-1] )
 
 nround_mean = int((nround_mean/MOD_N) * 1.3)
+utils.send_line(f'nround_mean: {nround_mean}')
 
 result = f"CV wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
 print(result)
@@ -191,7 +192,7 @@ np.random.seed(SEED)
 model_all = []
 for i in range(MOD_N):
     
-    dtrain = lgb.Dataset(X[feature_set[i]], y, #categorical_feature=CAT, 
+    dtrain = lgb.Dataset(X[feature_set[i]], y.values, #categorical_feature=CAT, 
                          free_raw_data=False)
     gc.collect()
     
