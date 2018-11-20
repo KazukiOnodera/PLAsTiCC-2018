@@ -118,7 +118,7 @@ for j in range(MOD_N):
     col = COL[:USE_FEATURES]
     col += [c for i,c in enumerate(COL[USE_FEATURES:]) if i%MOD_N==j]
     
-    dtrain = lgb.Dataset(X[col], y, #categorical_feature=CAT, 
+    dtrain = lgb.Dataset(X[col], y.values, #categorical_feature=CAT, 
                          free_raw_data=False)
     gc.collect()
     
@@ -130,7 +130,7 @@ for j in range(MOD_N):
                              feval=utils_metric.wloss_metric,
                              early_stopping_rounds=100, verbose_eval=50,
                              seed=SEED)
-        y_pred = ex.eval_oob(X, y, models, SEED, stratified=True, shuffle=True, 
+        y_pred = ex.eval_oob(X, y.values, models, SEED, stratified=True, shuffle=True, 
                              n_class=y.unique().shape[0])
         y_preds.append(y_pred)
         model_all += models
