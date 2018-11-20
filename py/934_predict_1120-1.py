@@ -36,7 +36,6 @@ print('SEED:', SEED)
 
 NFOLD = 5
 
-LOOP = 5
 
 param = {
          'objective': 'multiclass',
