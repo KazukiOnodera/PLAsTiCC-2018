@@ -16,7 +16,7 @@ import os
 
 import utils
 
-N_FEATURES = 300
+N_FEATURES = 600
 
 COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(N_FEATURES).feature.tolist()
 
