@@ -125,7 +125,7 @@ imp['total'] = imp['split'] + imp['gain']
 imp.sort_values('total', ascending=False, inplace=True)
 imp.reset_index(drop=True, inplace=True)
 
-print(imp.head(200).feature.map(lambda x: x.split('_')[0]).value_counts())
+print(imp.head(100).feature.map(lambda x: x.split('_')[0]).value_counts())
 
 imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
 
@@ -177,7 +177,7 @@ imp['total'] = imp['split'] + imp['gain']
 imp.sort_values('total', ascending=False, inplace=True)
 imp.reset_index(drop=True, inplace=True)
 
-print(imp.head(200).feature.map(lambda x: x.split('_')[0]).value_counts())
+print(imp.head(100).feature.map(lambda x: x.split('_')[0]).value_counts())
 
 imp.to_csv(f'LOG/imp_{__file__}-2.csv', index=False)
 
