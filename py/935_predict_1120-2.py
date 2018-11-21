@@ -227,6 +227,8 @@ for i in range(MOD_N):
             y_pred_all += y_pred
 
 y_pred_all /= len(model_all)
+#y_pred_all /= len(LOOP * MOD_N)
+
 
 sub = pd.read_csv('../input/sample_submission.csv.zip')
 df = pd.DataFrame(y_pred_all, columns=sub.columns[1:-1])
