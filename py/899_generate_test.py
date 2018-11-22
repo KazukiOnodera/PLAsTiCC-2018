@@ -16,9 +16,12 @@ import os
 
 import utils
 
-N_FEATURES = 600
+NFEATURES = 600
+NTHREADS = 3
 
-COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(N_FEATURES).feature.tolist()
+
+
+COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(NFEATURES).feature.tolist()
 
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
