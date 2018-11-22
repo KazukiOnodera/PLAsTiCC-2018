@@ -227,7 +227,7 @@ for i in range(MOD_N):
         else:
             y_pred_all += y_pred
 
-y_pred_all /= len(LOOP * MOD_N)
+y_pred_all /= int(LOOP * MOD_N)
 
 
 sub = pd.read_csv('../input/sample_submission.csv.zip')
