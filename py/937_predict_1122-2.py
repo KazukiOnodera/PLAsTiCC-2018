@@ -73,7 +73,7 @@ MOD_N = 5
 # =============================================================================
 # load
 # =============================================================================
-COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(BASE_FEATURES + ( MOD_FEATURES+int(MOD_FEATURES/MOD_N) ) ).feature.tolist()
+COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(BASE_FEATURES + ( MOD_FEATURES+int(MOD_FEATURES/(MOD_N-1)) ) ).feature.tolist()
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
 
