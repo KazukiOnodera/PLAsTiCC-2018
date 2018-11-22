@@ -8,6 +8,8 @@ Created on Thu Nov 22 21:08:18 2018
 models = LOOP * MOD_N
 
 """
+
+
 import numpy as np
 import pandas as pd
 import os, gc
@@ -30,7 +32,6 @@ COMMENT = 'top100 features * 3'
 
 EXE_SUBMIT = True
 
-#DROP = ['f001_hostgal_specz']
 
 SEED = np.random.randint(9999)
 np.random.seed(SEED)
@@ -64,15 +65,15 @@ param = {
          }
 
 
-USE_FEATURES = 10
-MOD_FEATURES = 90
+BASE_FEATURES = 100
+MOD_FEATURES = 200
 MOD_N = 5
 
 
 # =============================================================================
 # load
 # =============================================================================
-COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(USE_FEATURES + (MOD_FEATURES*MOD_N) ).feature.tolist()
+COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(BASE_FEATURES + ( MOD_FEATURES+int(MOD_FEATURES/MOD_N) ) ).feature.tolist()
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
 
@@ -113,8 +114,8 @@ gc.collect()
 
 feature_set = {}
 for i in range(MOD_N):
-    col = COL[:USE_FEATURES]
-    col += [c for j,c in enumerate(COL[USE_FEATURES:]) if j%MOD_N==i]
+    col = COL[:BASE_FEATURES]
+    col += [c for j,c in enumerate(COL[BASE_FEATURES:]) if j%MOD_N!=i]
     feature_set[i] = col
 
 # =============================================================================
