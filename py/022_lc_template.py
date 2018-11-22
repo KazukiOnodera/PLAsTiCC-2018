@@ -12,7 +12,7 @@ parameters:
     days: [10, 20, 30]
     aggfunc: [mean, median]
     detected: [0, 1]
-    pthotoz
+    specz
     
 
 """
@@ -63,10 +63,10 @@ tr_log = pd.merge(tr_log, tbl[['object_id', 'date_start', 'date_end']],
                   how='left', on='object_id')
 tr_log['after_peak'] = (tr_log.date_start <= tr_log.date) & (tr_log.date <= tr_log.date_end) 
 
-# TODO: photoz bin
+# TODO: specz bin
 
-# remove photoz 2.0
-#tr_log = tr_log[tr_log['hostgal_photoz']>2.0]
+# remove specz 2.0
+#tr_log = tr_log[tr_log['hostgal_specz']>2.0]
 """
 In [14]: tr_log.drop_duplicates(['object_id', 'target']).target.value_counts()
 Out[14]: 
