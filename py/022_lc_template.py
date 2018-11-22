@@ -297,6 +297,7 @@ if __name__ == "__main__":
                         ignore_index=True)
         df.sort_values(f'{PREF}_object_id', inplace=True)
         df.reset_index(drop=True, inplace=True)
+        del df[f'{PREF}_object_id']
         utils.to_pkl_gzip(df, f'../data/test_{PREF}.pkl')
         utils.save_test_features(df[usecols])
         os.system(f'rm ../data/tmp_{PREF}*')
