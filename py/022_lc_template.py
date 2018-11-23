@@ -178,7 +178,7 @@ def multi_train(oid):
     feature = pd.DataFrame(index=df.index)
     feature['object_id'] = df['object_id']
     li = [feature]
-    li.append( df.iloc[:,1:] ) 
+    li.append( df.iloc[:,1:].reset_index(drop=True) ) 
     li.append( (df.iloc[:,1:] / template42_).add_prefix('c42_') )
     li.append( (df.iloc[:,1:] / template52_).add_prefix('c52_') )
     li.append( (df.iloc[:,1:] / template62_).add_prefix('c62_') )
@@ -207,7 +207,8 @@ def multi_test(args):
     
     keep = pd.concat(li)
     
-    te_log = pd.merge(keep, te_log, on=['object_id', 'date'], how='inner')
+    te_log = pd.merge(keep, te_log, on=['object_id', 'date'], how='left')
+    te_log = te_log.sort_values(['object_id', 'date']).reset_index(drop=True)
     norm_flux_date(te_log)
     
     te_pt = pd.pivot_table(te_log, index=['object_id', 'date'], 
@@ -225,7 +226,7 @@ def multi_test(args):
     feature['date'] = te_pt.index
     feature.reset_index(drop=True, inplace=True)
     li = [feature]
-    li.append( te_pt.iloc[:,1:] ) 
+    li.append( te_pt.iloc[:,1:].reset_index(drop=True) ) 
     li.append( (te_pt.iloc[:,1:] / template42).add_prefix('c42_').reset_index(drop=True) )
     li.append( (te_pt.iloc[:,1:] / template52).add_prefix('c52_').reset_index(drop=True) )
     li.append( (te_pt.iloc[:,1:] / template62).add_prefix('c62_').reset_index(drop=True) )
@@ -263,7 +264,8 @@ if __name__ == "__main__":
     
     keep = pd.concat(li)
     
-    tr_log = pd.merge(keep, tr_log, on=['object_id', 'date'], how='left').sort_values(['object_id', 'date']).reset_index(drop=True)
+    tr_log = pd.merge(keep, tr_log, on=['object_id', 'date'], how='left')
+    tr_log = tr_log.sort_values(['object_id', 'date']).reset_index(drop=True)
     norm_flux_date(tr_log)
     
     tr_pt = pd.pivot_table(tr_log, index=['object_id', 'date'], 
