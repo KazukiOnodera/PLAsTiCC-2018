@@ -44,50 +44,49 @@ os.system(f'rm ../feature/t*_{PREF}*')
 DAYS_FROM = 10
 DAYS_TO = 10
 
-# =============================================================================
-# def
-# =============================================================================
 
 class_SN = [42, 52, 62, 67, 90]
 
 tr = pd.read_pickle('../data/train.pkl')
 
-
+# =============================================================================
+# template
+# =============================================================================
 tr_log = pd.read_pickle('../data/train_log.pkl')
 tr_log = pd.merge(tr_log, tr[['object_id', 'hostgal_photoz', 'target']], 
                   on='object_id', how='left')
 tr_log = tr_log[(tr_log.target.isin(class_SN))].reset_index(drop=True)
 
 
-# after peak for DAYS
+# -DAYS_FROM ~ peak + DAYS_TO
 idxmax = tr_log.groupby('object_id').flux.idxmax()
-tbl = tr_log.iloc[idxmax].reset_index(drop=True)
-tbl['date_start'] = tbl['date'] - DAYS_FROM
-tbl['date_end'] = tbl['date'] + DAYS_TO
-tr_log = pd.merge(tr_log, tbl[['object_id', 'date_start', 'date_end']], 
-                  how='left', on='object_id')
-tr_log['target_date'] = (tr_log.date_start <= tr_log.date) & (tr_log.date <= tr_log.date_end) 
+base = tr_log.iloc[idxmax][['object_id', 'date']]
+li = []
+for i in range(-DAYS_FROM, 0):
+    tmp = base.copy()
+    tmp['date'] += i
+    li.append(tmp)
 
-# remove oid that doesnt have DAYS_FROM ~ peak sample
-oids = tr_log[tr_log.date.between(tr_log.date_start, tr_log.date_start+(DAYS_FROM-1))]['object_id'].tolist()
-tr_log = tr_log[tr_log.object_id.isin(oids)]
+lag = pd.concat(li)
+lag = pd.merge(lag, tr_log, on=['object_id', 'date'], how='left')
+lag = lag.sort_values(['object_id', 'date']).reset_index(drop=True)
 
+li = []
+for i in range(0, DAYS_TO):
+    tmp = base.copy()
+    tmp['date'] += i
+    li.append(tmp)
 
+lead = pd.concat(li)
+lead = pd.merge(lead, tr_log, on=['object_id', 'date'], how='left')
+lead = lead[lead.object_id.isin(lag.object_id)].sort_values(['object_id', 'date']).reset_index(drop=True)
+
+tr_log = pd.concat([lag, lead], ignore_index=True).sort_values(['object_id', 'date']).reset_index(drop=True)
 
 # TODO: specz bin
 
 # remove specz 2.0
 #tr_log = tr_log[tr_log['hostgal_specz']>2.0]
-"""
-In [14]: tr_log.drop_duplicates(['object_id', 'target']).target.value_counts()
-Out[14]: 
-90    92
-42    89
-62    38
-52    10
-Name: target, dtype: int64
-
-"""
 
 
 template_log = tr_log.copy()
@@ -99,14 +98,17 @@ for k,v in tr_log[['object_id' , 'target']].values:
 
 target_oids = {}
 for t in class_SN:
-    target_oids[t] = tr[tr.target==t].object_id.tolist()
+    target_oids[t] = tr_log[tr_log.target==t].object_id.unique().tolist()
 
-
-def flux_norm(df):
+# =============================================================================
+# def
+# =============================================================================
+def norm_flux_date(df):
 #    df.flux -= df.groupby(['object_id']).flux.transform('min')
     df.flux /= df.groupby('object_id').flux.transform('max')
+    df.date -= df.groupby('object_id').date.transform('min')
     
-flux_norm(template_log)
+norm_flux_date(template_log)
 
 comb = [('pb0', 'pb1'),
          ('pb0', 'pb2'),
@@ -125,13 +127,11 @@ comb = [('pb0', 'pb1'),
          ('pb4', 'pb5')]
 
 def log_to_template(df, target):
-    temp = df[(df.target==target) & (df.target_date==True)].reset_index(drop=True)
-    temp.mjd -= temp.groupby('object_id').mjd.transform('min')
-    temp.date = temp.mjd.astype(int)
+    temp = df[(df.target==target)].reset_index(drop=True)
     temp = pd.pivot_table(temp, index=['date'], columns=['passband'], 
                           values=['flux'], aggfunc='mean')
     
-    temp.columns = pd.Index([f'pb{e[1]}' for e in temp.columns.tolist()])
+    temp.columns = pd.Index([f'pb{int(e[1])}' for e in temp.columns.tolist()])
     
     # compare passband
     for c1,c2 in comb:
@@ -201,21 +201,16 @@ def multi_test(args):
     te_log = pd.read_pickle(input_path)
     idxmax = te_log.groupby('object_id').flux.idxmax()
     base = te_log.iloc[idxmax][['object_id', 'date']]
-    li = [base]
-    for i in range(10):
-        i += 1
-        lead = base.copy()
-        lead['date'] += i
-        lag = base.copy()
-        lag['date'] -= i
-        li.append(lead)
-        li.append(lag)
+    li = []
+    for i in range(-DAYS_FROM, DAYS_TO):
+        tmp = base.copy()
+        tmp['date'] += i
+        li.append(tmp)
     
     keep = pd.concat(li)
     
     te_log = pd.merge(keep, te_log, on=['object_id', 'date'], how='inner')
-    flux_norm(te_log)
-    te_log.date -= te_log.groupby('object_id').date.transform('min')
+    norm_flux_date(te_log)
     
     te_pt = pd.pivot_table(te_log, index=['object_id', 'date'], 
                            columns=['passband'], values=['flux'], aggfunc='mean')
@@ -262,21 +257,16 @@ if __name__ == "__main__":
     tr_log = pd.read_pickle('../data/train_log.pkl')
     idxmax = tr_log.groupby('object_id').flux.idxmax()
     base = tr_log.iloc[idxmax][['object_id', 'date']]
-    li = [base]
-    for i in range(10):
-        i += 1
-        lead = base.copy()
-        lead['date'] += i
-        lag = base.copy()
-        lag['date'] -= i
-        li.append(lead)
-        li.append(lag)
+    li = []
+    for i in range(-DAYS_FROM, DAYS_TO):
+        tmp = base.copy()
+        tmp['date'] += i
+        li.append(tmp)
     
     keep = pd.concat(li)
     
-    tr_log = pd.merge(keep, tr_log, on=['object_id', 'date'], how='left')
-    flux_norm(tr_log)
-    tr_log.date -= tr_log.groupby('object_id').date.transform('min')
+    tr_log = pd.merge(keep, tr_log, on=['object_id', 'date'], how='left').sort_values(['object_id', 'date']).reset_index(drop=True)
+    norm_flux_date(tr_log)
     
     tr_pt = pd.pivot_table(tr_log, index=['object_id', 'date'], 
                            columns=['passband'], values=['flux'], aggfunc='mean')
