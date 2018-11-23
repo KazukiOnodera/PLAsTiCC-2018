@@ -134,6 +134,7 @@ def log_to_template(df, target):
     # compare passband
     for c1,c2 in comb:
         temp[f'{c1}-d-{c2}'] = temp[c1] / temp[c2]
+    temp['object_id'] = 1
     return temp
 
 
@@ -159,7 +160,7 @@ def lc_template_l3o(oid):
     
     return template42, template52, template62, template67, template90
 
-template42 = log_to_template(template_log, 42)
+template42 = log_to_template(template_log, 42) # index is date
 template52 = log_to_template(template_log, 52)
 template62 = log_to_template(template_log, 62)
 template67 = log_to_template(template_log, 67)
@@ -175,15 +176,13 @@ def multi_train(oid):
 #        template42.copy(), template52.copy(), template62.copy(), template67.copy(), template90.copy()
     
     df = tr_pt[tr_pt.object_id==oid]
-    feature = pd.DataFrame(index=df.index)
-    feature['object_id'] = df['object_id']
-    li = [feature]
-    li.append( df.iloc[:,1:].reset_index(drop=True) ) 
-    li.append( (df.iloc[:,1:] / template42_).add_prefix('c42_') )
-    li.append( (df.iloc[:,1:] / template52_).add_prefix('c52_') )
-    li.append( (df.iloc[:,1:] / template62_).add_prefix('c62_') )
-    li.append( (df.iloc[:,1:] / template67_).add_prefix('c67_') )
-    li.append( (df.iloc[:,1:] / template90_).add_prefix('c90_') )
+    li = []
+    li.append( df.reset_index().set_index(['object_id', 'date']) ) 
+    li.append( (df / template42_).dropna(how='all').reset_index().set_index(['object_id', 'date']).add_prefix('c42_') )
+    li.append( (df / template52_).dropna(how='all').reset_index().set_index(['object_id', 'date']).add_prefix('c52_') )
+    li.append( (df / template62_).dropna(how='all').reset_index().set_index(['object_id', 'date']).add_prefix('c62_') )
+    li.append( (df / template67_).dropna(how='all').reset_index().set_index(['object_id', 'date']).add_prefix('c67_') )
+    li.append( (df / template90_).dropna(how='all').reset_index().set_index(['object_id', 'date']).add_prefix('c90_') )
     feature = pd.concat(li, axis=1, join='inner')
     
     return feature
@@ -194,6 +193,9 @@ def multi_train(oid):
 
 
 def multi_test(args):
+    """
+    input_path, output_path = '../data/test_log01.pkl', '../data/tmp_f0221.pkl'
+    """
     input_path, output_path = args
     
     te_log = pd.read_pickle(input_path)
@@ -221,21 +223,17 @@ def multi_test(args):
     te_pt.reset_index(inplace=True)
     te_pt.set_index('date', inplace=True)
     
-    # TODO: write
-    feature = te_pt[['object_id']]
-    feature['date'] = te_pt.index
-    feature.reset_index(drop=True, inplace=True)
-    li = [feature]
-    li.append( te_pt.iloc[:,1:].reset_index(drop=True) ) 
-    li.append( (te_pt.iloc[:,1:] / template42).add_prefix('c42_').reset_index(drop=True) )
-    li.append( (te_pt.iloc[:,1:] / template52).add_prefix('c52_').reset_index(drop=True) )
-    li.append( (te_pt.iloc[:,1:] / template62).add_prefix('c62_').reset_index(drop=True) )
-    li.append( (te_pt.iloc[:,1:] / template67).add_prefix('c67_').reset_index(drop=True) )
-    li.append( (te_pt.iloc[:,1:] / template90).add_prefix('c90_').reset_index(drop=True) )
-    feature = pd.concat(li, axis=1, join='inner')
+    li = []
+    li.append( te_pt.reset_index().set_index(['object_id', 'date']) ) # keep date
+    li.append( (te_pt / template42).dropna(how='all').reset_index().set_index(['object_id', 'date']).add_prefix('c42_') )
+    li.append( (te_pt / template52).dropna(how='all').reset_index().set_index(['object_id', 'date']).add_prefix('c52_') )
+    li.append( (te_pt / template62).dropna(how='all').reset_index().set_index(['object_id', 'date']).add_prefix('c62_') )
+    li.append( (te_pt / template67).dropna(how='all').reset_index().set_index(['object_id', 'date']).add_prefix('c67_') )
+    li.append( (te_pt / template90).dropna(how='all').reset_index().set_index(['object_id', 'date']).add_prefix('c90_') )
+    feature = pd.concat(li, axis=1, join='inner').reset_index()
     
     pt = pd.pivot_table(feature, index=['object_id'], 
-                        columns=['date'])
+                        columns=['date']) # unique oid, date
     pt.columns = pd.Index([f'{e[0]}_d{e[1]}' for e in pt.columns.tolist()])
     pt.reset_index(inplace=True) # keep oid
     pt.add_prefix(PREF+'_').to_pickle(output_path)
