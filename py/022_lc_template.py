@@ -54,7 +54,7 @@ tr_log = pd.merge(tr_log, tr[['object_id', 'hostgal_photoz', 'target']],
 tr_log = tr_log[(tr_log.target.isin(class_SN)) & (tr_log.flux>0)].reset_index(drop=True) # remove flux<0
 
 
-# after peak for 60days
+# after peak for DAYS
 idxmax = tr_log.groupby('object_id').flux.idxmax()
 tbl = tr_log.iloc[idxmax].reset_index(drop=True)
 tbl['date_start'] = tbl['date']
@@ -124,12 +124,12 @@ def log_to_template(df, target):
         temp[f'{c1}-d-{c2}'] = temp[c1] / temp[c2]
     return temp
 
-np.random.seed(71)
+
 def lc_template_l3o(oid):
     """
     leave (three * other class) out
     """
-#    t = oid_target[oid]
+    np.random.seed(oid)
     oids = []
     for c in class_SN:
         oids += list(np.random.choice(target_oids[c], size=3, replace=False))
