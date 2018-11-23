@@ -51,7 +51,7 @@ tr = pd.read_pickle('../data/train.pkl')
 tr_log = pd.read_pickle('../data/train_log.pkl')
 tr_log = pd.merge(tr_log, tr[['object_id', 'hostgal_photoz', 'target']], 
                   on='object_id', how='left')
-tr_log = tr_log[(tr_log.target.isin(class_SN)) & (tr_log.flux>0)].reset_index(drop=True) # remove flux<0
+tr_log = tr_log[(tr_log.target.isin(class_SN))].reset_index(drop=True)
 
 
 # after peak for DAYS
@@ -108,6 +108,10 @@ comb = [('pb0', 'pb1'),
          ('pb3', 'pb5'),
          ('pb4', 'pb5')]
 
+def flux_norm(df):
+    df.flux - df.groupby(['object_id']).flux.transform('min')
+
+flux_norm(template_log)
 
 def log_to_template(df, target):
     temp = df[(df.target==target) & (df.after_peak==True)].reset_index(drop=True)
@@ -196,6 +200,7 @@ def multi_test(args):
     keep = pd.concat(li)
     
     te_log = pd.merge(keep, te_log, on=['object_id', 'date'], how='inner')
+    flux_norm(te_log)
     te_log.mjd -= te_log.groupby('object_id').mjd.transform('min')
     te_log.date = te_log.mjd.astype(int)
     te_log.flux /= te_log.groupby('object_id').flux.transform('max')
@@ -237,7 +242,6 @@ def multi_test(args):
 if __name__ == "__main__":
     utils.start(__file__)
     
-    usecols = None
     
     # =============================================================================
     # # train
@@ -255,6 +259,7 @@ if __name__ == "__main__":
     keep = pd.concat(li)
     
     tr_log = pd.merge(keep, tr_log, on=['object_id', 'date'], how='inner')
+    flux_norm(tr_log)
     tr_log.mjd -= tr_log.groupby('object_id').mjd.transform('min')
     tr_log.date = tr_log.mjd.astype(int)
     tr_log.flux /= tr_log.groupby('object_id').flux.transform('max')

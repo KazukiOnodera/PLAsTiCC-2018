@@ -55,7 +55,7 @@ def multi(pref):
 if __name__ == "__main__":
     utils.start(__file__)
     
-    pool = Pool(5)
+    pool = Pool(NTHREADS)
     pool.map(multi, gen_prefs)
     pool.close()
     
