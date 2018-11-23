@@ -225,7 +225,7 @@ def multi_test(args):
     feature['date'] = te_pt.index
     feature.reset_index(drop=True, inplace=True)
     li = [feature]
-    li.append( df.iloc[:,1:] ) 
+    li.append( te_pt.iloc[:,1:] ) 
     li.append( (te_pt.iloc[:,1:] / template42).add_prefix('c42_').reset_index(drop=True) )
     li.append( (te_pt.iloc[:,1:] / template52).add_prefix('c52_').reset_index(drop=True) )
     li.append( (te_pt.iloc[:,1:] / template62).add_prefix('c62_').reset_index(drop=True) )
