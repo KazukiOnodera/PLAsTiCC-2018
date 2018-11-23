@@ -48,7 +48,7 @@ SPLIT_SIZE = 100
 
 TEST_LOGS = sorted(glob('../data/test_log*.pkl'))
 
-GENERATE_FEATURE_SIZE = 3000
+GENERATE_FEATURE_SIZE = 1000
 
 GENERATE_TEST = True
 
