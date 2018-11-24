@@ -124,6 +124,7 @@ gc.collect()
     
 for param_ in param_list:
     gc.collect()
+    print(f"\ncolsample_bytree: {param_['colsample_bytree']}    subsample: {param_['subsample']}")
     ret, models = lgb.cv(param_, dtrain, 99999, nfold=NFOLD, 
                          fobj=utils_metric.wloss_objective, 
                          feval=utils_metric.wloss_metric,
@@ -136,42 +137,42 @@ for param_ in param_list:
     nround_mean += len(ret['wloss-mean'])
     wloss_list.append( ret['wloss-mean'][-1] )
 
-nround_mean = int((nround_mean/1) * 1.3)
-
-result = f"CV wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
-print(result)
-
-imp = ex.getImp(model_all)
-imp['split'] /= imp['split'].max()
-imp['gain'] /= imp['gain'].max()
-imp['total'] = imp['split'] + imp['gain']
-
-imp.sort_values('total', ascending=False, inplace=True)
-imp.reset_index(drop=True, inplace=True)
-
-
-imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
-
-
-# =============================================================================
-# eval
-# =============================================================================
-for i,y_pred in enumerate(y_preds):
-    y_pred = pd.DataFrame(utils_metric.softmax(y_pred.astype(float).values))
-    if i==0:
-        tmp = y_pred
-    else:
-        tmp += y_pred
-tmp /= len(y_preds)
-y_preds = tmp.copy().values.astype(float)
-
-
-w_score = utils_metric.multi_weighted_logloss(y.values, y_preds)
-a_score = utils_metric.akiyama_metric(y.values, y_preds)
-print(f'{w_score}    {a_score}')
+#nround_mean = int((nround_mean/1) * 1.3)
+#
+#result = f"CV wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
+#print(result)
+#
+#imp = ex.getImp(model_all)
+#imp['split'] /= imp['split'].max()
+#imp['gain'] /= imp['gain'].max()
+#imp['total'] = imp['split'] + imp['gain']
+#
+#imp.sort_values('total', ascending=False, inplace=True)
+#imp.reset_index(drop=True, inplace=True)
+#
+#
+#imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
+#
+#
+## =============================================================================
+## eval
+## =============================================================================
+#for i,y_pred in enumerate(y_preds):
+#    y_pred = pd.DataFrame(utils_metric.softmax(y_pred.astype(float).values))
+#    if i==0:
+#        tmp = y_pred
+#    else:
+#        tmp += y_pred
+#tmp /= len(y_preds)
+#y_preds = tmp.copy().values.astype(float)
+#
+#
+#w_score = utils_metric.multi_weighted_logloss(y.values, y_preds)
+#a_score = utils_metric.akiyama_metric(y.values, y_preds)
+#print(f'{w_score}    {a_score}')
 
 
 #==============================================================================
-utils.end(__file__)
+#utils.end(__file__)
 utils.stop_instance()
 
