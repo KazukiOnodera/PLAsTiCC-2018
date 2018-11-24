@@ -23,7 +23,7 @@ import utils, utils_metric
 utils.start(__file__)
 #==============================================================================
 
-SUBMIT_FILE_PATH = '../output/1123-1.csv.gz'
+SUBMIT_FILE_PATH = '../output/1124-1.csv.gz'
 
 COMMENT = 'top100 features * 5'
 
