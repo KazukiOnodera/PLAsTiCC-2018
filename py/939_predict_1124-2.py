@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri Nov 23 11:39:10 2018
+Created on Sat Nov 24 13:47:08 2018
 
 @author: Kazuki
-
-
-simple seed averaging
-
 """
 
 
@@ -27,9 +23,9 @@ import utils, utils_metric
 utils.start(__file__)
 #==============================================================================
 
-SUBMIT_FILE_PATH = '../output/1124-1.csv.gz'
+SUBMIT_FILE_PATH = '../output/1124-2.csv.gz'
 
-COMMENT = 'top500 features * 10'
+COMMENT = 'top100 features * 5'
 
 EXE_SUBMIT = True
 
@@ -40,7 +36,7 @@ print('SEED:', SEED)
 
 NFOLD = 5
 
-LOOP = 10
+LOOP = 3
 
 param = {
          'objective': 'multiclass',
@@ -66,13 +62,15 @@ param = {
          }
 
 
-BASE_FEATURES = 500
+BASE_FEATURES = 30
+MOD_FEATURES = 70
+MOD_N = 5
 
 
 # =============================================================================
 # load
 # =============================================================================
-COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(BASE_FEATURES).feature.tolist()
+COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(BASE_FEATURES + ( MOD_FEATURES+int(MOD_FEATURES/(MOD_N-1)) ) ).feature.tolist()
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
 
@@ -111,11 +109,16 @@ print(f'X.shape {X.shape}')
 
 gc.collect()
 
+feature_set = {}
+for i in range(MOD_N):
+    col = COL[:BASE_FEATURES]
+    col += [c for j,c in enumerate(COL[BASE_FEATURES:]) if j%MOD_N!=i]
+    feature_set[i] = col
+    print('each feature size:', len(col))
+
 # =============================================================================
 # cv
 # =============================================================================
-dtrain = lgb.Dataset(X[COL], y.values, #categorical_feature=CAT, 
-                 free_raw_data=False)
 
 gc.collect()
 
@@ -123,7 +126,9 @@ model_all = []
 nround_mean = 0
 wloss_list = []
 y_preds = []
-for i in range(2):
+for i in range(MOD_N):
+    dtrain = lgb.Dataset(X[feature_set[i]], y.values, #categorical_feature=CAT, 
+                     free_raw_data=False)
     
     gc.collect()
     param['seed'] = np.random.randint(9999)
@@ -132,14 +137,14 @@ for i in range(2):
                          feval=utils_metric.wloss_metric,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
-    y_pred = ex.eval_oob(X[COL], y.values, models, SEED, stratified=True, shuffle=True, 
+    y_pred = ex.eval_oob(X[feature_set[i]], y.values, models, SEED, stratified=True, shuffle=True, 
                          n_class=True)
     y_preds.append(y_pred)
     model_all += models
     nround_mean += len(ret['wloss-mean'])
     wloss_list.append( ret['wloss-mean'][-1] )
 
-nround_mean = int((nround_mean/2) * 1.3)
+nround_mean = int((nround_mean/MOD_N) * 1.3)
 utils.send_line(f'nround_mean: {nround_mean}')
 
 result = f"CV wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
@@ -171,25 +176,32 @@ gc.collect()
 
 np.random.seed(SEED)
 
-model_all = []
-for i in range(LOOP):
+model_set = {}
+for i in range(MOD_N):
     
-    print(f'LOOP:{i}')
+    dtrain = lgb.Dataset(X[feature_set[i]], y.values, #categorical_feature=CAT, 
+                         free_raw_data=False)
     gc.collect()
-    param['seed'] = np.random.randint(9999)
-    model = lgb.train(param, dtrain, num_boost_round=nround_mean, 
-                      fobj=utils_metric.wloss_objective, 
-                      feval=utils_metric.wloss_metric,
-                      valid_names=None, init_model=None, 
-                      feature_name='auto', categorical_feature='auto', 
-                      early_stopping_rounds=None, evals_result=None, 
-                      verbose_eval=True, learning_rates=None, 
-                      keep_training_booster=False, callbacks=None)
+    model_all = []
+    for j in range(LOOP):
+    
+        print(f'MOD_N:{i}    LOOP:{j}')
+        gc.collect()
+        param['seed'] = np.random.randint(9999)
+        model = lgb.train(param, dtrain, num_boost_round=nround_mean, 
+                          fobj=utils_metric.wloss_objective, 
+                          feval=utils_metric.wloss_metric,
+                          valid_names=None, init_model=None, 
+                          feature_name='auto', categorical_feature='auto', 
+                          early_stopping_rounds=None, evals_result=None, 
+                          verbose_eval=True, learning_rates=None, 
+                          keep_training_booster=False, callbacks=None)
+    
+        model_all.append(model)
+    model_set[i] = model_all
 
-    model_all.append(model)
 
-
-del dtrain, X; gc.collect()
+del dtrain, X, model_all; gc.collect()
 
 # =============================================================================
 # test
@@ -201,16 +213,19 @@ X_test = pd.concat([
 
 gc.collect()
 
-for i,model in enumerate(tqdm(model_all)):
-    gc.collect()
-    y_pred = model.predict(X_test)
-    y_pred = utils_metric.softmax(y_pred)
-    if i==0:
-        y_pred_all = y_pred
-    else:
-        y_pred_all += y_pred
+for i in range(MOD_N):
+    model_all = model_set[i]
+    col = feature_set[i]
+    for j,model in enumerate(tqdm(model_all)):
+        gc.collect()
+        y_pred = model.predict(X_test[col])
+        y_pred = utils_metric.softmax(y_pred)
+        if i==0:
+            y_pred_all = y_pred
+        else:
+            y_pred_all += y_pred
 
-y_pred_all /= len(model_all)
+y_pred_all /= int(LOOP * MOD_N)
 
 
 sub = pd.read_csv('../input/sample_submission.csv.zip')
@@ -242,6 +257,6 @@ if EXE_SUBMIT:
 
 #==============================================================================
 utils.end(__file__)
-#utils.stop_instance()
+utils.stop_instance()
 
 
