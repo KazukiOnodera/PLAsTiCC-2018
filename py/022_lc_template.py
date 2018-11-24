@@ -14,6 +14,8 @@ parameters:
     detected: [0, 1]
     specz
     date_from: 10 days before from peak
+    template augment: True
+    train, test augment: True
     
 
 """
@@ -42,6 +44,7 @@ os.system(f'rm ../feature/t*_{PREF}*')
 DAYS_FROM = 10
 DAYS_TO = 10
 
+DATE_AUGMENT = 2
 
 class_SN = [42, 52, 62, 67, 90]
 
@@ -105,8 +108,27 @@ def norm_flux_date(df):
 #    df.flux -= df.groupby(['object_id']).flux.transform('min')
     df.flux /= df.groupby('object_id').flux.transform('max')
     df.date -= df.groupby('object_id').date.transform('min')
-    
+
 norm_flux_date(template_log)
+
+# augment
+def augment(df, n):
+    if n > 0:
+        li = []
+        for i in range(1, n+1):
+            tmp = df.copy()
+            tmp['date'] += i
+            li.append(tmp)
+            tmp = df.copy()
+            tmp['date'] -= i
+            li.append(tmp)
+        tmp = pd.concat(li)
+        tmp = tmp[tmp.date.between(0, 19)]
+        df = pd.concat([df, tmp], ignore_index=True)
+    return df
+
+template_log = augment(template_log, DATE_AUGMENT)
+
 
 comb = [('pb0', 'pb1'),
          ('pb0', 'pb2'),
@@ -212,6 +234,7 @@ def multi_test(args):
     te_log = pd.merge(keep, te_log, on=['object_id', 'date'], how='left')
     te_log = te_log.sort_values(['object_id', 'date']).reset_index(drop=True)
     norm_flux_date(te_log)
+    te_log = augment(te_log, DATE_AUGMENT)
     
     te_pt = pd.pivot_table(te_log, index=['object_id', 'date'], 
                            columns=['passband'], values=['flux'], aggfunc='mean')
@@ -265,6 +288,7 @@ if __name__ == "__main__":
     tr_log = pd.merge(keep, tr_log, on=['object_id', 'date'], how='left')
     tr_log = tr_log.sort_values(['object_id', 'date']).reset_index(drop=True)
     norm_flux_date(tr_log)
+    tr_log = augment(tr_log, DATE_AUGMENT)
     
     tr_pt = pd.pivot_table(tr_log, index=['object_id', 'date'], 
                            columns=['passband'], values=['flux'], aggfunc='mean')
