@@ -103,10 +103,10 @@ param_list = []
 
 # colsample_bytree
 for i,j in product(np.arange(0.1, 1, 0.2), np.arange(0.1, 1, 0.2)):
-    _ = param.copy()
-    _['colsample_bytree'] = i
-    _['subsample'] = i
-    param_list.append(_)
+    param_ = param.copy()
+    param_['colsample_bytree'] = round(i, 2)
+    param_['subsample'] = round(j, 2)
+    param_list.append(param_)
 
 
 # =============================================================================
