@@ -62,7 +62,7 @@ param = {
 # =============================================================================
 
 files_tr = sorted(glob('../data/train_f*.pkl'))
-[print(f) for f in files_tr]
+[print(i,f) for i,f in enumerate(files_tr)]
 
 X = pd.concat([
                 pd.read_pickle(f) for f in tqdm(files_tr, mininterval=60)
