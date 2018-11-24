@@ -62,8 +62,8 @@ param = {
          }
 
 
-BASE_FEATURES = 200
-MOD_FEATURES = 200
+BASE_FEATURES = 30
+MOD_FEATURES = 100
 MOD_N = 5
 
 
