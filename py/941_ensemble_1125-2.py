@@ -126,16 +126,16 @@ for i,col in enumerate(split_list(COL, EACH_FEATURES)):
     print('each feature size:', len(col))
 
 # =============================================================================
-# cv
+# stacking
 # =============================================================================
 
 gc.collect()
 
-model_all = []
+model_set = {}
 nround_mean = 0
 wloss_list = []
-y_preds = []
-for i in range(MOD_N):
+oofs = []
+for i in feature_set:
     dtrain = lgb.Dataset(X[feature_set[i]], y.values, #categorical_feature=CAT, 
                      free_raw_data=False)
     
@@ -148,69 +148,15 @@ for i in range(MOD_N):
                          seed=SEED)
     y_pred = ex.eval_oob(X[feature_set[i]], y.values, models, SEED, stratified=True, shuffle=True, 
                          n_class=True)
-    y_preds.append(y_pred)
-    model_all += models
+    oofs.append(y_pred)
+    model_set[i] = models
     nround_mean += len(ret['wloss-mean'])
     wloss_list.append( ret['wloss-mean'][-1] )
-
-nround_mean = int((nround_mean/MOD_N) * 1.3)
-utils.send_line(f'nround_mean: {nround_mean}')
 
 result = f"CV wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
 print(result)
 utils.send_line(result)
 
-
-for i,y_pred in enumerate(y_preds):
-    y_pred = pd.DataFrame(utils_metric.softmax(y_pred.astype(float).values))
-    if i==0:
-        tmp = y_pred
-    else:
-        tmp += y_pred
-tmp /= len(y_preds)
-y_preds = tmp.copy().values.astype(float)
-
-a_score = utils_metric.akiyama_metric(y.values, y_preds)
-print(f'akiyama_metric: {a_score}')
-
-utils.send_line(f'akiyama_metric: {a_score}')
-
-
-# =============================================================================
-# model
-# =============================================================================
-
-gc.collect()
-
-
-np.random.seed(SEED)
-
-model_set = {}
-for i in range(MOD_N):
-    
-    dtrain = lgb.Dataset(X[feature_set[i]], y.values, #categorical_feature=CAT, 
-                         free_raw_data=False)
-    gc.collect()
-    model_all = []
-    for j in range(LOOP):
-    
-        print(f'MOD_N:{i}    LOOP:{j}')
-        gc.collect()
-        param['seed'] = np.random.randint(9999)
-        model = lgb.train(param, dtrain, num_boost_round=nround_mean, 
-                          fobj=utils_metric.wloss_objective, 
-                          feval=utils_metric.wloss_metric,
-                          valid_names=None, init_model=None, 
-                          feature_name='auto', categorical_feature='auto', 
-                          early_stopping_rounds=None, evals_result=None, 
-                          verbose_eval=True, learning_rates=None, 
-                          keep_training_booster=False, callbacks=None)
-    
-        model_all.append(model)
-    model_set[i] = model_all
-
-
-del dtrain, X, model_all; gc.collect()
 
 # =============================================================================
 # test
@@ -222,8 +168,8 @@ X_test = pd.concat([
 
 gc.collect()
 
-for i in range(MOD_N):
-    model_all = model_set[i]
+for i in feature_set:
+    models = model_set[i]
     col = feature_set[i]
     for j,model in enumerate(tqdm(model_all)):
         gc.collect()
