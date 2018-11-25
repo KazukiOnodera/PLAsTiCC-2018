@@ -19,16 +19,16 @@ import lgbextension as ex
 import lightgbm as lgb
 from multiprocessing import cpu_count
 
-import utils
+import utils, utils_metric
 #utils.start(__file__)
 #==============================================================================
 
 SEED = np.random.randint(9999)
 print('SEED:', SEED)
 
-#DROP = ['f001_hostgal_specz', 'f001_distmod', 'f701_hostgal_specz']
+DROP = ['f001_hostgal_specz', 'f001_distmod']
 
-DROP = []
+#DROP = []
 
 NFOLD = 5
 
@@ -50,7 +50,7 @@ param = {
          'reg_alpha': 0.5,  # L1 regularization term on weights.
          
          'colsample_bytree': 0.5,
-         'subsample': 0.5,
+         'subsample': 0.7,
 #         'nthread': 32,
          'nthread': cpu_count(),
          'bagging_freq': 1,
@@ -131,11 +131,9 @@ for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils.lgb_multi_weighted_logloss_gal,
+                         feval=utils_metric.lgb_multi_weighted_logloss,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
-    y_pred = ex.eval_oob(X_gal, y_gal, models, SEED, stratified=True, shuffle=True, 
-                         n_class=y_gal.unique().shape[0])
     model_all += models
     nround_mean += len(ret['multi_logloss-mean'])
     wloss_list.append( ret['wloss-mean'][-1] )
@@ -156,7 +154,50 @@ imp.reset_index(drop=True, inplace=True)
 
 print(imp.head(200).feature.map(lambda x: x.split('_')[0]).value_counts())
 
+# =============================================================================
+# cv2
+# =============================================================================
+COL = imp.feature.tolist()[:3000]
+
+param['learning_rate'] = 0.5
+dtrain = lgb.Dataset(X_gal[COL], y_gal, #categorical_feature=CAT, 
+                     free_raw_data=False)
+gc.collect()
+
+model_all = []
+nround_mean = 0
+wloss_list = []
+for i in range(2):
+    gc.collect()
+    param['seed'] = np.random.randint(9999)
+    ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
+                            fobj=utils_metric.wloss_objective, 
+                            feval=utils_metric.wloss_metric,
+                         early_stopping_rounds=100, verbose_eval=50,
+                         seed=SEED)
+    model_all += models
+    nround_mean += len(ret['multi_logloss-mean'])
+    wloss_list.append( ret['wloss-mean'][-1] )
+
+#nround_mean = int((nround_mean/LOOP) * 1.3)
+
+result = f"CV wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
+print(result)
+
+utils.send_line(result)
+imp = ex.getImp(model_all)
+imp['split'] /= imp['split'].max()
+imp['gain'] /= imp['gain'].max()
+imp['total'] = imp['split'] + imp['gain']
+
+imp.sort_values('total', ascending=False, inplace=True)
+imp.reset_index(drop=True, inplace=True)
+
+print(imp.head(100).feature.map(lambda x: x.split('_')[0]).value_counts())
+
 imp.to_csv(f'LOG/imp_{__file__}_gal.csv', index=False)
+
+
 
 """
 imp = pd.read_csv('LOG/imp_802_cv_separate.py_gal.csv')
@@ -171,7 +212,7 @@ COL = imp.feature.tolist()
 best_score = 9999
 best_N = 0
 
-for i in np.arange(50, 400, 50):
+for i in np.arange(100, 400, 50):
     print(f'\n==== feature size: {i} ====')
     
     dtrain = lgb.Dataset(X_gal[COL[:i]], y_gal, #categorical_feature=CAT, 
@@ -190,26 +231,22 @@ for i in np.arange(50, 400, 50):
         best_score = score
         best_N = i
 
-
-
 # =============================================================================
-# best(gal)
+# best(exgal)
 # =============================================================================
 N = best_N
-#N = 150
+#N = 250
 dtrain = lgb.Dataset(X_gal[COL[:N]], y_gal, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                     feval=utils.lgb_multi_weighted_logloss_gal,
+                     feval=utils.lgb_multi_weighted_logloss_exgal,
                      early_stopping_rounds=100, verbose_eval=50,
                      seed=SEED)
 
 score = ret['wloss-mean'][-1]
 
 y_pred_gal = ex.eval_oob(X_gal[COL[:N]], y_gal, models, SEED, stratified=True, shuffle=True, 
-                         n_class=y_gal.unique().shape[0])
-
-
+                           n_class=y_exgal.unique().shape[0])
 
 # =============================================================================
 # cv(exgal)
@@ -228,11 +265,9 @@ for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils.lgb_multi_weighted_logloss_exgal,
+                         feval=utils_metric.lgb_multi_weighted_logloss,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
-    y_pred = ex.eval_oob(X_exgal, y_exgal, models, SEED, stratified=True, shuffle=True, 
-                         n_class=y_exgal.unique().shape[0])
     model_all += models
     nround_mean += len(ret['multi_logloss-mean'])
     wloss_list.append( ret['wloss-mean'][-1] )
@@ -253,7 +288,6 @@ imp.reset_index(drop=True, inplace=True)
 
 print(imp.head(200).feature.map(lambda x: x.split('_')[0]).value_counts())
 
-imp.to_csv(f'LOG/imp_{__file__}_exgal.csv', index=False)
 
 
 """
@@ -262,6 +296,50 @@ imp = pd.read_csv('LOG/imp_802_cv_separate.py_exgal.csv')
 COL = imp.feature.tolist()
 
 """
+
+# =============================================================================
+# cv2
+# =============================================================================
+COL = imp.feature.tolist()[:3000]
+
+param['learning_rate'] = 0.5
+dtrain = lgb.Dataset(X_exgal[COL], y_exgal, #categorical_feature=CAT, 
+                     free_raw_data=False)
+gc.collect()
+
+model_all = []
+nround_mean = 0
+wloss_list = []
+for i in range(1):
+    gc.collect()
+    param['seed'] = np.random.randint(9999)
+    ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
+                            fobj=utils_metric.wloss_objective, 
+                            feval=utils_metric.wloss_metric,
+                         early_stopping_rounds=100, verbose_eval=50,
+                         seed=SEED)
+    model_all += models
+    nround_mean += len(ret['multi_logloss-mean'])
+    wloss_list.append( ret['wloss-mean'][-1] )
+
+#nround_mean = int((nround_mean/LOOP) * 1.3)
+
+result = f"CV wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
+print(result)
+
+utils.send_line(result)
+imp = ex.getImp(model_all)
+imp['split'] /= imp['split'].max()
+imp['gain'] /= imp['gain'].max()
+imp['total'] = imp['split'] + imp['gain']
+
+imp.sort_values('total', ascending=False, inplace=True)
+imp.reset_index(drop=True, inplace=True)
+
+print(imp.head(100).feature.map(lambda x: x.split('_')[0]).value_counts())
+
+imp.to_csv(f'LOG/imp_{__file__}_exgal.csv', index=False)
+
 
 
 # =============================================================================
