@@ -50,7 +50,7 @@ param = {
          'reg_alpha': 0.5,  # L1 regularization term on weights.
          
          'colsample_bytree': 0.5,
-         'subsample': 0.9,
+         'subsample': 0.7,
 #         'nthread': 32,
          'nthread': cpu_count(),
          'bagging_freq': 1,
