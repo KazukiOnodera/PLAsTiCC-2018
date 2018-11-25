@@ -119,6 +119,7 @@ print(f'X_exgal.shape: {X_exgal.shape}')
 # =============================================================================
 print('==== GAL ====')
 param['num_class'] = 5
+param['learning_rate'] = 0.1
 
 dtrain = lgb.Dataset(X_gal, y_gal, #categorical_feature=CAT, 
                      free_raw_data=False)
@@ -131,7 +132,7 @@ for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils_metric.lgb_multi_weighted_logloss,
+                         feval=utils_metric.lgb_multi_weighted_logloss_gal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models
@@ -239,7 +240,8 @@ N = best_N
 dtrain = lgb.Dataset(X_gal[COL[:N]], y_gal, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                     feval=utils.lgb_multi_weighted_logloss_exgal,
+                    fobj=utils_metric.wloss_objective, 
+                    feval=utils_metric.wloss_metric,
                      early_stopping_rounds=100, verbose_eval=50,
                      seed=SEED)
 
@@ -253,6 +255,7 @@ y_pred_gal = ex.eval_oob(X_gal[COL[:N]], y_gal, models, SEED, stratified=True, s
 # =============================================================================
 print('==== EXGAL ====')
 param['num_class'] = 9
+param['learning_rate'] = 0.1
 
 dtrain = lgb.Dataset(X_exgal, y_exgal, #categorical_feature=CAT, 
                      free_raw_data=False)
@@ -265,7 +268,7 @@ for i in range(LOOP):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils_metric.lgb_multi_weighted_logloss,
+                         feval=utils_metric.lgb_multi_weighted_logloss_exgal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models
