@@ -20,7 +20,7 @@ import lightgbm as lgb
 from multiprocessing import cpu_count
 
 import utils, utils_metric
-#utils.start(__file__)
+utils.start(__file__)
 #==============================================================================
 
 SEED = np.random.randint(9999)
@@ -502,7 +502,7 @@ utils.send_line(f'Confusion Matrix wmlogloss: {loss}', png=f'LOG/CM_{__file__}.p
 
 
 #==============================================================================
-#utils.end(__file__)
-#utils.stop_instance()
+utils.end(__file__)
+utils.stop_instance()
 
 
