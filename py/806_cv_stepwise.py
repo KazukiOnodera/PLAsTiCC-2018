@@ -125,7 +125,7 @@ ex.stepwise(param, X, y, features_search, features_curr, best_score=0, send_line
              fobj=utils_metric.wloss_objective, 
              feval=utils_metric.wloss_metric, 
              init_model=None, feature_name='auto', categorical_feature='auto', 
-             fpreproc=None, verbose_eval=50, show_stdv=True, 
+             fpreproc=None, verbose_eval=None, show_stdv=True, 
              seed=0, callbacks=None)
 
 
