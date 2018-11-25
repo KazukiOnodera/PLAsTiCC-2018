@@ -54,6 +54,8 @@ GENERATE_TEST = True
 
 IMP_FILE = 'LOG/imp_801_cv.py-2.csv'
 
+IMP_FILE_BEST = 'LOG/imp_used_934_predict_1120-1.py.csv'
+
 classes_gal = [6, 16, 53, 65, 92]
 classes_exgal = [15, 42, 52, 62, 64, 67, 88, 90, 95]
 
