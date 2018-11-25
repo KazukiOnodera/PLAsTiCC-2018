@@ -48,8 +48,8 @@ param = {
          'reg_lambda': 0.5,  # L2 regularization term on weights.
          'reg_alpha': 0.5,  # L1 regularization term on weights.
          
-#         'colsample_bytree': 0.5,
-#         'subsample': 0.9,
+         'colsample_bytree': 0.5,
+         'subsample': 0.7,
 #         'nthread': 32,
          'nthread': cpu_count(),
          'bagging_freq': 1,
@@ -58,12 +58,12 @@ param = {
          'seed': SEED
          }
 
-USE_FEATURES = 500
+USE_FEATURES = 100
 
 # =============================================================================
 # load
 # =============================================================================
-COL = pd.read_csv(utils.IMP_FILE_BEST).head(USE_FEATURES ).feature.tolist()
+COL = pd.read_csv(utils.IMP_FILE).head(USE_FEATURES ).feature.tolist()
 
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
@@ -111,33 +111,17 @@ nround_mean = 0
 wloss_list = []
 y_preds = []
 
-dtrain = lgb.Dataset(X, y.values, #categorical_feature=CAT, 
-                     free_raw_data=False)
-gc.collect()
-    
-for param_ in param_list:
-    gc.collect()
-    print(f"\ncolsample_bytree: {param_['colsample_bytree']}    subsample: {param_['subsample']}")
-    ret, models = lgb.cv(param_, dtrain, 99999, nfold=NFOLD, 
-                         fobj=utils_metric.wloss_objective, 
-                         feval=utils_metric.wloss_metric,
-                         early_stopping_rounds=100, verbose_eval=50,
-                         seed=SEED)
-    y_pred = ex.eval_oob(X[COL], y.values, models, SEED, stratified=True, shuffle=True, 
-                         n_class=y.unique().shape[0])
-    y_preds.append(y_pred)
-    model_all += models
-    nround_mean += len(ret['wloss-mean'])
-    wloss_list.append( ret['wloss-mean'][-1] )
 
-ex.stepwise(param, X, y, features_search, features_curr, best_score=0, send_line=None,
+gc.collect()
+
+ex.stepwise(param, X, y, features_search, features_search, best_score=0, send_line=None,
              eval_key='wloss-mean', maximize=False, save_df=None, cv_loop=1,
-             num_boost_round=100, 
+             num_boost_round=9999, esr=50,
              folds=None, nfold=5, stratified=True, shuffle=True, metrics=None, 
              fobj=utils_metric.wloss_objective, 
              feval=utils_metric.wloss_metric, 
              init_model=None, feature_name='auto', categorical_feature='auto', 
-             esr=None, fpreproc=None, verbose_eval=None, show_stdv=True, 
+             fpreproc=None, verbose_eval=50, show_stdv=True, 
              seed=0, callbacks=None)
 
 
