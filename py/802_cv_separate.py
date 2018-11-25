@@ -160,7 +160,7 @@ print(imp.head(200).feature.map(lambda x: x.split('_')[0]).value_counts())
 # =============================================================================
 COL = imp.feature.tolist()[:3000]
 
-param['learning_rate'] = 0.5
+param['learning_rate'] = 0.7
 dtrain = lgb.Dataset(X_gal[COL], y_gal, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
@@ -172,8 +172,8 @@ for i in range(2):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                            fobj=utils_metric.wloss_objective, 
-                            feval=utils_metric.wloss_metric,
+                            fobj=utils_metric.wloss_objective_gal, 
+                            feval=utils_metric.wloss_metric_gal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models
@@ -221,7 +221,8 @@ for i in np.arange(100, 400, 50):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils.lgb_multi_weighted_logloss_gal,
+                            fobj=utils_metric.wloss_objective_gal, 
+                            feval=utils_metric.wloss_metric_gal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     
@@ -240,8 +241,8 @@ N = best_N
 dtrain = lgb.Dataset(X_gal[COL[:N]], y_gal, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                    fobj=utils_metric.wloss_objective, 
-                    feval=utils_metric.wloss_metric,
+                            fobj=utils_metric.wloss_objective_gal, 
+                            feval=utils_metric.wloss_metric_gal,
                      early_stopping_rounds=100, verbose_eval=50,
                      seed=SEED)
 
@@ -305,7 +306,7 @@ COL = imp.feature.tolist()
 # =============================================================================
 COL = imp.feature.tolist()[:3000]
 
-param['learning_rate'] = 0.5
+param['learning_rate'] = 0.7
 dtrain = lgb.Dataset(X_exgal[COL], y_exgal, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
@@ -317,8 +318,8 @@ for i in range(1):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                            fobj=utils_metric.wloss_objective, 
-                            feval=utils_metric.wloss_metric,
+                            fobj=utils_metric.wloss_objective_exgal, 
+                            feval=utils_metric.wloss_metric_exgal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models
@@ -361,7 +362,8 @@ for i in np.arange(50, 400, 50):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         feval=utils.lgb_multi_weighted_logloss_exgal,
+                            fobj=utils_metric.wloss_objective_exgal, 
+                            feval=utils_metric.wloss_metric_exgal,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     score = ret['wloss-mean'][-1]
@@ -380,7 +382,8 @@ N = best_N
 dtrain = lgb.Dataset(X_exgal[COL[:N]], y_exgal, #categorical_feature=CAT, 
                      free_raw_data=False)
 ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                     feval=utils.lgb_multi_weighted_logloss_exgal,
+                            fobj=utils_metric.wloss_objective_exgal, 
+                            feval=utils_metric.wloss_metric_exgal,
                      early_stopping_rounds=100, verbose_eval=50,
                      seed=SEED)
 
