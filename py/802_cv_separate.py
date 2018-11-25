@@ -408,9 +408,9 @@ y_pred_exgal.columns = [f'class_{di_exgal[x]}' for x in range(len(di_exgal))]
 y_pred = pd.concat([y_pred_gal, y_pred_exgal], 
                    ignore_index=True).fillna(0)
 
-y_pred = y_pred[[f'class_{c}' for c in utils.classes]]
+y_pred = y_pred[[f'class_{c}' for c in utils_metric.classes]]
 
-loss = utils.multi_weighted_logloss(y.values, y_pred.values)
+loss = utils_metric.multi_weighted_logloss(y.values, y_pred.values)
 
 
 # =============================================================================
