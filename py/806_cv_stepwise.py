@@ -96,11 +96,15 @@ gc.collect()
 
 
 # =============================================================================
-# search param
+# 
 # =============================================================================
 
 features_search = X.columns.tolist()
-features_curr = features_search[:10]
+features_curr = features_search[:100]
+
+def save_df(df):
+    df.to_pickle('../data/806.pkl')
+    return
 
 # =============================================================================
 # cv
@@ -114,8 +118,8 @@ y_preds = []
 
 gc.collect()
 
-ex.stepwise(param, X, y, features_search, features_search, best_score=0, send_line=None,
-             eval_key='wloss-mean', maximize=False, save_df=None, cv_loop=1,
+ex.stepwise(param, X, y, features_search, features_curr, best_score=0, send_line=None,
+             eval_key='wloss-mean', maximize=False, save_df=save_df, cv_loop=2,
              num_boost_round=9999, esr=50,
              folds=None, nfold=5, stratified=True, shuffle=True, metrics=None, 
              fobj=utils_metric.wloss_objective, 
