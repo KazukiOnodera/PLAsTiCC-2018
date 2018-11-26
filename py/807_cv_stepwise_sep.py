@@ -62,8 +62,10 @@ USE_FEATURES = 300
 # =============================================================================
 # load
 # =============================================================================
-COL = pd.read_csv(utils.IMP_FILE).head(USE_FEATURES ).feature.tolist()
+COL_gal   = pd.read_csv('LOG/imp_802_cv_separate.py_gal.csv').head(USE_FEATURES ).feature.tolist()
+COL_exgal = pd.read_csv('LOG/imp_802_cv_separate.py_exgal.csv').head(USE_FEATURES ).feature.tolist()
 
+COL = list(set(COL_gal + COL_exgal))
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
 
@@ -100,10 +102,10 @@ gc.collect()
 
 is_gal = pd.read_pickle('../data/tr_is_gal.pkl')
 
-X_gal = X[is_gal]
+X_gal = X[is_gal][COL_gal]
 y_gal = y[is_gal]
 
-X_exgal = X[~is_gal]
+X_exgal = X[~is_gal][COL_exgal]
 y_exgal = y[~is_gal]
 
 
