@@ -145,26 +145,26 @@ def save_df_exgal(df):
 # =============================================================================
 # cv gal
 # =============================================================================
-print('==== GAL ====')
-param['num_class'] = 5
-
-
-features_search = X_gal.columns.tolist()
-features_curr = features_search[:100]
-
-
-
-gc.collect()
-
-ex.stepwise(param, X_gal, y_gal, features_search, features_curr, best_score=0, send_line=None,
-             eval_key='wloss-mean', maximize=False, save_df=save_df_gal, cv_loop=2,
-             num_boost_round=9999, esr=50,
-             folds=None, nfold=5, stratified=True, shuffle=True, metrics=None, 
-             fobj=utils_metric.wloss_objective_gal, 
-             feval=utils_metric.wloss_metric_gal, 
-             init_model=None, feature_name='auto', categorical_feature='auto', 
-             fpreproc=None, verbose_eval=None, show_stdv=True, 
-             seed=0, callbacks=None)
+#print('==== GAL ====')
+#param['num_class'] = 5
+#
+#
+#features_search = X_gal.columns.tolist()
+#features_curr = features_search[:100]
+#
+#
+#
+#gc.collect()
+#
+#ex.stepwise(param, X_gal, y_gal, features_search, features_curr, best_score=0, send_line=None,
+#             eval_key='wloss-mean', maximize=False, save_df=save_df_gal, cv_loop=2,
+#             num_boost_round=9999, esr=50,
+#             folds=None, nfold=5, stratified=True, shuffle=True, metrics=None, 
+#             fobj=utils_metric.wloss_objective_gal, 
+#             feval=utils_metric.wloss_metric_gal, 
+#             init_model=None, feature_name='auto', categorical_feature='auto', 
+#             fpreproc=None, verbose_eval=None, show_stdv=True, 
+#             seed=0, callbacks=None)
 
 
 # =============================================================================
