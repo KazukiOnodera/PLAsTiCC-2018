@@ -426,6 +426,7 @@ def send_line(message, png=None):
         requests.post(line_notify_api, data=payload, headers=headers, files=files)
     else:
         raise Exception('???', png)
+    print(message)
 
 def stop_instance():
     """

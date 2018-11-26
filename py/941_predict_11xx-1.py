@@ -29,12 +29,12 @@ import lightgbm as lgb
 from multiprocessing import cpu_count
 
 import utils, utils_metric
-utils.start(__file__)
+#utils.start(__file__)
 #==============================================================================
 
 SUBMIT_FILE_PATH = '../output/11??-1.csv.gz'
 
-COMMENT = 'top130 features * 5'
+COMMENT = 'gal: 90 exgal: 112 / oversampling'
 
 EXE_SUBMIT = True
 
@@ -49,7 +49,7 @@ LOOP = 3
 
 param = {
          'objective': 'multiclass',
-         'num_class': 14,
+#         'num_class': 14,
          'metric': 'multi_logloss',
          
          'learning_rate': 0.5,
@@ -71,15 +71,18 @@ param = {
          }
 
 
-USE_FEATURES = 100
+#USE_FEATURES = 100
 
 
 
 # =============================================================================
 # load
 # =============================================================================
-COL_gal   = pd.read_csv('LOG/imp_802_cv_separate.py_gal.csv').head(USE_FEATURES ).feature.tolist()
-COL_exgal = pd.read_csv('LOG/imp_802_cv_separate.py_exgal.csv').head(USE_FEATURES ).feature.tolist()
+#COL_gal   = pd.read_csv('LOG/imp_802_cv_separate.py_gal.csv').head(USE_FEATURES ).feature.tolist()
+#COL_exgal = pd.read_csv('LOG/imp_802_cv_separate.py_exgal.csv').head(USE_FEATURES ).feature.tolist()
+
+COL_gal   = pd.read_pickle('../data/807_gal.pkl').columns.tolist()
+COL_exgal = pd.read_pickle('../data/807_exgal.pkl').columns.tolist()
 
 COL = list(set(COL_gal + COL_exgal))
 
@@ -99,6 +102,8 @@ for i in files_te:
         sw = True
 if sw:
     raise Exception()
+else:
+    print('all test file exist!')
 
 
 X = pd.concat([
@@ -129,10 +134,10 @@ gc.collect()
 
 is_gal = pd.read_pickle('../data/tr_is_gal.pkl')
 
-X_gal = X[is_gal]
+X_gal = X[is_gal][COL_gal]
 y_gal = y[is_gal]
 
-X_exgal = X[~is_gal]
+X_exgal = X[~is_gal][COL_exgal]
 y_exgal = y[~is_gal]
 
 
@@ -159,11 +164,81 @@ print(f'X_exgal.shape: {X_exgal.shape}')
 # =============================================================================
 # oversampling
 # =============================================================================
+"""
+train:
+    is_gal	False	True
+    ddf		
+    0	3947	1785
+    1	1576	540
+
+test:
+    is_gal	False	True
+    ddf		
+    0	3069681	390283
+    1	32699	227
+
+(390283 / 227) / (1785 / 540) == 520
+(3069681 / 32699) / (3947 / 1576) == 37
+
+
+"""
+
+print('oversampling')
+
+from sklearn.model_selection import GroupKFold
+
+
+is_ddf = pd.read_pickle('../data/train.pkl').ddf==1
+
+# ======== for gal ========
+X_gal['g'] = np.arange(X_gal.shape[0]) % NFOLD
+X_gal_d0 = X_gal[~is_ddf]
+X_gal_d1 = X_gal[is_ddf]
+li = [X_gal_d0.copy() for i in range(520)]
+
+X_gal = pd.concat([X_gal_d1]+li, ignore_index=True)
+
+group_gal = X_gal.g
+
+y_gal_d0 = y_gal[~is_ddf]
+y_gal_d1 = y_gal[is_ddf]
+li = [y_gal_d0.copy() for i in range(520)]
+y_gal = pd.concat([y_gal_d1]+li, ignore_index=True)
+
+del li, X_gal_d0, X_gal_d1, X_gal['g'], y_gal_d0, y_gal_d1
+
+
+# ======== for exgal ========
+X_exgal['g'] = np.arange(X_exgal.shape[0]) % NFOLD
+X_exgal_d0 = X_exgal[~is_ddf]
+X_exgal_d1 = X_exgal[is_ddf]
+li = [X_exgal_d0.copy() for i in range(37)]
+
+X_exgal = pd.concat([X_exgal_d1]+li, ignore_index=True)
+
+group_exgal = X_exgal.g
+
+y_exgal_d0 = y_exgal[~is_ddf]
+y_exgal_d1 = y_exgal[is_ddf]
+li = [y_exgal_d0.copy() for i in range(37)]
+y_exgal = pd.concat([y_exgal_d1]+li, ignore_index=True)
+
+del li, X_exgal_d0, X_exgal_d1, X_exgal['g'], y_exgal_d0, y_exgal_d1
+
+group_kfold = GroupKFold(n_splits=NFOLD)
+
+print(f'X_gal.shape: {X_gal.shape}')
+print(f'X_exgal.shape: {X_exgal.shape}')
+
+gc.collect()
 
 
 # =============================================================================
 # cv(gal)
 # =============================================================================
+print('==== GAL ====')
+param['num_class'] = 5
+
 dtrain = lgb.Dataset(X_gal, y_gal.values, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
@@ -171,7 +246,7 @@ gc.collect()
 #model_all = []
 nround_mean = 0
 wloss_list = []
-y_preds_gal = []
+oofs_gal = []
 for i in range(2):
     
     gc.collect()
@@ -180,10 +255,11 @@ for i in range(2):
                          fobj=utils_metric.wloss_objective_gal, 
                          feval=utils_metric.wloss_metric_gal,
                          early_stopping_rounds=100, verbose_eval=50,
+                         folds=group_kfold.split(X_gal, y_gal, group_gal),
                          seed=SEED)
-    y_pred = ex.eval_oob(X_gal, y_gal.values, models, SEED, stratified=True, shuffle=True, 
+    oof = ex.eval_oob(X_gal, y_gal.values, models, SEED, stratified=True, shuffle=True, 
                          n_class=True)
-    y_preds_gal.append(y_pred)
+    oofs_gal.append(oof)
 #    model_all += models
     nround_mean += len(ret['wloss-mean'])
     wloss_list.append( ret['wloss-mean'][-1] )
@@ -192,7 +268,6 @@ nround_mean = int((nround_mean/2) * 1.3)
 utils.send_line(f'nround_mean: {nround_mean}')
 
 result = f"CV GAL wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
-print(result)
 utils.send_line(result)
 
 # =============================================================================
@@ -228,6 +303,9 @@ del X_gal, y_gal
 # =============================================================================
 # cv(exgal)
 # =============================================================================
+print('==== EXGAL ====')
+param['num_class'] = 9
+
 dtrain = lgb.Dataset(X_exgal, y_exgal.values, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
@@ -235,7 +313,7 @@ gc.collect()
 #model_all = []
 nround_mean = 0
 wloss_list = []
-y_preds_exgal = []
+oofs_exgal = []
 for i in range(2):
     
     gc.collect()
@@ -244,10 +322,11 @@ for i in range(2):
                          fobj=utils_metric.wloss_objective_exgal, 
                          feval=utils_metric.wloss_metric_exgal,
                          early_stopping_rounds=100, verbose_eval=50,
+                         folds=group_kfold.split(X_exgal, y_exgal, group_exgal),
                          seed=SEED)
-    y_pred = ex.eval_oob(X_exgal, y_exgal.values, models, SEED, stratified=True, shuffle=True, 
+    oof = ex.eval_oob(X_exgal, y_exgal.values, models, SEED, stratified=True, shuffle=True, 
                          n_class=True)
-    y_preds_exgal.append(y_pred)
+    oofs_exgal.append(oof)
 #    model_all += models
     nround_mean += len(ret['wloss-mean'])
     wloss_list.append( ret['wloss-mean'][-1] )
@@ -298,40 +377,54 @@ for i in range(LOOP):
 
 X_test = pd.concat([
                 pd.read_pickle(f) for f in tqdm(files_te, mininterval=10)
-               ], axis=1)[COL]
+               ], axis=1)
 
 gc.collect()
 
 is_gal = pd.read_pickle('../data/te_is_gal.pkl')
 
-X_test_gal   = X_test[is_gal]
-X_test_exgal = X_test[~is_gal]
+X_test_gal   = X_test[is_gal][COL_gal]
+X_test_exgal = X_test[~is_gal][COL_exgal]
+
+del X_test; gc.collect()
+
+for i,(model_gal,model_exgal) in enumerate(zip(model_all_gal, model_all_exgal)):
+    y_pred_gal = model_gal.predict(X_test_gal)
+    y_pred_gal = utils_metric.softmax(y_pred_gal)
+    y_pred_exgal = model_exgal.predict(X_test_exgal)
+    y_pred_exgal = utils_metric.softmax(y_pred_exgal)
+    if i==0:
+        y_pred_all_gal   = y_pred_gal
+        y_pred_all_exgal = y_pred_exgal
+    else:
+        y_pred_all_gal   += y_pred_gal
+        y_pred_all_exgal += y_pred_exgal
+
+y_pred_all_gal /= int(LOOP)
+y_pred_all_exgal /= int(LOOP)
 
 
-for i in range(MOD_N):
-    model_all = model_set[i]
-    col = feature_set[i]
-    for j,model in enumerate(tqdm(model_all)):
-        gc.collect()
-        y_pred = model.predict(X_test[col])
-        y_pred = utils_metric.softmax(y_pred)
-        if i==0:
-            y_pred_all = y_pred
-        else:
-            y_pred_all += y_pred
+sub_gal   = pd.read_pickle('../data/te_oid_gal.pkl')
+sub_exgal = pd.read_pickle('../data/te_oid_exgal.pkl')
 
-y_pred_all /= int(LOOP * MOD_N)
+sub_gal = pd.concat([sub_gal, pd.DataFrame(y_pred_all_gal)], axis=1)
+sub_gal.columns = ['object_id'] + [f'class_{i}' for i in [6, 16, 53, 65, 92]]
+
+sub_exgal = pd.concat([sub_exgal, pd.DataFrame(y_pred_all_exgal)], axis=1)
+sub_exgal.columns = ['object_id'] + [f'class_{i}' for i in [15, 42, 52, 62, 64, 67, 88, 90, 95]]
 
 
-sub = pd.read_csv('../input/sample_submission.csv.zip')
-df = pd.DataFrame(y_pred_all, columns=sub.columns[1:-1])
+sub = pd.concat([sub_gal, sub_exgal], ignore_index=True).fillna(0)
+col = ['object_id', 'class_6', 'class_15', 'class_16', 'class_42', 'class_52',
+       'class_53', 'class_62', 'class_64', 'class_65', 'class_67', 'class_88', 
+       'class_90', 'class_92', 'class_95']
 
-sub = pd.concat([sub[['object_id']], df], axis=1)
+sub = sub[col]
+
 
 # class_99
 sub.to_pickle(f'../data/y_pred_raw_{__file__}.pkl')
 utils.postprocess(sub, method='oli')
-#utils.postprocess(sub, weight=weight, method='giba')
 
 print(sub.iloc[:, 1:].idxmax(1).value_counts(normalize=True))
 
