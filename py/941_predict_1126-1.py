@@ -32,7 +32,7 @@ import utils, utils_metric
 #utils.start(__file__)
 #==============================================================================
 
-SUBMIT_FILE_PATH = '../output/11??-1.csv.gz'
+SUBMIT_FILE_PATH = '../output/1126-1.csv.gz'
 
 COMMENT = 'gal: 90 exgal: 112 / oversampling'
 
