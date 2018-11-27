@@ -137,52 +137,15 @@ test:
 
 """
 
-print('oversampling')
 
 from sklearn.model_selection import GroupKFold
 
 
 is_ddf = pd.read_pickle('../data/train.pkl').ddf==1
 
-# ======== for gal ========
-X_gal['g'] = np.arange(X_gal.shape[0]) % NFOLD
-X_gal_d0 = X_gal[~is_ddf]
-X_gal_d1 = X_gal[is_ddf]
-li = [X_gal_d0.copy() for i in range(520)]
-
-X_gal = pd.concat([X_gal_d1]+li, ignore_index=True)
-
-group_gal = X_gal.g
-
-y_gal_d0 = y_gal[~is_ddf]
-y_gal_d1 = y_gal[is_ddf]
-li = [y_gal_d0.copy() for i in range(520)]
-y_gal = pd.concat([y_gal_d1]+li, ignore_index=True)
-
-del li, X_gal_d0, X_gal_d1, X_gal['g'], y_gal_d0, y_gal_d1
-
-
-# ======== for exgal ========
-X_exgal['g'] = np.arange(X_exgal.shape[0]) % NFOLD
-X_exgal_d0 = X_exgal[~is_ddf]
-X_exgal_d1 = X_exgal[is_ddf]
-li = [X_exgal_d0.copy() for i in range(37)]
-
-X_exgal = pd.concat([X_exgal_d1]+li, ignore_index=True)
-
-group_exgal = X_exgal.g
-
-y_exgal_d0 = y_exgal[~is_ddf]
-y_exgal_d1 = y_exgal[is_ddf]
-li = [y_exgal_d0.copy() for i in range(37)]
-y_exgal = pd.concat([y_exgal_d1]+li, ignore_index=True)
-
-del li, X_exgal_d0, X_exgal_d1, X_exgal['g'], y_exgal_d0, y_exgal_d1
 
 group_kfold = GroupKFold(n_splits=NFOLD)
 
-print(f'X_gal.shape: {X_gal.shape}')
-print(f'X_exgal.shape: {X_exgal.shape}')
 
 gc.collect()
 
@@ -230,6 +193,27 @@ imp.sort_values('total', ascending=False, inplace=True)
 imp.reset_index(drop=True, inplace=True)
 
 print(imp.head(200).feature.map(lambda x: x.split('_')[0]).value_counts())
+
+# ======== for gal ========
+X_gal['g'] = np.arange(X_gal.shape[0]) % NFOLD
+X_gal_d0 = X_gal[~is_ddf]
+X_gal_d1 = X_gal[is_ddf]
+li = [X_gal_d0.copy() for i in range(520)]
+
+X_gal = pd.concat([X_gal_d1]+li, ignore_index=True)
+
+group_gal = X_gal.g
+
+y_gal_d0 = y_gal[~is_ddf]
+y_gal_d1 = y_gal[is_ddf]
+li = [y_gal_d0.copy() for i in range(520)]
+y_gal = pd.concat([y_gal_d1]+li, ignore_index=True)
+
+del li, X_gal_d0, X_gal_d1, X_gal['g'], y_gal_d0, y_gal_d1
+
+
+print('oversampling')
+print(f'X_gal.shape: {X_gal.shape}')
 
 # =============================================================================
 # cv2
@@ -310,7 +294,7 @@ for i in np.arange(100, 400, 50):
         best_N = i
 
 # =============================================================================
-# best(exgal)
+# best(gal)
 # =============================================================================
 N = best_N
 #N = 250
@@ -370,12 +354,25 @@ print(imp.head(200).feature.map(lambda x: x.split('_')[0]).value_counts())
 
 
 
-"""
-param['num_class'] = 9
-imp = pd.read_csv('LOG/imp_802_cv_separate.py_exgal.csv')
-COL = imp.feature.tolist()
+# ======== for exgal ========
+X_exgal['g'] = np.arange(X_exgal.shape[0]) % NFOLD
+X_exgal_d0 = X_exgal[~is_ddf]
+X_exgal_d1 = X_exgal[is_ddf]
+li = [X_exgal_d0.copy() for i in range(37)]
 
-"""
+X_exgal = pd.concat([X_exgal_d1]+li, ignore_index=True)
+
+group_exgal = X_exgal.g
+
+y_exgal_d0 = y_exgal[~is_ddf]
+y_exgal_d1 = y_exgal[is_ddf]
+li = [y_exgal_d0.copy() for i in range(37)]
+y_exgal = pd.concat([y_exgal_d1]+li, ignore_index=True)
+
+del li, X_exgal_d0, X_exgal_d1, X_exgal['g'], y_exgal_d0, y_exgal_d1
+
+print('oversampling')
+print(f'X_exgal.shape: {X_exgal.shape}')
 
 # =============================================================================
 # cv2
