@@ -55,23 +55,24 @@ def multi(splitn):
     df.to_pickle(f'../data/test_log{splitn:02}.pkl')
     return
 
-def ddf_to_wfd(df, n, oid_max):
+def ddf_to_wfd(df, n, oid_start):
     """
     te.object_id.max()
     130788054
     """
-    df.object_id = df.object_id.rank(method='dense')
-    oid_start = oid_max + 1
+    df['object_id_bk'] = df.object_id.copy()
+    df['object_id'] = df.object_id.rank(method='dense')
+#    oid_start = oid_max + 1
     li = []
     for i in tqdm(range(n)):
         tmp = df.sample(frac=1, random_state=i).drop_duplicates(['object_id', 'date'])
         tmp.object_id += oid_start
-        oid_start = tmp.object_id.max() + 1
+        oid_start = tmp.object_id.max() #+ 1
 #        print(tmp.object_id.min(), tmp.object_id.max())
         li.append(tmp)
     
     df = pd.concat(li, ignore_index=True)
-    meta = df[train.columns]
+    meta = df[train.columns.tolist()+['object_id_bk']].drop_duplicates('object_id')
     log = df[train_log.columns]
     
     meta.ddf = 0
@@ -111,11 +112,16 @@ if __name__ == "__main__":
     meta_wfd_exgal, log_wfd_exgal, oid_max = ddf_to_wfd(train_log_ddf_exgal, 37, oid_max)
     
     meta_wfd = pd.concat([meta_wfd_gal, meta_wfd_exgal], ignore_index=True)
+    meta_wfd.sort_values('object_id', inplace=True)
+    meta_wfd.reset_index(drop=True, inplace=True)
     meta_wfd.to_pickle('../data/train_aug.pkl')
     meta_wfd[['target']].to_pickle('../data/target_aug.pkl')
     
     log_wfd = pd.concat([log_wfd_gal, log_wfd_exgal], ignore_index=True)
-    log_wfd.to_pickle('../data/train_log_aug.pkl')
+    for i in tqdm(range(utils.SPLIT_SIZE), mininterval=15):
+        gc.collect()
+        df = log_wfd[log_wfd.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True)
+        df.to_pickle(f'../data/train_log_aug{i:02}.pkl')
     
     # =================
     # test

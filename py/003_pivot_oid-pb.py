@@ -123,6 +123,8 @@ if __name__ == "__main__":
     usecols = None
     aggregate(pd.read_pickle('../data/train_log.pkl'), f'../data/train_{PREF}.pkl')
     
+    aggregate(pd.read_pickle('../data/train_log_aug.pkl'), f'../data/train_aug_{PREF}.pkl')
+    
     # test
     if utils.GENERATE_TEST:
         imp = pd.read_csv(utils.IMP_FILE).head(utils.GENERATE_FEATURE_SIZE)

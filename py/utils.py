@@ -47,10 +47,13 @@ COMPETITION_NAME = 'PLAsTiCC-2018'
 SPLIT_SIZE = 100
 
 TEST_LOGS = sorted(glob('../data/test_log*.pkl'))
+AUG_LOGS = sorted(glob('../data/train_log_aug*.pkl'))
 
 GENERATE_FEATURE_SIZE = 1000
 
 GENERATE_TEST = True
+
+GENERATE_AUG = True
 
 IMP_FILE = 'LOG/imp_801_cv.py-2.csv'
 

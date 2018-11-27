@@ -33,6 +33,16 @@ if __name__ == "__main__":
 #    mk_feats(train)
     train.add_prefix(PREF+'_').to_pickle(f'../data/train_{PREF}.pkl')
     
+    
+    
+    train_aug = pd.read_pickle('../data/train_aug.pkl').drop(['object_id', 'object_id_bk', 'target'], axis=1)
+#    mk_feats(train)
+    train_aug.add_prefix(PREF+'_').to_pickle(f'../data/train_aug_{PREF}.pkl')
+    
+    
+    
+    
+    
     test  = utils.load_test().drop(['object_id'], axis=1)
     test.loc[test.hostgal_photoz==0, 'hostgal_specz'] = 0
 #    mk_feats(test)
