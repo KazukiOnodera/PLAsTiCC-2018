@@ -194,6 +194,9 @@ imp.reset_index(drop=True, inplace=True)
 
 print(imp.head(200).feature.map(lambda x: x.split('_')[0]).value_counts())
 
+COL = imp.feature.tolist()[:3000]
+X_gal = X_gal[COL]
+
 # ======== for gal ========
 X_gal['g'] = np.arange(X_gal.shape[0]) % NFOLD
 X_gal_d0 = X_gal[~is_ddf]
@@ -218,10 +221,10 @@ print(f'X_gal.shape: {X_gal.shape}')
 # =============================================================================
 # cv2
 # =============================================================================
-COL = imp.feature.tolist()[:3000]
+
 
 param['learning_rate'] = 0.7
-dtrain = lgb.Dataset(X_gal[COL], y_gal, #categorical_feature=CAT, 
+dtrain = lgb.Dataset(X_gal, y_gal, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
 
@@ -352,7 +355,8 @@ imp.reset_index(drop=True, inplace=True)
 
 print(imp.head(200).feature.map(lambda x: x.split('_')[0]).value_counts())
 
-
+COL = imp.feature.tolist()[:3000]
+X_exgal = X_exgal[COL]
 
 # ======== for exgal ========
 X_exgal['g'] = np.arange(X_exgal.shape[0]) % NFOLD
@@ -377,10 +381,10 @@ print(f'X_exgal.shape: {X_exgal.shape}')
 # =============================================================================
 # cv2
 # =============================================================================
-COL = imp.feature.tolist()[:3000]
+
 
 param['learning_rate'] = 0.7
-dtrain = lgb.Dataset(X_exgal[COL], y_exgal, #categorical_feature=CAT, 
+dtrain = lgb.Dataset(X_exgal, y_exgal, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
 
