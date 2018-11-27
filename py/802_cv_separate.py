@@ -235,8 +235,9 @@ for i in range(2):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                            fobj=utils_metric.wloss_objective_gal, 
-                            feval=utils_metric.wloss_metric_gal,
+                         fobj=utils_metric.wloss_objective_gal, 
+                         feval=utils_metric.wloss_metric_gal,
+                         folds=group_kfold.split(X_gal, y_gal, group_gal),
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models
@@ -395,8 +396,9 @@ for i in range(1):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                            fobj=utils_metric.wloss_objective_exgal, 
-                            feval=utils_metric.wloss_metric_exgal,
+                         fobj=utils_metric.wloss_objective_exgal, 
+                         feval=utils_metric.wloss_metric_exgal,
+                         folds=group_kfold.split(X_exgal, y_exgal, group_exgal),
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models
