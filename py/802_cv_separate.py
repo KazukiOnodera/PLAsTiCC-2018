@@ -114,6 +114,82 @@ gc.collect()
 print(f'X_gal.shape: {X_gal.shape}')
 print(f'X_exgal.shape: {X_exgal.shape}')
 
+
+# =============================================================================
+# oversampling
+# =============================================================================
+"""
+train:
+    is_gal	False	True
+    ddf		
+    0	3947	1785
+    1	1576	540
+
+test:
+    is_gal	False	True
+    ddf		
+    0	3069681	390283
+    1	32699	227
+
+(390283 / 227) / (1785 / 540) == 520
+(3069681 / 32699) / (3947 / 1576) == 37
+
+
+"""
+
+print('oversampling')
+
+from sklearn.model_selection import GroupKFold
+
+
+is_ddf = pd.read_pickle('../data/train.pkl').ddf==1
+
+# ======== for gal ========
+X_gal['g'] = np.arange(X_gal.shape[0]) % NFOLD
+X_gal_d0 = X_gal[~is_ddf]
+X_gal_d1 = X_gal[is_ddf]
+li = [X_gal_d0.copy() for i in range(520)]
+
+X_gal = pd.concat([X_gal_d1]+li, ignore_index=True)
+
+group_gal = X_gal.g
+
+y_gal_d0 = y_gal[~is_ddf]
+y_gal_d1 = y_gal[is_ddf]
+li = [y_gal_d0.copy() for i in range(520)]
+y_gal = pd.concat([y_gal_d1]+li, ignore_index=True)
+
+del li, X_gal_d0, X_gal_d1, X_gal['g'], y_gal_d0, y_gal_d1
+
+
+# ======== for exgal ========
+X_exgal['g'] = np.arange(X_exgal.shape[0]) % NFOLD
+X_exgal_d0 = X_exgal[~is_ddf]
+X_exgal_d1 = X_exgal[is_ddf]
+li = [X_exgal_d0.copy() for i in range(37)]
+
+X_exgal = pd.concat([X_exgal_d1]+li, ignore_index=True)
+
+group_exgal = X_exgal.g
+
+y_exgal_d0 = y_exgal[~is_ddf]
+y_exgal_d1 = y_exgal[is_ddf]
+li = [y_exgal_d0.copy() for i in range(37)]
+y_exgal = pd.concat([y_exgal_d1]+li, ignore_index=True)
+
+del li, X_exgal_d0, X_exgal_d1, X_exgal['g'], y_exgal_d0, y_exgal_d1
+
+group_kfold = GroupKFold(n_splits=NFOLD)
+
+print(f'X_gal.shape: {X_gal.shape}')
+print(f'X_exgal.shape: {X_exgal.shape}')
+
+gc.collect()
+
+
+
+
+
 # =============================================================================
 # cv(gal)
 # =============================================================================
