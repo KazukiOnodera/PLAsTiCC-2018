@@ -153,9 +153,10 @@ if __name__ == "__main__":
     
     
     if utils.GENERATE_AUG:
+        usecols = 1
         os.system(f'rm ../data/tmp_{PREF}*')
         argss = []
-        for i,file in enumerate(utils.TEST_LOGS):
+        for i,file in enumerate(utils.AUG_LOGS):
             argss.append([file, f'../data/tmp_{PREF}{i}.pkl'])
         pool = Pool( cpu_count() )
         pool.map(multi, argss)
@@ -165,13 +166,9 @@ if __name__ == "__main__":
         df.sort_values(f'{PREF}_object_id', inplace=True)
         df.reset_index(drop=True, inplace=True)
         del df[f'{PREF}_object_id']
-        utils.to_pkl_gzip(df, f'../data/test_{PREF}.pkl')
-        utils.save_test_features(df[usecols])
+        utils.to_pkl_gzip(df, f'../data/train_aug_{PREF}.pkl')
+#        utils.save_test_features(df[usecols])
         os.system(f'rm ../data/tmp_{PREF}*')
-        
-    aggregate(pd.read_pickle('../data/train_log_aug.pkl'), f'../data/train_aug_{PREF}.pkl')
-    
-    
     
     
     # test

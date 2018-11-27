@@ -123,7 +123,21 @@ if __name__ == "__main__":
     usecols = None
     aggregate(pd.read_pickle('../data/train_log.pkl'), f'../data/train_{PREF}.pkl')
     
-    aggregate(pd.read_pickle('../data/train_log_aug.pkl'), f'../data/train_aug_{PREF}.pkl')
+    if utils.GENERATE_AUG:
+        os.system(f'rm ../data/tmp_{PREF}*')
+        argss = []
+        for i,file in enumerate(utils.AUG_LOGS):
+            argss.append([file, f'../data/tmp_{PREF}{i}.pkl'])
+        pool = Pool( cpu_count() )
+        pool.map(multi, argss)
+        pool.close()
+        df = pd.concat([pd.read_pickle(f) for f in glob(f'../data/tmp_{PREF}*')], 
+                        ignore_index=True)
+        df.sort_values(f'{PREF}_object_id', inplace=True)
+        df.reset_index(drop=True, inplace=True)
+        del df[f'{PREF}_object_id']
+        utils.to_pkl_gzip(df, f'../data/train_aug_{PREF}.pkl')
+        os.system(f'rm ../data/tmp_{PREF}*')
     
     # test
     if utils.GENERATE_TEST:

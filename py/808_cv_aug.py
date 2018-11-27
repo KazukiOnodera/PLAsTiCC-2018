@@ -86,8 +86,6 @@ print(f'X.shape {X.shape}')
 
 gc.collect()
 
-#CAT = list( set(X.columns)&set(utils_cat.ALL))
-#print(f'CAT: {CAT}')
 
 # =============================================================================
 # cv1
@@ -127,7 +125,7 @@ imp.reset_index(drop=True, inplace=True)
 
 print(imp.head(100).feature.map(lambda x: x.split('_')[0]).value_counts())
 
-imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
+#imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
 
 """
 
@@ -137,11 +135,69 @@ imp = pd.read_csv(f'LOG/imp_{__file__}-1.csv')
 """
 
 
+COL = imp.feature.tolist()[:3000]
+
+# =============================================================================
+# load aug
+# =============================================================================
+
+files_tr = sorted(glob('../data/train_aug_f*.pkl*'))
+[print(i,f) for i,f in enumerate(files_tr)]
+
+def read(f, col):
+    df = pd.read_pickle(f)
+    col = list(set(col) & set(df.columns))
+    return df[col]
+
+
+X_aug = pd.concat([
+                read(f, COL) for f in tqdm(files_tr, mininterval=60)
+               ], axis=1)
+y_aug = pd.read_pickle('../data/target_aug.pkl').target
+
+
+target_dict = {}
+target_dict_r = {}
+for i,e in enumerate(y_aug.sort_values().unique()):
+    target_dict[e] = i
+    target_dict_r[i] = e
+
+y_aug = y_aug.replace(target_dict)
+
+if X_aug.columns.duplicated().sum()>0:
+    raise Exception(f'duplicated!: { X_aug.columns[X_aug.columns.duplicated()] }')
+print('no dup :) ')
+print(f'X_aug.shape {X_aug.shape}')
+
+
+X = pd.concat([X, X_aug], ignore_index=True)
+y = pd.concat([y, y_aug], ignore_index=True)
+
+del X_aug, y_aug
+gc.collect()
+
+
+from sklearn.model_selection import GroupKFold
+
+
+tr_oid = pd.read_pickle('../data/train.pkl').object_id
+aug_oid = pd.read_pickle('../data/train_aug.pkl').object_id_bk
+
+group = tr_oid.append(aug_oid) % NFOLD
+
+group_kfold = GroupKFold(n_splits=NFOLD)
+
+
+gc.collect()
+
+
+
+
+
 
 # =============================================================================
 # cv2
 # =============================================================================
-COL = imp.feature.tolist()[:3000]
 
 param['learning_rate'] = 0.5
 dtrain = lgb.Dataset(X[COL], y, #categorical_feature=CAT, 
@@ -155,8 +211,9 @@ for i in range(1):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                            fobj=utils_metric.wloss_objective, 
-                            feval=utils_metric.wloss_metric,
+                         fobj=utils_metric.wloss_objective, 
+                         feval=utils_metric.wloss_metric,
+                         folds=group_kfold.split(X, y, group),
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     model_all += models
@@ -330,4 +387,5 @@ utils.send_line(f'Confusion Matrix wmlogloss: {score}', png=f'LOG/CM_{__file__}.
 #==============================================================================
 #utils.end(__file__)
 #utils.stop_instance()
+
 
