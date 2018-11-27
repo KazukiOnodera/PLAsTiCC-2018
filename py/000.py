@@ -55,6 +55,29 @@ def multi(splitn):
     df.to_pickle(f'../data/test_log{splitn:02}.pkl')
     return
 
+def ddf_to_wfd(df, n, oid_max):
+    """
+    te.object_id.max()
+    130788054
+    """
+    df.object_id = df.object_id.rank(method='dense')
+    oid_start = oid_max + 1
+    li = []
+    for i in tqdm(range(n)):
+        tmp = df.sample(frac=1, random_state=i).drop_duplicates(['object_id', 'date'])
+        tmp.object_id += oid_start
+        oid_start = tmp.object_id.max() + 1
+#        print(tmp.object_id.min(), tmp.object_id.max())
+        li.append(tmp)
+    
+    df = pd.concat(li, ignore_index=True)
+    meta = df[train.columns]
+    log = df[train_log.columns]
+    
+    meta.ddf = 0
+    
+    return meta, log, meta.object_id.max()
+
 # =============================================================================
 # main
 # =============================================================================
@@ -78,6 +101,21 @@ if __name__ == "__main__":
     preprocess(train_log)
     train_log.to_pickle('../data/train_log.pkl')
     
+    
+    # data augment
+    train_log_ddf = pd.merge(train_log, train[train.ddf==1], how='inner', on='object_id')
+    train_log_ddf_gal   = train_log_ddf[train_log_ddf.hostgal_photoz==0] # 520
+    train_log_ddf_exgal = train_log_ddf[train_log_ddf.hostgal_photoz!=0] # 37
+    
+    meta_wfd_gal,   log_wfd_gal,   oid_max = ddf_to_wfd(train_log_ddf_gal, 520,  130788054)
+    meta_wfd_exgal, log_wfd_exgal, oid_max = ddf_to_wfd(train_log_ddf_exgal, 37, oid_max)
+    
+    meta_wfd = pd.concat([meta_wfd_gal, meta_wfd_exgal], ignore_index=True)
+    meta_wfd.to_pickle('../data/train_aug.pkl')
+    meta_wfd[['target']].to_pickle('../data/target_aug.pkl')
+    
+    log_wfd = pd.concat([log_wfd_gal, log_wfd_exgal], ignore_index=True)
+    log_wfd.to_pickle('../data/train_log_aug.pkl')
     
     # =================
     # test

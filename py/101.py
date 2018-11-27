@@ -22,28 +22,10 @@ import pandas as pd
 import os
 import utils
 
-def augment(df, n):
-    if n <= 0:
-        raise
-    li = []
-    for i in range(1, n+1):
-        tmp = df.copy()
-        tmp['mjd'] += i
-        li.append(tmp)
-        tmp = df.copy()
-        tmp['mjd'] -= i
-        li.append(tmp)
-    tmp = pd.concat(li)
-    df = pd.concat([df, tmp], ignore_index=True)
-    df.date = df.mjd.astype(int)
+def ddf_to_wfd(df, n):
+    
     return df
 
-
-def preprocess(df):
-    
-    df['flux_norm1'] = df.flux / df.groupby(['object_id']).flux.transform('max')
-    df['flux_norm2'] = (df.flux - df.groupby(['object_id']).flux.transform('min')) / df.groupby(['object_id']).flux.transform('max')
-    
 
 # =============================================================================
 # main
@@ -54,19 +36,16 @@ if __name__ == "__main__":
     # =============================================================================
     # train
     # =============================================================================
+    tr = pd.read_pickle('../data/train.pkl')
     tr_log = pd.read_pickle('../data/train_log.pkl')
     
-    tr_log = augment(tr_log, 2)
     
-    tr_log = tr_log.groupby(['object_id', 'date', 'passband']).flux.mean().reset_index()
     
-    preprocess(tr_log)
+    tr_ddf = 
+    tr_log = ddf_to_wfd(tr_log, 2)
     
     tr_log.to_pickle('../data/train_log2.pkl')
     
-    # test
-    if utils.GENERATE_TEST:
-        pass
     
     utils.end(__file__)
 

@@ -16,12 +16,12 @@ PREF = 'f001'
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
 
-def mk_feats(df):
-    df['hostgal_specz-m-hostgal_photoz'] = df['hostgal_specz'] - df['hostgal_photoz']
-    df['hostgal_specz-d-hostgal_photoz'] = df['hostgal_specz'] / df['hostgal_photoz']
-    df['hostgal_photoz-d-hostgal_photoz_err'] = df['hostgal_photoz'] / df['hostgal_photoz_err']
-    df['hostgal_specz-d-hostgal_photoz_err'] = df['hostgal_specz'] / df['hostgal_photoz_err']
-    return
+#def mk_feats(df):
+#    df['hostgal_specz-m-hostgal_photoz'] = df['hostgal_specz'] - df['hostgal_photoz']
+#    df['hostgal_specz-d-hostgal_photoz'] = df['hostgal_specz'] / df['hostgal_photoz']
+#    df['hostgal_photoz-d-hostgal_photoz_err'] = df['hostgal_photoz'] / df['hostgal_photoz_err']
+#    df['hostgal_specz-d-hostgal_photoz_err'] = df['hostgal_specz'] / df['hostgal_photoz_err']
+#    return
 
 # =============================================================================
 # main
