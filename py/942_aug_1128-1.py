@@ -22,9 +22,9 @@ import utils, utils_metric
 utils.start(__file__)
 #==============================================================================
 
-SUBMIT_FILE_PATH = '../output/1124-1.csv.gz'
+SUBMIT_FILE_PATH = '../output/1128-1.csv.gz'
 
-COMMENT = 'top500 features * 10'
+COMMENT = '250 aug'
 
 EXE_SUBMIT = True
 
@@ -67,7 +67,7 @@ BASE_FEATURES = 250
 # =============================================================================
 # load
 # =============================================================================
-COL = pd.read_csv('LOG/imp_808_cv.py.csv').head(BASE_FEATURES).feature.tolist()
+COL = pd.read_csv('LOG/imp_808_cv.py-2.csv').head(BASE_FEATURES).feature.tolist()
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
 
