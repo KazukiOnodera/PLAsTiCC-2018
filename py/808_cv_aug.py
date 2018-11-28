@@ -129,7 +129,7 @@ print(imp.head(100).feature.map(lambda x: x.split('_')[0]).value_counts())
 
 """
 
-__file__ = '801_cv.py'
+__file__ = '808_cv.py'
 imp = pd.read_csv(f'LOG/imp_{__file__}-1.csv')
 
 """
@@ -170,7 +170,7 @@ print('no dup :) ')
 print(f'X_aug.shape {X_aug.shape}')
 
 
-X = pd.concat([X, X_aug], ignore_index=True)
+X = pd.concat([X, X_aug], ignore_index=True, join='inner')
 y = pd.concat([y, y_aug], ignore_index=True)
 
 del X_aug, y_aug
@@ -200,7 +200,7 @@ gc.collect()
 # =============================================================================
 
 param['learning_rate'] = 0.5
-dtrain = lgb.Dataset(X[COL], y, #categorical_feature=CAT, 
+dtrain = lgb.Dataset(X, y, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
 
@@ -260,6 +260,7 @@ for i in np.arange(100, 500, 50):
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
                          fobj=utils_metric.wloss_objective, 
                          feval=utils_metric.wloss_metric,
+                         folds=group_kfold.split(X, y, group),
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     
