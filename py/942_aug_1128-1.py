@@ -115,7 +115,7 @@ print('augment')
 
 files_tr = []
 for pref in PREFS:
-    files_tr += glob(f'../data/train_{pref}*.pkl')
+    files_tr += glob(f'../data/train_aug_{pref}*.pkl*')
 
 [print(i,f) for i,f in enumerate(files_tr)]
 
@@ -190,6 +190,7 @@ for i in range(2):
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
                          fobj=utils_metric.wloss_objective, 
                          feval=utils_metric.wloss_metric,
+                         folds=group_kfold.split(X, y, group),
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     y_pred = ex.eval_oob(X[COL], y.values, models, SEED, stratified=True, shuffle=True, 
