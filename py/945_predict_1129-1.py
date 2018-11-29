@@ -113,8 +113,8 @@ drop_index = pd.Index([3446, 1601, 6684, 6969, 2859, 6615, 7312, 1707, 6337, 608
              4070, 5098, 3271, 4645, 3493, 5696,  333, 6723, 6749, 1064, 2969,
              7357])
 
-X = X.drop(drop_index).reset_index()
-y = y.drop(drop_index).reset_index()
+X = X.drop(drop_index).reset_index(drop=True)
+y = y.drop(drop_index).reset_index(drop=True)
 
 
 
