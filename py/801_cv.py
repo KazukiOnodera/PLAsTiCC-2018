@@ -42,7 +42,7 @@ param = {
 #         'learning_rate': 0.01,
          'max_depth': 3,
 #         'num_leaves': 63,
-         'max_bin': 255,
+         'max_bin': 20,
          
          'min_child_weight': 10,
          'min_data_in_leaf': 50,
