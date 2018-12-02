@@ -1,0 +1,145 @@
+
+#==============================================================================
+# START!!! 942_aug_1128-1.py    PID: 37435    time: 2018-11-28 01:57:27.077861
+#==============================================================================
+
+instance-1  START 942_aug_1128-1.py  time: 0.00min
+SEED: 9192
+0 ../data/train_f001.pkl
+1 ../data/train_f002.pkl
+2 ../data/train_f003.pkl
+3 ../data/train_f004.pkl
+4 ../data/train_f005.pkl
+5 ../data/train_f006.pkl
+6 ../data/train_f009.pkl
+7 ../data/train_f010.pkl
+8 ../data/train_f012.pkl
+9 ../data/train_f013.pkl
+10 ../data/train_f014.pkl
+11 ../data/train_f015.pkl
+12 ../data/train_f017.pkl
+13 ../data/train_f018.pkl
+14 ../data/train_f020.pkl
+15 ../data/train_f023.pkl
+16 ../data/train_f025.pkl
+  0%|          | 0/17 [00:00<?, ?it/s]100%|██████████| 17/17 [00:11<00:00,  1.45it/s]
+no dup :) 
+X.shape (7848, 250)
+augment
+0 ../data/train_aug_f001.pkl
+1 ../data/train_aug_f002.pkl.gz
+2 ../data/train_aug_f003.pkl.gz
+3 ../data/train_aug_f004.pkl.gz
+4 ../data/train_aug_f005.pkl.gz
+5 ../data/train_aug_f006.pkl.gz
+6 ../data/train_aug_f009.pkl.gz
+7 ../data/train_aug_f010.pkl.gz
+8 ../data/train_aug_f012.pkl.gz
+9 ../data/train_aug_f013.pkl.gz
+10 ../data/train_aug_f014.pkl.gz
+11 ../data/train_aug_f015.pkl.gz
+12 ../data/train_aug_f017.pkl.gz
+13 ../data/train_aug_f018.pkl.gz
+14 ../data/train_aug_f020.pkl.gz
+15 ../data/train_aug_f023.pkl.gz
+16 ../data/train_aug_f025.pkl.gz
+  0%|          | 0/17 [00:00<?, ?it/s] 29%|██▉       | 5/17 [01:21<03:16, 16.35s/it] 29%|██▉       | 5/17 [01:32<03:42, 18.55s/it] 47%|████▋     | 8/17 [02:46<03:07, 20.80s/it] 47%|████▋     | 8/17 [02:56<03:19, 22.11s/it] 71%|███████   | 12/17 [04:36<01:55, 23.00s/it] 71%|███████   | 12/17 [04:46<01:59, 23.91s/it] 82%|████████▏ | 14/17 [05:38<01:12, 24.15s/it] 82%|████████▏ | 14/17 [05:57<01:16, 25.56s/it] 94%|█████████▍| 16/17 [06:38<00:24, 24.88s/it] 94%|█████████▍| 16/17 [06:48<00:25, 25.54s/it]100%|██████████| 17/17 [07:07<00:00, 25.13s/it]
+no dup :) 
+X_aug.shape (339112, 250)
+no dup :) 
+X.shape (346960, 250)
+[50]	cv_agg's multi_logloss: 1.57998 + 0.271342	cv_agg's wloss: 1.45783 + 0.0944527
+[100]	cv_agg's multi_logloss: 0.738852 + 0.228285	cv_agg's wloss: 1.2299 + 0.113813
+[150]	cv_agg's multi_logloss: 0.341273 + 0.220666	cv_agg's wloss: 1.10339 + 0.116057
+[200]	cv_agg's multi_logloss: 0.0894338 + 0.213834	cv_agg's wloss: 1.0253 + 0.117958
+[250]	cv_agg's multi_logloss: -0.0992416 + 0.212215	cv_agg's wloss: 0.970779 + 0.120034
+[300]	cv_agg's multi_logloss: -0.244335 + 0.208323	cv_agg's wloss: 0.93122 + 0.119909
+[350]	cv_agg's multi_logloss: -0.362803 + 0.205458	cv_agg's wloss: 0.901567 + 0.119423
+[400]	cv_agg's multi_logloss: -0.459715 + 0.201683	cv_agg's wloss: 0.877784 + 0.119386
+[450]	cv_agg's multi_logloss: -0.542325 + 0.199576	cv_agg's wloss: 0.858815 + 0.119902
+[500]	cv_agg's multi_logloss: -0.612772 + 0.19574	cv_agg's wloss: 0.844996 + 0.11904
+[550]	cv_agg's multi_logloss: -0.673192 + 0.19283	cv_agg's wloss: 0.833976 + 0.119107
+[600]	cv_agg's multi_logloss: -0.725976 + 0.190628	cv_agg's wloss: 0.825456 + 0.118814
+[650]	cv_agg's multi_logloss: -0.774322 + 0.186387	cv_agg's wloss: 0.818359 + 0.119685
+[700]	cv_agg's multi_logloss: -0.815325 + 0.184172	cv_agg's wloss: 0.812651 + 0.119294
+[750]	cv_agg's multi_logloss: -0.852174 + 0.182134	cv_agg's wloss: 0.808086 + 0.118864
+[800]	cv_agg's multi_logloss: -0.885425 + 0.180548	cv_agg's wloss: 0.80469 + 0.118727
+[850]	cv_agg's multi_logloss: -0.915256 + 0.179037	cv_agg's wloss: 0.802039 + 0.118319
+[900]	cv_agg's multi_logloss: -0.942668 + 0.177516	cv_agg's wloss: 0.799444 + 0.118193
+[950]	cv_agg's multi_logloss: -0.967627 + 0.176102	cv_agg's wloss: 0.79824 + 0.118637
+[1000]	cv_agg's multi_logloss: -0.990277 + 0.174542	cv_agg's wloss: 0.79716 + 0.118816
+[1050]	cv_agg's multi_logloss: -1.01177 + 0.173172	cv_agg's wloss: 0.796614 + 0.119282
+[1100]	cv_agg's multi_logloss: -1.0318 + 0.171917	cv_agg's wloss: 0.796204 + 0.11921
+[1150]	cv_agg's multi_logloss: -1.05021 + 0.170917	cv_agg's wloss: 0.79588 + 0.120011
+[1200]	cv_agg's multi_logloss: -1.06747 + 0.169941	cv_agg's wloss: 0.795953 + 0.120512
+[1250]	cv_agg's multi_logloss: -1.08383 + 0.16896	cv_agg's wloss: 0.79646 + 0.121032
+[50]	cv_agg's multi_logloss: 1.56906 + 0.252759	cv_agg's wloss: 1.45906 + 0.100969
+[100]	cv_agg's multi_logloss: 0.746643 + 0.219768	cv_agg's wloss: 1.23261 + 0.116349
+[150]	cv_agg's multi_logloss: 0.349381 + 0.221163	cv_agg's wloss: 1.10738 + 0.1206
+[200]	cv_agg's multi_logloss: 0.0871386 + 0.217489	cv_agg's wloss: 1.03028 + 0.125039
+[250]	cv_agg's multi_logloss: -0.101822 + 0.213342	cv_agg's wloss: 0.975762 + 0.127873
+[300]	cv_agg's multi_logloss: -0.246889 + 0.206729	cv_agg's wloss: 0.935668 + 0.127794
+[350]	cv_agg's multi_logloss: -0.364217 + 0.20478	cv_agg's wloss: 0.906527 + 0.128422
+[400]	cv_agg's multi_logloss: -0.464329 + 0.201731	cv_agg's wloss: 0.883417 + 0.129141
+[450]	cv_agg's multi_logloss: -0.545082 + 0.197712	cv_agg's wloss: 0.86557 + 0.129018
+[500]	cv_agg's multi_logloss: -0.613922 + 0.195259	cv_agg's wloss: 0.851211 + 0.128509
+[550]	cv_agg's multi_logloss: -0.673106 + 0.193367	cv_agg's wloss: 0.84075 + 0.129226
+[600]	cv_agg's multi_logloss: -0.724857 + 0.191525	cv_agg's wloss: 0.831848 + 0.129711
+[650]	cv_agg's multi_logloss: -0.771445 + 0.189329	cv_agg's wloss: 0.825359 + 0.129453
+[700]	cv_agg's multi_logloss: -0.812649 + 0.187197	cv_agg's wloss: 0.821074 + 0.13025
+[750]	cv_agg's multi_logloss: -0.849042 + 0.184899	cv_agg's wloss: 0.81663 + 0.129328
+[800]	cv_agg's multi_logloss: -0.882182 + 0.183165	cv_agg's wloss: 0.813205 + 0.129183
+[850]	cv_agg's multi_logloss: -0.912538 + 0.181593	cv_agg's wloss: 0.810689 + 0.129419
+[900]	cv_agg's multi_logloss: -0.939951 + 0.180069	cv_agg's wloss: 0.808563 + 0.129356
+[950]	cv_agg's multi_logloss: -0.965074 + 0.178533	cv_agg's wloss: 0.807345 + 0.130331
+[1000]	cv_agg's multi_logloss: -0.987853 + 0.177221	cv_agg's wloss: 0.806655 + 0.130664
+[1050]	cv_agg's multi_logloss: -1.00931 + 0.175762	cv_agg's wloss: 0.805943 + 0.131116
+[1100]	cv_agg's multi_logloss: -1.02916 + 0.174758	cv_agg's wloss: 0.805801 + 0.13196
+[1150]	cv_agg's multi_logloss: -1.04794 + 0.174177	cv_agg's wloss: 0.805371 + 0.131572
+[1200]	cv_agg's multi_logloss: -1.06559 + 0.173754	cv_agg's wloss: 0.805605 + 0.131713
+[1250]	cv_agg's multi_logloss: -1.08192 + 0.173069	cv_agg's wloss: 0.806041 + 0.132064
+nround_mean: 1520
+CV wloss: 0.8005364656448364 + 0.004742538928985629
+CV wloss: 0.8005364656448364 + 0.004742538928985629
+akiyama_metric: 0.611214813988555
+akiyama_metric: 0.611214813988555
+LOOP:0
+LOOP:1
+LOOP:2
+  0%|          | 0/250 [00:00<?, ?it/s] 18%|█▊        | 45/250 [00:10<00:45,  4.50it/s] 36%|███▌      | 90/250 [00:21<00:37,  4.24it/s] 54%|█████▍    | 136/250 [00:31<00:26,  4.34it/s] 73%|███████▎  | 182/250 [00:43<00:16,  4.18it/s] 88%|████████▊ | 220/250 [00:54<00:07,  4.05it/s]100%|██████████| 250/250 [01:01<00:00,  4.06it/s]
+  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [02:19<04:39, 140.00s/it] 67%|██████▋   | 2/3 [04:38<02:19, 139.33s/it]100%|██████████| 3/3 [06:58<00:00, 139.53s/it]
+class_99    0.299228
+class_90    0.216523
+class_15    0.176185
+class_42    0.059072
+class_92    0.041560
+class_67    0.034906
+class_64    0.031835
+class_62    0.025705
+class_95    0.025488
+class_16    0.023626
+class_88    0.023416
+class_52    0.020361
+class_65    0.018368
+class_6     0.003334
+class_53    0.000391
+dtype: float64
+DONE!
+submit
+  0%|          | 0.00/371M [00:00<?, ?B/s]  0%|          | 376k/371M [00:00<01:56, 3.34MB/s]  1%|          | 3.99M/371M [00:00<01:24, 4.58MB/s]  3%|▎         | 9.74M/371M [00:00<01:00, 6.31MB/s]  6%|▌         | 20.9M/371M [00:00<00:41, 8.81MB/s] 10%|▉         | 36.2M/371M [00:00<00:28, 12.3MB/s] 14%|█▍        | 51.4M/371M [00:00<00:19, 17.0MB/s] 17%|█▋        | 63.4M/371M [00:00<00:14, 22.9MB/s] 20%|██        | 75.6M/371M [00:00<00:10, 30.4MB/s] 24%|██▎       | 87.4M/371M [00:00<00:07, 39.4MB/s] 27%|██▋       | 99.9M/371M [00:01<00:05, 49.4MB/s] 30%|███       | 112M/371M [00:01<00:04, 60.1MB/s]  33%|███▎      | 124M/371M [00:01<00:03, 71.1MB/s] 37%|███▋      | 136M/371M [00:01<00:03, 81.0MB/s] 40%|███▉      | 148M/371M [00:01<00:02, 90.4MB/s] 43%|████▎     | 159M/371M [00:01<00:02, 97.9MB/s] 46%|████▌     | 171M/371M [00:01<00:02, 104MB/s]  49%|████▉     | 183M/371M [00:01<00:01, 110MB/s] 53%|█████▎    | 196M/371M [00:01<00:01, 114MB/s] 56%|█████▌    | 208M/371M [00:01<00:01, 119MB/s] 59%|█████▉    | 221M/371M [00:02<00:01, 121MB/s] 63%|██████▎   | 233M/371M [00:02<00:01, 123MB/s] 66%|██████▌   | 246M/371M [00:02<00:01, 127MB/s] 70%|██████▉   | 258M/371M [00:02<00:00, 127MB/s] 73%|███████▎  | 270M/371M [00:02<00:00, 126MB/s] 77%|███████▋  | 284M/371M [00:02<00:00, 128MB/s] 80%|███████▉  | 297M/371M [00:02<00:00, 130MB/s] 83%|████████▎ | 310M/371M [00:02<00:00, 130MB/s] 87%|████████▋ | 322M/371M [00:02<00:00, 129MB/s] 90%|█████████ | 336M/371M [00:02<00:00, 130MB/s] 94%|█████████▍| 349M/371M [00:03<00:00, 133MB/s] 98%|█████████▊| 362M/371M [00:03<00:00, 132MB/s]100%|██████████| 371M/371M [00:09<00:00, 41.4MB/s]
+Successfully submitted to PLAsTiCC Astronomical ClassificationSCORE!!!
+fileName: 1128-1.csv.gz
+date: 2018-11-28 03:42:10
+description: 250 aug
+status: complete
+publicScore: 1.262
+privateScore: None
+
+#==============================================================================
+# SUCCESS !!! 942_aug_1128-1.py
+#==============================================================================
+
+time: 109.78min
+instance-1  FINISH 942_aug_1128-1.py  time: 109.78min
+stop instance
+Stopping instance(s) instance-1...

@@ -1,0 +1,118 @@
+
+#==============================================================================
+# START!!! 934_predict_1120-1.py    PID: 4425    time: 2018-11-20 11:25:02.936867
+#==============================================================================
+
+SEED: 3601
+  0%|          | 0/17 [00:00<?, ?it/s]100%|██████████| 17/17 [00:10<00:00,  1.55it/s]
+no dup :) 
+X.shape (7848, 280)
+[50]	cv_agg's multi_logloss: 0.698924 + 0.148793	cv_agg's wloss: 0.978165 + 0.0173061
+[100]	cv_agg's multi_logloss: -0.181523 + 0.102875	cv_agg's wloss: 0.768183 + 0.0194809
+[150]	cv_agg's multi_logloss: -0.570395 + 0.0346436	cv_agg's wloss: 0.67807 + 0.0202158
+[200]	cv_agg's multi_logloss: -0.760211 + 0.0372025	cv_agg's wloss: 0.628853 + 0.0204575
+[250]	cv_agg's multi_logloss: -0.899606 + 0.0352791	cv_agg's wloss: 0.597156 + 0.0215212
+[300]	cv_agg's multi_logloss: -0.985459 + 0.0381118	cv_agg's wloss: 0.576141 + 0.0219518
+[350]	cv_agg's multi_logloss: -1.05534 + 0.0444548	cv_agg's wloss: 0.56103 + 0.0226861
+[400]	cv_agg's multi_logloss: -1.10672 + 0.0465894	cv_agg's wloss: 0.549738 + 0.0231197
+[450]	cv_agg's multi_logloss: -1.15322 + 0.0405117	cv_agg's wloss: 0.540994 + 0.0233638
+[500]	cv_agg's multi_logloss: -1.19097 + 0.0422771	cv_agg's wloss: 0.534149 + 0.0235629
+[550]	cv_agg's multi_logloss: -1.22851 + 0.0368187	cv_agg's wloss: 0.528866 + 0.023949
+[600]	cv_agg's multi_logloss: -1.25458 + 0.0366282	cv_agg's wloss: 0.52469 + 0.024239
+[650]	cv_agg's multi_logloss: -1.27779 + 0.0365601	cv_agg's wloss: 0.521226 + 0.0244012
+[700]	cv_agg's multi_logloss: -1.29851 + 0.0369174	cv_agg's wloss: 0.518529 + 0.0247222
+[750]	cv_agg's multi_logloss: -1.32103 + 0.029175	cv_agg's wloss: 0.516666 + 0.025397
+[800]	cv_agg's multi_logloss: -1.33815 + 0.0288508	cv_agg's wloss: 0.514633 + 0.0258866
+[850]	cv_agg's multi_logloss: -1.35403 + 0.0285473	cv_agg's wloss: 0.513201 + 0.0261824
+[900]	cv_agg's multi_logloss: -1.36873 + 0.0282862	cv_agg's wloss: 0.512199 + 0.0262191
+[950]	cv_agg's multi_logloss: -1.3821 + 0.0281653	cv_agg's wloss: 0.51133 + 0.0264392
+[1000]	cv_agg's multi_logloss: -1.39447 + 0.0283117	cv_agg's wloss: 0.510876 + 0.0267466
+[1050]	cv_agg's multi_logloss: -1.40628 + 0.0283554	cv_agg's wloss: 0.510502 + 0.027056
+[1100]	cv_agg's multi_logloss: -1.42103 + 0.0215555	cv_agg's wloss: 0.510042 + 0.0272377
+[1150]	cv_agg's multi_logloss: -1.43149 + 0.0209316	cv_agg's wloss: 0.509959 + 0.0276348
+[1200]	cv_agg's multi_logloss: -1.44475 + 0.0243173	cv_agg's wloss: 0.509904 + 0.0279321
+[1250]	cv_agg's multi_logloss: -1.4579 + 0.0262506	cv_agg's wloss: 0.509904 + 0.0279326
+[1300]	cv_agg's multi_logloss: -1.47054 + 0.020483	cv_agg's wloss: 0.509993 + 0.0281162
+[50]	cv_agg's multi_logloss: 1.02002 + 0.149255	cv_agg's wloss: 0.988399 + 0.0181925
+[100]	cv_agg's multi_logloss: 0.0461956 + 0.124437	cv_agg's wloss: 0.768521 + 0.0184164
+[150]	cv_agg's multi_logloss: -0.391738 + 0.0741192	cv_agg's wloss: 0.677099 + 0.0180572
+[200]	cv_agg's multi_logloss: -0.649766 + 0.0816863	cv_agg's wloss: 0.627943 + 0.0194895
+[250]	cv_agg's multi_logloss: -0.821159 + 0.0518439	cv_agg's wloss: 0.597925 + 0.0196147
+[300]	cv_agg's multi_logloss: -0.936547 + 0.0446635	cv_agg's wloss: 0.578595 + 0.0198236
+[350]	cv_agg's multi_logloss: -1.01499 + 0.0375573	cv_agg's wloss: 0.564173 + 0.0199493
+[400]	cv_agg's multi_logloss: -1.06561 + 0.0403053	cv_agg's wloss: 0.553538 + 0.0207579
+[450]	cv_agg's multi_logloss: -1.11971 + 0.0413096	cv_agg's wloss: 0.545415 + 0.0211966
+[500]	cv_agg's multi_logloss: -1.16868 + 0.0372661	cv_agg's wloss: 0.539074 + 0.0216967
+[550]	cv_agg's multi_logloss: -1.20585 + 0.0429162	cv_agg's wloss: 0.534148 + 0.0220882
+[600]	cv_agg's multi_logloss: -1.23557 + 0.0485674	cv_agg's wloss: 0.530372 + 0.0224618
+[650]	cv_agg's multi_logloss: -1.26616 + 0.0481695	cv_agg's wloss: 0.526998 + 0.0227647
+[700]	cv_agg's multi_logloss: -1.29103 + 0.0412743	cv_agg's wloss: 0.523943 + 0.0230601
+[750]	cv_agg's multi_logloss: -1.31371 + 0.0421259	cv_agg's wloss: 0.521465 + 0.023407
+[800]	cv_agg's multi_logloss: -1.33859 + 0.0442519	cv_agg's wloss: 0.519694 + 0.0235674
+[850]	cv_agg's multi_logloss: -1.35855 + 0.0447333	cv_agg's wloss: 0.5187 + 0.0238535
+[900]	cv_agg's multi_logloss: -1.37661 + 0.0461341	cv_agg's wloss: 0.517773 + 0.0240931
+[950]	cv_agg's multi_logloss: -1.39431 + 0.047373	cv_agg's wloss: 0.516775 + 0.0242391
+[1000]	cv_agg's multi_logloss: -1.4071 + 0.0472101	cv_agg's wloss: 0.515781 + 0.024383
+[1050]	cv_agg's multi_logloss: -1.41867 + 0.047183	cv_agg's wloss: 0.51514 + 0.0246956
+[1100]	cv_agg's multi_logloss: -1.42941 + 0.0471582	cv_agg's wloss: 0.51478 + 0.0247725
+[1150]	cv_agg's multi_logloss: -1.43965 + 0.0470307	cv_agg's wloss: 0.514646 + 0.0249672
+[1200]	cv_agg's multi_logloss: -1.44894 + 0.046705	cv_agg's wloss: 0.514491 + 0.0252198
+[1250]	cv_agg's multi_logloss: -1.45815 + 0.0468168	cv_agg's wloss: 0.514367 + 0.0254791
+[1300]	cv_agg's multi_logloss: -1.46291 + 0.0453411	cv_agg's wloss: 0.514567 + 0.0258172
+[50]	cv_agg's multi_logloss: 0.908715 + 0.220456	cv_agg's wloss: 0.985889 + 0.0271139
+[100]	cv_agg's multi_logloss: -0.0720954 + 0.114007	cv_agg's wloss: 0.767424 + 0.0273515
+[150]	cv_agg's multi_logloss: -0.459453 + 0.0574206	cv_agg's wloss: 0.673516 + 0.0290685
+[200]	cv_agg's multi_logloss: -0.677174 + 0.0375599	cv_agg's wloss: 0.623391 + 0.0299953
+[250]	cv_agg's multi_logloss: -0.828007 + 0.0253743	cv_agg's wloss: 0.593449 + 0.0304269
+[300]	cv_agg's multi_logloss: -0.925122 + 0.0358448	cv_agg's wloss: 0.573219 + 0.0313503
+[350]	cv_agg's multi_logloss: -0.994131 + 0.0375045	cv_agg's wloss: 0.558049 + 0.0319399
+[400]	cv_agg's multi_logloss: -1.05927 + 0.0431861	cv_agg's wloss: 0.546908 + 0.0330654
+[450]	cv_agg's multi_logloss: -1.12612 + 0.0483992	cv_agg's wloss: 0.538282 + 0.034115
+[500]	cv_agg's multi_logloss: -1.16077 + 0.0555077	cv_agg's wloss: 0.531708 + 0.0347449
+[550]	cv_agg's multi_logloss: -1.20148 + 0.0583264	cv_agg's wloss: 0.526561 + 0.0354285
+[600]	cv_agg's multi_logloss: -1.23531 + 0.0524171	cv_agg's wloss: 0.522265 + 0.035758
+[650]	cv_agg's multi_logloss: -1.262 + 0.0447537	cv_agg's wloss: 0.518737 + 0.0361253
+[700]	cv_agg's multi_logloss: -1.28231 + 0.0445681	cv_agg's wloss: 0.515843 + 0.0370035
+[750]	cv_agg's multi_logloss: -1.30811 + 0.0507891	cv_agg's wloss: 0.51362 + 0.0373605
+[800]	cv_agg's multi_logloss: -1.33296 + 0.0518896	cv_agg's wloss: 0.511784 + 0.0379065
+[850]	cv_agg's multi_logloss: -1.34892 + 0.0521438	cv_agg's wloss: 0.510486 + 0.0385401
+[900]	cv_agg's multi_logloss: -1.36316 + 0.0522956	cv_agg's wloss: 0.50929 + 0.0386695
+[950]	cv_agg's multi_logloss: -1.37662 + 0.05234	cv_agg's wloss: 0.508476 + 0.039207
+[1000]	cv_agg's multi_logloss: -1.38923 + 0.0525047	cv_agg's wloss: 0.508154 + 0.0399238
+[1050]	cv_agg's multi_logloss: -1.40073 + 0.0523954	cv_agg's wloss: 0.50762 + 0.0403141
+[1100]	cv_agg's multi_logloss: -1.41158 + 0.0525496	cv_agg's wloss: 0.507127 + 0.0409168
+[1150]	cv_agg's multi_logloss: -1.42183 + 0.0525719	cv_agg's wloss: 0.506866 + 0.0414148
+[1200]	cv_agg's multi_logloss: -1.43522 + 0.05472	cv_agg's wloss: 0.506807 + 0.0420561
+[1250]	cv_agg's multi_logloss: -1.44445 + 0.0552815	cv_agg's wloss: 0.506985 + 0.0426369
+CV wloss: 0.5102981805801391 + 0.0030904658965820414
+akiyama_metric: 0.7697375555950474
+building 0
+building 1
+building 2
+  0%|          | 0/280 [00:00<?, ?it/s] 10%|█         | 28/280 [00:10<01:31,  2.77it/s] 23%|██▎       | 64/280 [00:20<01:08,  3.16it/s] 36%|███▌      | 100/280 [00:32<00:58,  3.06it/s] 50%|████▉     | 139/280 [00:42<00:43,  3.25it/s] 64%|██████▎   | 178/280 [00:53<00:30,  3.35it/s] 78%|███████▊  | 219/280 [01:03<00:17,  3.46it/s] 93%|█████████▎| 260/280 [01:15<00:05,  3.43it/s]100%|██████████| 280/280 [01:22<00:00,  3.38it/s]
+  0%|          | 0/3 [00:00<?, ?it/s] 33%|███▎      | 1/3 [01:53<03:47, 113.70s/it] 67%|██████▋   | 2/3 [03:53<01:56, 116.90s/it]100%|██████████| 3/3 [05:54<00:00, 118.17s/it]
+class_90    0.494685
+class_42    0.124342
+class_99    0.102311
+class_15    0.066916
+class_92    0.054190
+class_16    0.029156
+class_62    0.027447
+class_65    0.026709
+class_88    0.026441
+class_95    0.014324
+class_67    0.013292
+class_52    0.009726
+class_64    0.008924
+class_6     0.001125
+class_53    0.000412
+dtype: float64
+submit
+  0%|          | 0.00/373M [00:00<?, ?B/s]  0%|          | 1.24M/373M [00:00<00:39, 9.83MB/s]  1%|          | 2.87M/373M [00:00<00:34, 11.2MB/s]  2%|▏         | 6.24M/373M [00:00<00:27, 14.0MB/s]  2%|▏         | 7.70M/373M [00:00<00:28, 13.6MB/s]  3%|▎         | 13.0M/373M [00:00<00:21, 17.4MB/s]  8%|▊         | 29.2M/373M [00:00<00:15, 23.8MB/s] 12%|█▏        | 45.9M/373M [00:00<00:10, 32.1MB/s] 15%|█▍        | 55.3M/373M [00:00<00:08, 40.0MB/s] 17%|█▋        | 64.8M/373M [00:00<00:06, 48.4MB/s] 20%|██        | 74.9M/373M [00:01<00:05, 57.9MB/s] 23%|██▎       | 85.1M/373M [00:01<00:04, 67.1MB/s] 25%|██▌       | 94.8M/373M [00:01<00:03, 73.6MB/s] 28%|██▊       | 105M/373M [00:01<00:03, 79.8MB/s]  31%|███       | 116M/373M [00:01<00:03, 88.8MB/s] 34%|███▍      | 126M/373M [00:01<00:02, 93.3MB/s] 37%|███▋      | 137M/373M [00:01<00:02, 96.5MB/s] 39%|███▉      | 147M/373M [00:01<00:02, 99.2MB/s] 42%|████▏     | 158M/373M [00:01<00:02, 103MB/s]  45%|████▌     | 168M/373M [00:02<00:02, 102MB/s] 48%|████▊     | 179M/373M [00:02<00:02, 102MB/s] 51%|█████     | 189M/373M [00:02<00:01, 101MB/s] 54%|█████▎    | 200M/373M [00:02<00:01, 105MB/s] 56%|█████▋    | 211M/373M [00:02<00:01, 107MB/s] 59%|█████▉    | 221M/373M [00:02<00:01, 108MB/s] 62%|██████▏   | 232M/373M [00:02<00:01, 108MB/s] 65%|██████▌   | 244M/373M [00:02<00:01, 110MB/s] 68%|██████▊   | 254M/373M [00:02<00:01, 109MB/s] 71%|███████   | 265M/373M [00:02<00:01, 103MB/s] 74%|███████▍  | 277M/373M [00:03<00:00, 109MB/s] 77%|███████▋  | 287M/373M [00:03<00:00, 109MB/s] 80%|███████▉  | 299M/373M [00:03<00:00, 109MB/s] 83%|████████▎ | 311M/373M [00:03<00:00, 112MB/s] 86%|████████▋ | 323M/373M [00:03<00:00, 114MB/s] 89%|████████▉ | 334M/373M [00:03<00:00, 114MB/s] 92%|█████████▏| 345M/373M [00:03<00:00, 112MB/s] 96%|█████████▌| 357M/373M [00:03<00:00, 113MB/s] 99%|█████████▊| 368M/373M [00:03<00:00, 114MB/s]100%|██████████| 373M/373M [00:09<00:00, 40.2MB/s]
+Successfully submitted to PLAsTiCC Astronomical Classification
+#==============================================================================
+# SUCCESS !!! 934_predict_1120-1.py
+#==============================================================================
+
+time: 30.47min
+Stopping instance(s) instance-1...

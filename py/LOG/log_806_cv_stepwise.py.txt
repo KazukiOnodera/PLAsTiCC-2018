@@ -1,0 +1,46 @@
+SEED: 4422
+  0%|          | 0/20 [00:00<?, ?it/s]100%|██████████| 20/20 [00:01<00:00, 10.78it/s]
+no dup :) 
+X.shape (7848, 300)
+start from wloss-mean: 0.5265753269195557
+
+drop f014_detected_dates
+wloss-mean: 0.5694705635309218
+
+drop f001_hostgal_photoz
+wloss-mean: 0.5300272315740585
+
+drop f002_flux_by_flux_ratio_sq_skew
+wloss-mean: 0.529576200246811
+
+drop f001_hostgal_photoz_err
+wloss-mean: 0.5359244346618652
+
+drop f006_flux_ratio_sq_std-d-mean
+wloss-mean: 0.5310711026191711
+
+drop f003_pb1_lumi_max-m-min
+wloss-mean: 0.5307859361171723
+
+drop f002_lumi_std-d-mean
+wloss-mean: 0.5291447043418884
+
+drop f002_lumi_kurt
+wloss-mean: 0.5296376883983611
+
+drop f014_d1_lumi_max-d-min
+wloss-mean: 0.5307375550270081
+
+drop f014_d1_lumi_min
+wloss-mean: 0.5308922439813614
+
+drop f010_pb5_flux_norm2_min
+wloss-mean: 0.5295664310455322
+
+drop f003_pb1_flux_q75-m-q25
+wloss-mean: 0.5298352420330048
+
+drop f012_pb0_lumi_mean-d-pb5_lumi_mean
+wloss-mean: 0.5275125592947006
+
+drop f003_pb2_flux_err_q25-d-pb3_flux_err_q25

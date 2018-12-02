@@ -1,0 +1,469 @@
+
+#==============================================================================
+# START!!! 807_cv_stepwise_sep.py    PID: 6371    time: 2018-11-26 00:36:02.509419
+#==============================================================================
+
+SEED: 9289
+  0%|          | 0/23 [00:00<?, ?it/s]100%|██████████| 23/23 [00:14<00:00,  1.58it/s]
+no dup :) 
+X.shape (7848, 587)
+X_gal.shape: (2325, 300)
+X_exgal.shape: (5523, 300)
+==== GAL ====
+start from wloss-mean: 0.048906616494059564
+
+drop f003_pb2_flux_err_q25-d-pb3_flux_err_q25
+wloss-mean: 0.04965208396315575
+
+drop f002_flux_by_flux_ratio_sq_skew
+wloss-mean: 0.049426633492112154
+
+drop f014_detected_dates
+wloss-mean: 0.053979720920324326
+
+drop f003_pb1_flux_q75-m-q25
+wloss-mean: 0.04832448326051235
+UPDATE!    wloss-mean:+0.04832    DIFF:-0.00058
+
+drop f013_flux_ratio_sq_std-d-mean
+wloss-mean: 0.0470901109278202
+UPDATE!    wloss-mean:+0.04709    DIFF:-0.00123
+
+drop fbk1-007_pb5_flux_q25
+wloss-mean: 0.0517933078110218
+
+drop f006_flux_by_flux_ratio_sq_q90
+wloss-mean: 0.04863913357257843
+
+drop f002_a_1__skewness
+wloss-mean: 0.05332619026303291
+
+drop f002_a_2__skewness
+wloss-mean: 0.05380569659173488
+
+drop f003_pb0_flux_min-d-pb2_flux_min
+wloss-mean: 0.054052391275763514
+
+drop f003_pb2_flux_q90-m-q10-d-pb5_flux_q90-m-q10
+wloss-mean: 0.05254243835806846
+
+drop f009_pb2_flux_q75-m-q25
+wloss-mean: 0.05166136883199215
+
+drop f014_d0_flux_norm1_q75
+wloss-mean: 0.05591589510440827
+
+drop f013_flux_ratio_sq_max-d-min
+wloss-mean: 0.04806317165493965
+
+drop f003_pb2_flux_norm1_skew
+wloss-mean: 0.047701236233115195
+
+drop fbk1-007_pb5_flux_std-d-mean
+wloss-mean: 0.05581232197582722
+
+drop f015_pb4_d1_flux_norm1_max-d-min
+wloss-mean: 0.046971214935183525
+UPDATE!    wloss-mean:+0.04697    DIFF:-0.00012
+
+drop f003_pb2_flux_min-d-pb3_flux_min
+wloss-mean: 0.048729251325130465
+
+drop f014_d1_flux_norm1_max-d-min
+wloss-mean: 0.0526939507573843
+
+drop fbk1-007_pb1_flux_std
+wloss-mean: 0.04733763746917248
+
+drop f014_d1_flux_norm1_min
+wloss-mean: 0.047198313847184176
+
+drop f010_pb4_flux_norm2_std-d-mean-d-pb5_flux_norm2_std-d-mean
+wloss-mean: 0.04841351695358753
+
+drop f015_pb5_d1_flux_norm1_max
+wloss-mean: 0.047794810682535174
+
+drop f003_pb2_flux_err_median-d-pb3_flux_err_median
+wloss-mean: 0.04804762937128544
+
+drop f014_d1_flux_min
+wloss-mean: 0.04824765175580978
+
+drop f010_pb1_flux_norm2_max-d-min-d-pb2_flux_norm2_max-d-min
+wloss-mean: 0.04806976355612278
+
+drop f015_pb0_d1_flux_norm2_min-d-pb5_d1_flux_norm2_min
+wloss-mean: 0.050087456777691844
+
+drop f003_pb2_flux_skew
+wloss-mean: 0.051205257698893544
+
+drop f003_pb2_flux_err_q10-d-pb3_flux_err_q10
+wloss-mean: 0.05067805722355842
+
+drop f003_pb1_flux_skew
+wloss-mean: 0.05043547190725803
+
+drop f010_pb0_flux_norm2-d-pb2_flux_norm2_q75-m-q25
+wloss-mean: 0.047679056972265245
+
+drop f003_pb0_flux_norm2_q25-d-pb1_flux_norm2_q25
+wloss-mean: 0.04794709384441376
+
+drop f003_pb2_flux_q90-m-q10
+wloss-mean: 0.04950030520558357
+
+drop f002_flux_by_flux_ratio_sq_std-d-mean
+wloss-mean: 0.050649074465036394
+
+drop f015_pb5_d1_flux_min
+wloss-mean: 0.049373445659875864
+
+drop f010_pb5_flux_norm2_min
+wloss-mean: 0.05055764354765415
+
+drop f010_pb1_flux_min-d-pb3_flux_min
+wloss-mean: 0.04733863696455956
+
+drop f003_pb2_flux_q75-m-q25
+wloss-mean: 0.047047239169478415
+
+drop f003_pb0_flux_by_flux_ratio_sq_min-d-pb2_flux_by_flux_ratio_sq_min
+wloss-mean: 0.047070303559303285
+
+drop f002_a_3__skewness
+wloss-mean: 0.04693969711661339
+UPDATE!    wloss-mean:+0.04694    DIFF:-0.00003
+
+drop f015_pb2_d1_flux_max-m-min-d-pb5_d1_flux_max-m-min
+wloss-mean: 0.04749859981238842
+
+drop f015_pb1_d1_flux_max-m-min-d-pb2_d1_flux_max-m-min
+wloss-mean: 0.04743244759738445
+
+drop f003_pb2_flux_norm2_q90-m-q10-d-pb5_flux_norm2_q90-m-q10
+wloss-mean: 0.0525221973657608
+
+drop f003_pb0_flux_ratio_sq_q75-d-pb4_flux_ratio_sq_q75
+wloss-mean: 0.04745992459356785
+
+drop f015_pb2_d1_flux_norm1_min-d-pb3_d1_flux_norm1_min
+wloss-mean: 0.04687926135957241
+UPDATE!    wloss-mean:+0.04688    DIFF:-0.00006
+
+drop f003_pb2_flux_norm1_q10-d-pb3_flux_norm1_q10
+wloss-mean: 0.053613392263650896
+
+drop f013_flux_by_flux_ratio_sq_std-d-mean
+wloss-mean: 0.05413923673331737
+
+drop f015_pb2_d0_flux_err_min-d-pb4_d0_flux_err_min
+wloss-mean: 0.05415657982230186
+
+drop f009_pb2_flux_q75
+wloss-mean: 0.05409253500401974
+
+drop f023_pb4_flux_ratio_sq_q25
+wloss-mean: 0.054359639063477516
+
+drop f003_pb0_flux_err_max-d-pb4_flux_err_max
+wloss-mean: 0.0551688551902771
+
+drop f002_a_4__skewness
+wloss-mean: 0.04681192077696324
+UPDATE!    wloss-mean:+0.04681    DIFF:-0.00007
+
+drop f003_pb0_flux_norm2_std-d-mean-d-pb3_flux_norm2_std-d-mean
+wloss-mean: 0.04646698199212551
+UPDATE!    wloss-mean:+0.04647    DIFF:-0.00034
+
+drop f003_pb2_flux_err_q75-d-pb3_flux_err_q75
+wloss-mean: 0.046407216042280194
+UPDATE!    wloss-mean:+0.04641    DIFF:-0.00006
+
+drop f010_pb5_flux_norm1_max
+wloss-mean: 0.04801342710852623
+
+drop f023_pb2_flux_max-d-min
+wloss-mean: 0.04758209325373173
+
+drop f015_pb5_detected_dates_max-m-min
+wloss-mean: 0.046682730317115784
+
+drop f003_pb1_flux_err_min-d-pb3_flux_err_min
+wloss-mean: 0.04700232781469822
+
+drop fbk1-008_pb4_flux_min
+wloss-mean: 0.04854748230427504
+
+drop f015_pb1_d0_flux_by_flux_ratio_sq_std-d-mean-d-pb4_d0_flux_by_flux_ratio_sq_std-d-mean
+wloss-mean: 0.04748864695429802
+
+drop f004_y0_flux_by_flux_ratio_sq_skew
+wloss-mean: 0.046674608066678044
+
+drop f015_pb2_d1_flux_q10-d-pb3_d1_flux_q10
+wloss-mean: 0.04685582034289837
+
+drop f006_flux_by_flux_ratio_sq_q90-m-q10
+wloss-mean: 0.0463688962161541
+UPDATE!    wloss-mean:+0.04637    DIFF:-0.00004
+
+drop f015_pb5_d1_flux_norm1_max-d-min
+wloss-mean: 0.04515363723039627
+UPDATE!    wloss-mean:+0.04515    DIFF:-0.00122
+
+drop f011_pb2_flux_fft_max_peri
+wloss-mean: 0.04646212384104728
+
+drop f013_date_diff_median
+wloss-mean: 0.04535536617040634
+
+drop f010_pb0_flux_err_mean-d-pb5_flux_err_mean
+wloss-mean: 0.045907946303486824
+
+drop f004_y1_detected_std-d-mean-d-y2_detected_std-d-mean
+wloss-mean: 0.04594416543841362
+
+drop f010_pb2_flux_err_median-d-pb4_flux_err_median
+wloss-mean: 0.045646845176815984
+
+drop f003_pb0_flux_ratio_sq_q75-d-pb3_flux_ratio_sq_q75
+wloss-mean: 0.04629762023687363
+
+drop f003_pb2_flux_std-d-pb5_flux_std
+wloss-mean: 0.045861889049410826
+
+drop f003_pb2_flux_norm1_q10-d-pb4_flux_norm1_q10
+wloss-mean: 0.045815447345376015
+
+drop f015_pb3_d0_flux_norm1_q90
+wloss-mean: 0.045701243728399274
+
+drop f003_pb2_flux_norm2_skew
+wloss-mean: 0.045725719258189204
+
+drop f015_pb2_d1_flux_min-d-pb3_d1_flux_min
+wloss-mean: 0.045946186408400536
+
+drop fbk1-007_pb1_flux_max
+wloss-mean: 0.04592498727142811
+
+drop f003_pb2_flux_norm2_q75-d-pb4_flux_norm2_q75
+wloss-mean: 0.04613271728157997
+
+drop f004_y0_flux_ratio_sq_skew
+wloss-mean: 0.04581292755901814
+
+drop f015_pb1_d0_flux_norm1_q90
+wloss-mean: 0.047520820051431656
+
+drop f006_flux_q90-m-q10
+wloss-mean: 0.04559067599475383
+
+drop f003_pb2_flux_err_q25-d-pb4_flux_err_q25
+wloss-mean: 0.04531394243240357
+
+drop f003_pb2_flux_err_min-d-pb4_flux_err_min
+wloss-mean: 0.04586265459656716
+
+drop f011_pb3_flux_fft_max_amp-d-pb5_flux_fft_max_amp
+wloss-mean: 0.04632267989218235
+
+drop f005_pb2_y2_flux_q75-m-q25
+wloss-mean: 0.0457057174295187
+
+drop f002_a_3__kurtosis
+wloss-mean: 0.04589568302035332
+
+drop f014_d1_flux_by_flux_ratio_sq_skew
+wloss-mean: 0.046016788482666014
+
+drop f005_pb2_y1_flux_norm2_std-d-mean
+wloss-mean: 0.04565687887370586
+
+drop f015_pb2_d1_flux_by_flux_ratio_sq_median-d-pb5_d1_flux_by_flux_ratio_sq_median
+wloss-mean: 0.04583810940384865
+
+drop f010_pb5_flux_norm2_std-d-mean
+wloss-mean: 0.045770272985100745
+
+drop f023_pb4_flux_ratio_sq_q10
+wloss-mean: 0.045741767063736914
+
+drop f003_pb2_flux_norm1_q75-d-pb4_flux_norm1_q75
+wloss-mean: 0.04579390771687031
+
+drop f004_y0_flux_ratio_sq_kurt
+wloss-mean: 0.045860427618026736
+
+drop f015_pb2_d0_flux_norm1_q90
+wloss-mean: 0.046020122990012166
+
+drop f015_pb5_d1_flux_max-d-min
+wloss-mean: 0.046062203124165535
+
+drop f015_pb5_d0_flux_by_flux_ratio_sq_q90-m-q10
+wloss-mean: 0.046438795328140256
+
+drop f015_pb2_d1_flux_norm1_q25-d-pb4_d1_flux_norm1_q25
+wloss-mean: 0.04578055515885353
+
+drop f003_pb2_flux_err_q75-d-pb4_flux_err_q75
+wloss-mean: 0.04564277082681656
+
+drop f010_pb3_flux_norm1_max
+wloss-mean: 0.045708540827035904
+
+drop f003_pb3_flux_kurt
+wloss-mean: 0.04556933715939522
+
+drop f015_pb0_d1_flux_norm2_max-d-min-d-pb5_d1_flux_norm2_max-d-min
+wloss-mean: 0.05366423241794109
+
+add f003_pb0_flux_ratio_sq_q90-d-pb5_flux_ratio_sq_q90
+wloss-mean: 0.04602672085165978
+
+add f005_pb0_y2_flux_norm2_std-d-mean
+wloss-mean: 0.05264183282852173
+
+add f003_pb1_flux_norm2_q90-d-pb2_flux_norm2_q90
+wloss-mean: 0.06082989275455475
+
+add f015_pb0_d1_flux_norm1_max
+wloss-mean: 0.050844119489192964
+
+add f015_pb3_d1_flux_norm2_max-d-pb5_d1_flux_norm2_max
+wloss-mean: 0.05201337523758411
+
+add f015_pb1_d1_flux_max-d-pb2_d1_flux_max
+wloss-mean: 0.046588991209864615
+
+add f023_pb4_flux_max-d-min
+wloss-mean: 0.05911063551902771
+
+add f010_pb3_flux_by_flux_ratio_sq_max-m-min-d-pb5_flux_by_flux_ratio_sq_max-m-min
+wloss-mean: 0.04599801450967789
+
+add f015_pb0_d0_flux_err_max-d-pb1_d0_flux_err_max
+wloss-mean: 0.04606176093220711
+
+add f010_pb0_flux_ratio_sq_q75-m-q25
+wloss-mean: 0.05307516418397427
+
+add f015_pb3_d1_flux_norm1_max-d-pb5_d1_flux_norm1_max
+wloss-mean: 0.05145166926085949
+
+add f010_pb5_flux_q75-m-q25
+wloss-mean: 0.04518797807395458
+
+add f011_pb2_flux_err_fft0_amp-d-pb3_flux_err_fft0_amp
+wloss-mean: 0.053833785280585286
+
+add f023_pb2_flux_by_flux_ratio_sq_min
+wloss-mean: 0.050998479500412947
+
+add f015_pb2_d0_flux_err_q25-d-pb3_d0_flux_err_q25
+wloss-mean: 0.04605004638433456
+
+add f015_pb1_d1_flux_norm2_max-m-min-d-pb2_d1_flux_norm2_max-m-min
+wloss-mean: 0.05191611126065254
+
+add f015_pb2_d1_flux_norm1_q10-d-pb4_d1_flux_norm1_q10
+wloss-mean: 0.05367220379412174
+
+add f015_pb2_d1_flux_norm1_q90-m-q10
+wloss-mean: 0.054305851459503174
+
+add fbk1-008_pb5_flux_min
+wloss-mean: 0.05971326641738414
+
+add f005_pb1_y2_flux_norm1_q90
+wloss-mean: 0.051674468070268625
+
+add f003_pb0_flux_by_flux_ratio_sq_min-d-pb3_flux_by_flux_ratio_sq_min
+wloss-mean: 0.052847889438271525
+
+add f002_flux_by_flux_ratio_sq_max-m-min-d-mean
+wloss-mean: 0.05394652485847473
+
+add f003_pb0_flux_ratio_sq_q90-d-pb4_flux_ratio_sq_q90
+wloss-mean: 0.052563986182212835
+
+add f005_pb1_y2_flux_norm2_std-d-mean
+wloss-mean: 0.04612918719649314
+
+add f015_pb1_d1_flux_norm1_max-d-pb3_d1_flux_norm1_max
+wloss-mean: 0.0461116012185812
+
+add f003_pb3_flux_skew
+wloss-mean: 0.053627710044384005
+
+add fbk1-007_pb1_flux_median
+wloss-mean: 0.059545017406344415
+
+add f003_pb4_flux_kurt
+wloss-mean: 0.04587387666106224
+
+add f014_d1_flux_by_flux_ratio_sq_max-d-min
+wloss-mean: 0.046147247031331065
+
+add fbk1-007_pb5_flux_std
+wloss-mean: 0.04598833508789539
+
+add f003_pb1_flux_by_flux_ratio_sq_std-d-pb5_flux_by_flux_ratio_sq_std
+wloss-mean: 0.046504595503211024
+
+add f010_pb3_flux_by_flux_ratio_sq_std-d-pb5_flux_by_flux_ratio_sq_std
+wloss-mean: 0.04597189165651798
+
+add f011_pb3_flux_fft0_amp-d-pb5_flux_fft0_amp
+wloss-mean: 0.05143727101385594
+
+add f003_pb1_flux_norm1_max-d-pb3_flux_norm1_max
+wloss-mean: 0.04615401215851307
+
+add f015_pb3_d1_flux_std-d-pb5_d1_flux_std
+wloss-mean: 0.05346917361021042
+
+add f004_y0_detected_std-d-mean-d-y1_detected_std-d-mean
+wloss-mean: 0.05127269774675369
+
+add f003_pb0_flux_max-d-min-d-pb2_flux_max-d-min
+wloss-mean: 0.06170002929866314
+
+add f010_pb2_flux_err_median-d-pb3_flux_err_median
+wloss-mean: 0.05376708805561066
+
+add f015_pb5_d1_flux_q10
+wloss-mean: 0.05258326716721058
+
+add f010_pb5_flux_norm2_q10
+wloss-mean: 0.05195963345468044
+
+add f023_pb2_flux_by_flux_ratio_sq_max-d-min
+wloss-mean: 0.04598277732729912
+
+add f003_pb4_flux_skew
+wloss-mean: 0.053638665378093725
+
+add f003_pb0_flux_by_flux_ratio_sq_q90-d-pb4_flux_by_flux_ratio_sq_q90
+wloss-mean: 0.045787012204527855
+
+add f004_y1_detected_skew-d-y2_detected_skew
+wloss-mean: 0.051178572326898576
+
+add f015_pb1_d1_flux_norm2_q90-m-q10
+wloss-mean: 0.05398740880191326
+
+add f024_pb5_flux_ratio_sq_min
+wloss-mean: 0.051526544988155364
+
+add f003_pb0_flux_ratio_sq_q90-m-q10-d-pb5_flux_ratio_sq_q90-m-q10
+wloss-mean: 0.054131586104631424
+
+add f003_pb2_flux_by_flux_ratio_sq_min-d-pb4_flux_by_flux_ratio_sq_min
+wloss-mean: 0.04670583717525005
+
+add f023_pb4_flux_norm2_median

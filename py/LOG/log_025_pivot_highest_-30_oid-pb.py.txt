@@ -1,0 +1,14 @@
+rm: cannot remove '../feature/t*_f025*': No such file or directory
+
+#==============================================================================
+# START!!! 025_pivot_highest_-30_oid-pb.py    PID: 2876    time: 2018-11-25 14:04:22.247514
+#==============================================================================
+
+rm: cannot remove '../data/tmp_f025*': No such file or directory
+rm: cannot remove '../data/test_f025.pkl.gz': No such file or directory
+
+#==============================================================================
+# SUCCESS !!! 025_pivot_highest_-30_oid-pb.py
+#==============================================================================
+
+time: 98.04min

@@ -1,0 +1,21 @@
+['f002_lumi_q90-m-q10', 'f003_pb0_flux_ratio_sq_skew-d-pb5_flux_ratio_sq_skew', 'f003_pb2_flux_by_flux_ratio_sq_min', 'f003_pb2_flux_norm1_min', 'f009_pb1_flux_err_min-d-pb4_flux_err_min', 'f010_pb2_flux_err_q25-d-pb3_flux_err_q25', 'f015_pb1_d0_flux_err_q10', 'f015_pb3_d1_flux_norm1_std-d-pb5_d1_flux_norm1_std', 'f015_pb4_d0_flux_norm2_q25-d-pb5_d0_flux_norm2_q25', 'f015_pb5_d0_flux_by_flux_ratio_sq_max-d-min', 'f015_pb5_d0_flux_err_kurt', 'f023_pb2_lumi_q10-d-pb5_lumi_q10', 'f025_pb4_lumi_min']
+
+#==============================================================================
+# START!!! 899_generate_test.py    PID: 4142    time: 2018-11-30 03:15:28.599020
+#==============================================================================
+
+instance-1  START 899_generate_test.py  time: 0.00min
+f002 ['f002_lumi_q90-m-q10']
+f003 ['f003_pb2_flux_by_flux_ratio_sq_min', 'f003_pb0_flux_ratio_sq_skew-d-pb5_flux_ratio_sq_skew', 'f003_pb2_flux_norm1_min']
+f009 ['f009_pb1_flux_err_min-d-pb4_flux_err_min']
+f010 ['f010_pb2_flux_err_q25-d-pb3_flux_err_q25']
+f015 ['f015_pb4_d0_flux_norm2_q25-d-pb5_d0_flux_norm2_q25', 'f015_pb5_d0_flux_by_flux_ratio_sq_max-d-min', 'f015_pb1_d0_flux_err_q10', 'f015_pb3_d1_flux_norm1_std-d-pb5_d1_flux_norm1_std', 'f015_pb5_d0_flux_err_kurt']
+f023 ['f023_pb2_lumi_q10-d-pb5_lumi_q10']
+f025 ['f025_pb4_lumi_min']
+
+#==============================================================================
+# SUCCESS !!! 899_generate_test.py
+#==============================================================================
+
+time: 29.58min
+instance-1  FINISH 899_generate_test.py  time: 29.58min
