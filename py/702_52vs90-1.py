@@ -162,7 +162,7 @@ gc.collect()
 model_all = []
 nround_mean = 0
 wloss_list = []
-for i in range(1):
+for i in range(5):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD,
