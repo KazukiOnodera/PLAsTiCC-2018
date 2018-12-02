@@ -21,7 +21,8 @@ NTHREADS = 2
 
 
 
-COL = pd.read_csv('LOG/imp_702_52vs90.py-2.csv').head(NFEATURES).feature.tolist()
+#COL = pd.read_csv('LOG/imp_702_52vs90.py-2.csv').head(NFEATURES).feature.tolist()
+COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(NFEATURES).feature.tolist()
 
 #COL_gal   = pd.read_csv('LOG/imp_802_cv_separate.py_gal.csv').head(NFEATURES ).feature.tolist()
 #COL_exgal = pd.read_csv('LOG/imp_802_cv_separate.py_exgal.csv').head(NFEATURES ).feature.tolist()

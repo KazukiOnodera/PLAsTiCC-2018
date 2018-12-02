@@ -436,7 +436,7 @@ def plot_confusion_matrix(__file__, y_pred, normalize=False,
     
     score = utils_metric.multi_weighted_logloss(y, y_pred)
     
-    cnf_matrix = confusion_matrix(y, np.argmax(y_pred.astype(float).values, axis=-1))
+    cnf_matrix = confusion_matrix(y, np.argmax(y_pred, axis=-1))
     np.set_printoptions(precision=2)
     
     if normalize:
