@@ -84,7 +84,7 @@ taguchi_param = {
 param = taguchi_param
 
 
-BASE_FEATURES = 10
+BASE_FEATURES = 100
 
 
 # =============================================================================
