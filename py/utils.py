@@ -399,7 +399,7 @@ def postprocess(sub:pd.DataFrame, weight=None, method='giba'):
     
     return
 
-def plot_confusion_matrix(__file__, y_pred, normalize=False,
+def plot_confusion_matrix(__file__, y_pred, normalize=True,
                           title='Confusion Matrix'):
     
     import matplotlib as mpl
