@@ -399,6 +399,78 @@ def postprocess(sub:pd.DataFrame, weight=None, method='giba'):
     
     return
 
+def plot_confusion_matrix(__file__, y_pred, normalize=False,
+                          title='Confusion Matrix'):
+    
+    import matplotlib as mpl
+    mpl.use('Agg')
+    from matplotlib import pyplot as plt
+    from sklearn.metrics import confusion_matrix
+    import itertools
+    import utils_metric
+    
+    classes = ['class_6',
+             'class_15',
+             'class_16',
+             'class_42',
+             'class_52',
+             'class_53',
+             'class_62',
+             'class_64',
+             'class_65',
+             'class_67',
+             'class_88',
+             'class_90',
+             'class_92',
+             'class_95']
+    
+    y = load_target().target
+    
+    target_dict = {}
+    target_dict_r = {}
+    for i,e in enumerate(y.sort_values().unique()):
+        target_dict[e] = i
+        target_dict_r[i] = e
+    
+    y = y.replace(target_dict).values
+    
+    score = utils_metric.multi_weighted_logloss(y, y_pred)
+    
+    cnf_matrix = confusion_matrix(y, np.argmax(y_pred.astype(float).values, axis=-1))
+    np.set_printoptions(precision=2)
+    
+    if normalize:
+        cnf_matrix = cnf_matrix.astype('float') / cnf_matrix.sum(axis=1)[:, np.newaxis]
+        print("Normalized confusion matrix")
+    else:
+        print('Confusion matrix, without normalization')
+
+    print(cnf_matrix)
+    
+    plt.figure(figsize=(12,12))
+    plt.imshow(cnf_matrix, interpolation='nearest', cmap=plt.cm.Blues)
+    plt.title(f'{title}: {round(score, 5)}')
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    fmt = '.2f' if normalize else 'd'
+    thresh = cnf_matrix.max() / 2.
+    for i, j in itertools.product(range(cnf_matrix.shape[0]), range(cnf_matrix.shape[1])):
+        plt.text(j, i, format(cnf_matrix[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if cnf_matrix[i, j] > thresh else "black")
+    
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    plt.tight_layout()
+    plt.savefig(f'LOG/CM_{__file__}.png')
+    
+    send_line(f'Confusion Matrix wmlogloss: {score}', png=f'LOG/CM_{__file__}.png')
+    
+    return
+
 # =============================================================================
 # other API
 # =============================================================================
