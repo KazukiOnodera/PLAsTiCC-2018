@@ -38,14 +38,15 @@ def preprocess(df):
     df['year'] = ( df.date - df.groupby(['object_id']).date.transform('min') )/365
     df['year'] = df['year'].astype(int)
     
-    df['month'] = ( df.date - df.groupby(['object_id']).date.transform('min') )/30
-    df['month'] = df['month'].astype(int)
-    
-    df['3month'] = ( df.date - df.groupby(['object_id']).date.transform('min') )/90
-    df['3month'] = df['3month'].astype(int)
+#    df['month'] = ( df.date - df.groupby(['object_id']).date.transform('min') )/30
+#    df['month'] = df['month'].astype(int)
+#    
+#    df['3month'] = ( df.date - df.groupby(['object_id']).date.transform('min') )/90
+#    df['3month'] = df['3month'].astype(int)
     
     df['flux_norm1'] = df.flux / df.groupby(['object_id']).flux.transform('max')
     df['flux_norm2'] = (df.flux - df.groupby(['object_id']).flux.transform('min')) / df.groupby(['object_id']).flux.transform('max')
+    df['flux_norm3'] = df.flux / df.groupby(['object_id', 'passband']).flux.transform('max')
     
     return
 
@@ -102,26 +103,28 @@ if __name__ == "__main__":
     preprocess(train_log)
     train_log.to_pickle('../data/train_log.pkl')
     
-    
+    # =================
     # data augment
-    train_log_ddf = pd.merge(train_log, train[train.ddf==1], how='inner', on='object_id')
-    train_log_ddf_gal   = train_log_ddf[train_log_ddf.hostgal_photoz==0] # 520
-    train_log_ddf_exgal = train_log_ddf[train_log_ddf.hostgal_photoz!=0] # 37
-    
-    meta_wfd_gal,   log_wfd_gal,   oid_max = ddf_to_wfd(train_log_ddf_gal, 520,  130788054)
-    meta_wfd_exgal, log_wfd_exgal, oid_max = ddf_to_wfd(train_log_ddf_exgal, 37, oid_max)
-    
-    meta_wfd = pd.concat([meta_wfd_gal, meta_wfd_exgal], ignore_index=True)
-    meta_wfd.sort_values('object_id', inplace=True)
-    meta_wfd.reset_index(drop=True, inplace=True)
-    meta_wfd.to_pickle('../data/train_aug.pkl')
-    meta_wfd[['target']].to_pickle('../data/target_aug.pkl')
-    
-    log_wfd = pd.concat([log_wfd_gal, log_wfd_exgal], ignore_index=True)
-    for i in tqdm(range(utils.SPLIT_SIZE), mininterval=15):
-        gc.collect()
-        df = log_wfd[log_wfd.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True)
-        df.to_pickle(f'../data/train_log_aug{i:02}.pkl')
+    # =================
+    if utils.GENERATE_AUG:
+        train_log_ddf = pd.merge(train_log, train[train.ddf==1], how='inner', on='object_id')
+        train_log_ddf_gal   = train_log_ddf[train_log_ddf.hostgal_photoz==0] # 520
+        train_log_ddf_exgal = train_log_ddf[train_log_ddf.hostgal_photoz!=0] # 37
+        
+        meta_wfd_gal,   log_wfd_gal,   oid_max = ddf_to_wfd(train_log_ddf_gal, 520,  130788054)
+        meta_wfd_exgal, log_wfd_exgal, oid_max = ddf_to_wfd(train_log_ddf_exgal, 37, oid_max)
+        
+        meta_wfd = pd.concat([meta_wfd_gal, meta_wfd_exgal], ignore_index=True)
+        meta_wfd.sort_values('object_id', inplace=True)
+        meta_wfd.reset_index(drop=True, inplace=True)
+        meta_wfd.to_pickle('../data/train_aug.pkl')
+        meta_wfd[['target']].to_pickle('../data/target_aug.pkl')
+        
+        log_wfd = pd.concat([log_wfd_gal, log_wfd_exgal], ignore_index=True)
+        for i in tqdm(range(utils.SPLIT_SIZE), mininterval=15):
+            gc.collect()
+            df = log_wfd[log_wfd.object_id%utils.SPLIT_SIZE==i].reset_index(drop=True)
+            df.to_pickle(f'../data/train_log_aug{i:02}.pkl')
     
     # =================
     # test

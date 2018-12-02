@@ -53,7 +53,7 @@ GENERATE_FEATURE_SIZE = 1000
 
 GENERATE_TEST = True
 
-GENERATE_AUG = True
+GENERATE_AUG = False
 
 IMP_FILE = 'LOG/imp_801_cv.py-2.csv'
 
@@ -410,7 +410,6 @@ def submit(file_path, comment='from API'):
     message = 'SCORE!!!\n'
     for i,j in zip(col.split(','), values.split(',')):
         message += f'{i}: {j}\n'
-#        print(f'{i}: {j}') # TODO: comment out later?
     send_line(message.rstrip())
 
 import requests

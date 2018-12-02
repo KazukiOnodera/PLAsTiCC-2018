@@ -18,7 +18,6 @@ import os
 from glob import glob
 from scipy.stats import kurtosis
 from multiprocessing import cpu_count, Pool
-#from tsfresh.feature_extraction import extract_features
 
 import sys
 argvs = sys.argv

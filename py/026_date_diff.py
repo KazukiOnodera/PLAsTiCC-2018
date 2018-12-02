@@ -1,102 +1,86 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Oct 30 20:09:38 2018
+Created on Sat Dec  1 06:35:29 2018
 
-@author: kazuki.onodera
-
-
-keys: object_id, passband, year
-
-
+@author: Kazuki
 """
 
 import numpy as np
 import pandas as pd
 import os
 from glob import glob
-from scipy.stats import kurtosis
 from multiprocessing import cpu_count, Pool
-#from tsfresh.feature_extraction import extract_features
 
 import sys
 argvs = sys.argv
 
+from itertools import combinations
 import utils
 
-PREF = 'f005'
+PREF = 'f026'
 
 
 os.system(f'rm ../data/t*_{PREF}*')
 os.system(f'rm ../feature/t*_{PREF}*')
 
-def quantile(n):
-    def quantile_(x):
-        return np.percentile(x, n)
-    quantile_.__name__ = 'q%s' % n
-    return quantile_
 
-def kurt(x):
-    return kurtosis(x)
-
-stats = ['min', 'max', 'mean', 'median', 'std','skew',
-         kurt, quantile(10), quantile(25), quantile(75), quantile(90)]
-
-num_aggregations = {
-    'flux':        stats,
-    'flux_norm1':  stats,
-    'flux_norm2':  stats,
-    'flux_norm3':  stats,
-    'flux_err':    stats,
-    'detected':    stats,
-    'flux_ratio_sq': stats,
-    'flux_by_flux_ratio_sq': stats,
-    'lumi': stats,
-    }
-
-fcp = {'fft_coefficient': [{'coeff': 0, 'attr': 'abs'},
-                           {'coeff': 1, 'attr': 'abs'}],
-        'kurtosis' : None, 'skewness' : None}
-
+def date_diff(df, name):
+    feature = df.groupby('object_id').size().to_frame()
+    del feature[0]
+    feature[f'date_diff_{name}'] = df.groupby('object_id').date.max() - df.groupby('object_id').date.min()
+    
+    tmp = df.groupby(['object_id', 'passband']).date.max() - df.groupby(['object_id', 'passband']).date.min()
+    tmp.name = f'date_diff_{name}'
+    tmp = pd.pivot_table(tmp.reset_index(), index=['object_id'], columns=['passband'], 
+                         values=[f'date_diff_{name}'])
+    tmp.columns = pd.Index([f'pb{e[1]}_{e[0]}' for e in tmp.columns.tolist()])
+    
+    return pd.concat([feature, tmp], axis=1)
 
 def aggregate(df, output_path, drop_oid=True):
     """
     df = pd.read_pickle('../data/train_log.pkl').head(999)
     """
     
-    pt = pd.pivot_table(df, index=['object_id'], columns=['passband', 'year'], 
-                        aggfunc=num_aggregations)
+    feature = df.groupby('object_id').size().to_frame()
+    del feature[0]
     
-    pt.columns = pd.Index([f'pb{e[2]}_y{e[3]}_{e[0]}_{e[1]}' for e in pt.columns.tolist()])
+#    # highest -30 ~ date ~ 30
+#    idxmax = df.groupby('object_id').flux.idxmax()
+#    base = df.iloc[idxmax][['object_id', 'date']]
+#    li = [base]
+#    for i in range(1, 31):
+#        lag  = base.copy()
+#        lead = base.copy()
+#        lag['date']  -= i
+#        lead['date'] += i
+#        li.append(lag)
+#        li.append(lead)
+#    
+#    keep = pd.concat(li)
+#    
+#    df = pd.merge(keep, df, on=['object_id', 'date'], how='inner')
     
-    # std / mean
-    col_std = [c for c in pt.columns if c.endswith('_std')]
-    for c in col_std:
-        pt[f'{c}-d-mean'] = pt[c]/pt[c.replace('_std', '_mean')]
+    df_ = df[df.flux_norm1 > 0.3]
+    feature1 = date_diff(df_, 0.3)
     
-    # max / min, max - min
-    col_max = [c for c in pt.columns if c.endswith('_max')]
-    for c in col_max:
-        pt[f'{c}-d-min'] = pt[c]/pt[c.replace('_max', '_min')]
-        pt[f'{c}-m-min'] = pt[c]-pt[c.replace('_max', '_min')]
+    df_ = df[df.flux_norm1 > 0.5]
+    feature2 = date_diff(df_, 0.5)
     
-    # q75 - q25, q90 - q10
-    col = [c for c in pt.columns if c.endswith('_q75')]
-    for c in col:
-        x = c.replace('_q75', '')
-        pt[f'{x}_q75-m-q25'] = pt[c] - pt[c.replace('_q75', '_q25')]
-        pt[f'{x}_q90-m-q10'] = pt[c.replace('_q75', '_q90')] - pt[c.replace('_q75', '_q10')]
+    df_ = df[df.flux_norm1 > 0.7]
+    feature3 = date_diff(df_, 0.7)
     
+    df_ = df[df.flux_norm1 > 0.9]
+    feature4 = date_diff(df_, 0.9)
     
-#    if usecols is not None:
-#        col = [c for c in pt.columns if c not in usecols]
-#        pt.drop(col, axis=1, inplace=True)
+    feature = pd.concat([feature1, feature2, feature3, feature4], axis=1)
     
     if drop_oid:
-        pt.reset_index(drop=True, inplace=True)
+        feature.reset_index(drop=True, inplace=True)
     else:
-        pt.reset_index(inplace=True)
-    pt.add_prefix(PREF+'_').to_pickle(output_path)
+        feature.reset_index(inplace=True)
+    feature.add_prefix(PREF+'_').to_pickle(output_path)
     
     return
 
@@ -130,7 +114,6 @@ if __name__ == "__main__":
         utils.to_pkl_gzip(df, f'../data/train_aug_{PREF}.pkl')
         os.system(f'rm ../data/tmp_{PREF}*')
     
-    
     # test
     if utils.GENERATE_TEST:
         imp = pd.read_csv(utils.IMP_FILE).head(utils.GENERATE_FEATURE_SIZE)
@@ -155,4 +138,7 @@ if __name__ == "__main__":
         os.system(f'rm ../data/tmp_{PREF}*')
     
     utils.end(__file__)
+
+
+
 
