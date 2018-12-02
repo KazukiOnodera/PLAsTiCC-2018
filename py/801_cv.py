@@ -42,10 +42,10 @@ param = {
 #         'learning_rate': 0.01,
          'max_depth': 3,
 #         'num_leaves': 63,
-         'max_bin': 20,
+         'max_bin': 127,
          
          'min_child_weight': 10,
-         'min_data_in_leaf': 50,
+         'min_data_in_leaf': 150,
          'reg_lambda': 0.5,  # L2 regularization term on weights.
          'reg_alpha': 0.5,  # L1 regularization term on weights.
          
@@ -56,6 +56,28 @@ param = {
          'bagging_freq': 1,
          'verbose':-1,
          }
+
+taguchi_param = {
+                'objective': 'multiclass',
+                'num_class': 14,
+                'nthread': cpu_count(),
+                'learning_rate': 0.4,
+                'max_depth': 3,
+                'subsample': .9,
+                'colsample_bytree': .7,
+                'reg_alpha': .01,
+                'reg_lambda': .01,
+                'min_split_gain': 0.01,
+                'min_child_weight': 200,
+                'verbose': -1,
+                
+                'max_bin': 20,
+        #        'min_data_in_leaf': 30,
+        #        'bagging_fraction',
+        #        'bagging_freq',
+            }
+
+param = taguchi_param
 
 # =============================================================================
 # load

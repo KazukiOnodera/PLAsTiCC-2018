@@ -23,16 +23,16 @@ if __name__ == "__main__":
     utils.start(__file__)
     
     # train
-    df = pd.read_csv('../FROM_MYTEAM/train_LCfitter_20181129.csv')
-    df.sort_values('object_id', inpalce=True)
-    df.reset_index(drop=True, inpalce=True)
+    df = pd.read_pickle('../FROM_MYTEAM/LCfit_features_train_20181129.pkl.gz')
+    df.sort_values('object_id', inplace=True)
+    df.reset_index(drop=True, inplace=True)
     del df['object_id']
     df.add_prefix(PREF+'_').to_pickle(f'../data/train_{PREF}.pkl')
     
     # test
-    df = pd.read_pickle('../FROM_MYTEAM/LCfit_feature_test_20181130.gz')
-    df.sort_values('object_id', inpalce=True)
-    df.reset_index(drop=True, inpalce=True)
+    df = pd.read_pickle('../FROM_MYTEAM/LCfit_features_test_20181130.pkl.gz')
+    df.sort_values('object_id', inplace=True)
+    df.reset_index(drop=True, inplace=True)
     del df['object_id']
     df = df.add_prefix(PREF+'_')
     utils.to_pkl_gzip(df, f'../data/test_{PREF}.pkl')
