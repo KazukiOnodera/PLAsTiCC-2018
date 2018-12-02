@@ -24,7 +24,7 @@ from multiprocessing import cpu_count
 
 
 import utils
-#utils.start(__file__)
+utils.start(__file__)
 #==============================================================================
 
 SEED = np.random.randint(9999)
@@ -229,7 +229,7 @@ print('best_N', best_N)
 
 #==============================================================================
 utils.end(__file__)
-utils.stop_instance()
+#utils.stop_instance()
 
 
 
