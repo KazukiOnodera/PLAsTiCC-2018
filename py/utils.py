@@ -19,7 +19,8 @@ Out[8]:
 Name: target, dtype: float64
 
 for f in sorted(glob('*.py')):
-    print(f'nohup python -u {f} 0 > LOG/log_{f}.txt &')
+#    print(f'nohup python -u {f} 0 > LOG/log_{f}.txt &')
+    print(f'python -u {f} 0 > LOG/log_{f}.txt')
 
 """
 
@@ -51,9 +52,9 @@ SPLIT_SIZE = 100
 TEST_LOGS = sorted(glob('../data/test_log*.pkl'))
 AUG_LOGS = sorted(glob('../data/train_log_aug*.pkl'))
 
-GENERATE_FEATURE_SIZE = 1000
+GENERATE_FEATURE_SIZE = 300
 
-GENERATE_TEST = False
+GENERATE_TEST = True
 
 GENERATE_AUG = False
 
