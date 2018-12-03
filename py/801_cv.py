@@ -77,7 +77,7 @@ taguchi_param = {
         #        'bagging_freq',
             }
 
-param = taguchi_param
+#param = taguchi_param
 
 # =============================================================================
 # load
