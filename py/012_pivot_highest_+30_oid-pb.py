@@ -18,7 +18,6 @@ import os
 from glob import glob
 from scipy.stats import kurtosis
 from multiprocessing import cpu_count, Pool
-from tsfresh.feature_extraction import extract_features
 
 import sys
 argvs = sys.argv
@@ -49,6 +48,7 @@ num_aggregations = {
     'flux':        stats,
     'flux_norm1':  stats,
     'flux_norm2':  stats,
+    'flux_norm3':  stats,
     'flux_err':    stats,
     'detected':    stats,
     'flux_ratio_sq': stats,
@@ -65,11 +65,11 @@ def aggregate(df, output_path, drop_oid=True):
     df = pd.read_pickle('../data/train_log.pkl').head(999)
     """
     
-    # highest date ~ +178
+    # highest date ~ +30
     idxmax = df.groupby('object_id').flux.idxmax()
     base = df.iloc[idxmax][['object_id', 'date']]
     li = [base]
-    for i in range(178):
+    for i in range(30):
         i += 1
         lead = base.copy()
         lead['date'] += i

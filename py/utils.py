@@ -18,6 +18,8 @@ Out[8]:
 53    0.003823
 Name: target, dtype: float64
 
+for f in sorted(glob('*.py')):
+    print(f'nohup python -u {f} 0 > LOG/log_{f}.txt &')
 
 """
 
@@ -51,7 +53,7 @@ AUG_LOGS = sorted(glob('../data/train_log_aug*.pkl'))
 
 GENERATE_FEATURE_SIZE = 1000
 
-GENERATE_TEST = True
+GENERATE_TEST = False
 
 GENERATE_AUG = False
 

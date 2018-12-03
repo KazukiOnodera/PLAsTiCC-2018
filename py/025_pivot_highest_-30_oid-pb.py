@@ -42,6 +42,7 @@ num_aggregations = {
     'flux':        stats,
     'flux_norm1':  stats,
     'flux_norm2':  stats,
+    'flux_norm3':  stats,
     'flux_err':    stats,
     'detected':    stats,
     'flux_ratio_sq': stats,

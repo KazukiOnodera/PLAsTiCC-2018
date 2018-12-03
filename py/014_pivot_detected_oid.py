@@ -19,7 +19,6 @@ import os
 from glob import glob
 from scipy.stats import kurtosis
 from multiprocessing import cpu_count, Pool
-from tsfresh.feature_extraction import extract_features
 
 import sys
 argvs = sys.argv
@@ -47,6 +46,7 @@ num_aggregations = {
     'flux':        stats,
     'flux_norm1':  stats,
     'flux_norm2':  stats,
+    'flux_norm3':  stats,
     'flux_err':    stats,
     'detected':    stats,
     'flux_ratio_sq': stats,
