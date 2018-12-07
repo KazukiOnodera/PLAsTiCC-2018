@@ -23,7 +23,7 @@ import utils, utils_metric
 utils.start(__file__)
 #==============================================================================
 
-SUBMIT_FILE_PATH = '../output/1206-1.csv.gz'
+SUBMIT_FILE_PATH = '../output/1207-1.csv.gz'
 
 COMMENT = 'top300 features * 10 / bin 20'
 
@@ -48,7 +48,7 @@ param = {
 #         'num_leaves': 63,
          'max_bin': 127,
          
-         'min_child_weight': 10,
+         'min_child_weight': 200,
          'min_data_in_leaf': 50,
          'reg_lambda': 0.5,  # L2 regularization term on weights.
          'reg_alpha': 0.5,  # L1 regularization term on weights.
@@ -61,28 +61,6 @@ param = {
          'verbose':-1,
          }
 
-taguchi_param = {
-                'objective': 'multiclass',
-                'num_class': 14,
-                'nthread': cpu_count(),
-                'learning_rate': 0.4,
-                'max_depth': 3,
-                'subsample': .9,
-                'colsample_bytree': .7,
-                'reg_alpha': .01,
-                'reg_lambda': .01,
-                'min_split_gain': 0.01,
-                'min_child_weight': 200,
-                'verbose': -1,
-                
-                'max_bin': 20,
-        #        'min_data_in_leaf': 30,
-        #        'bagging_fraction',
-        #        'bagging_freq',
-            }
-
-#param = taguchi_param
-
 
 BASE_FEATURES = 300
 
@@ -90,7 +68,7 @@ BASE_FEATURES = 300
 # =============================================================================
 # load
 # =============================================================================
-COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(BASE_FEATURES).feature.tolist()
+COL = pd.read_csv('LOG/imp_812_cv_wfd.py.csv').head(BASE_FEATURES).feature.tolist()
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
 
