@@ -177,12 +177,10 @@ def cv(key):
     imp.reset_index(drop=True, inplace=True)
     
     print(imp.head(100).feature.map(lambda x: x.split('_')[0]).value_counts())
-    
-    #imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
-    
+        
     """
     
-    __file__ = '801_cv.py'
+    __file__ = '810_cv_flux.py'
     imp = pd.read_csv(f'LOG/imp_{__file__}-1.csv')
     
     """
@@ -229,7 +227,7 @@ def cv(key):
     
     print(imp.head(200).feature.map(lambda x: x.split('_')[0]).value_counts())
     
-    #imp.to_csv(f'LOG/imp_{__file__}-2.csv', index=False)
+    #imp.to_csv(f'LOG/imp_{__file__}-{key}.csv', index=False)
     
     
     

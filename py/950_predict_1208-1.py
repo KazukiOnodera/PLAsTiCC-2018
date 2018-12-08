@@ -23,7 +23,7 @@ import utils, utils_metric
 utils.start(__file__)
 #==============================================================================
 
-SUBMIT_FILE_PATH = '../output/1207-1.csv.gz'
+SUBMIT_FILE_PATH = '../output/1208-1.csv.gz'
 
 COMMENT = 'top300 features * 10 / bin 20'
 
@@ -68,7 +68,7 @@ BASE_FEATURES = 300
 # =============================================================================
 # load
 # =============================================================================
-COL = pd.read_csv('LOG/imp_812_cv_wfd.py.csv').head(BASE_FEATURES).feature.tolist()
+COL = pd.read_csv('LOG/imp_810_cv_flux.py-org.csv').head(BASE_FEATURES).feature.tolist()
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
 
