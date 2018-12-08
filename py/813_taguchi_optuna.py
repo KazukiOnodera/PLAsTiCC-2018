@@ -149,13 +149,13 @@ gc.collect()
 
 def objective(trial):
     param['max_depth'] = trial.suggest_int('max_depth', 3, 6)
-    param['subsample'] = trial.suggest_discrete_uniform('subsample', 0.1, 1.0, 0.1)
-    param['colsample_bytree'] = trial.suggest_discrete_uniform('colsample_bytree', 0.1, 1.0, 0.1)
-    param['reg_alpha'] = trial.suggest_discrete_uniform('reg_alpha', 0.1, 1.0, 0.01)
-    param['reg_lambda'] = trial.suggest_discrete_uniform('reg_lambda', 0.1, 1.0, 0.01)
-    param['min_split_gain'] = trial.suggest_discrete_uniform('min_split_gain', 0.1, 1.0, 0.01)
+    param['subsample'] = trial.suggest_discrete_uniform('subsample', 0.5, 1.0, 0.1)
+    param['colsample_bytree'] = trial.suggest_discrete_uniform('colsample_bytree', 0.5, 1.0, 0.1)
+    param['reg_alpha'] = trial.suggest_discrete_uniform('reg_alpha', 0.01, 0.5, 0.01)
+    param['reg_lambda'] = trial.suggest_discrete_uniform('reg_lambda', 0.01, 0.5, 0.01)
+    param['min_split_gain'] = trial.suggest_discrete_uniform('min_split_gain', 0.01, 0.1, 0.01)
     param['min_child_weight'] = trial.suggest_int('min_child_weight', 1, 300)
-    param['min_data_in_leaf'] = trial.suggest_int('min_data_in_leaf', 10, 300)
+#    param['min_data_in_leaf'] = trial.suggest_int('min_data_in_leaf', 10, 300)
     param['max_bin'] = trial.suggest_int('max_bin', 15, 127)
     
     model_all = []
