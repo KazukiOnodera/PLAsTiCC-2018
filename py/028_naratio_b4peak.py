@@ -59,9 +59,27 @@ def aggregate(df, output_path, drop_oid=True):
         keep = pd.concat(li)
         
         df_ = pd.merge(keep, df, on=['object_id', 'date'], how='inner')
-        feature[f'{d}_notna_ratio_b4peak'] = df_.groupby(['object_id', 'date']).size().groupby(['object_id']).size() / d # faster than 'date.nunique()'
-        feature[f'{d}_date_max'] = df_.groupby('object_id').date.max()
-        feature[f'{d}_date_diff'] = feature['date_flux_max'] - feature[f'{d}_date_max']
+        feature[f'{d}_notna_ratio_bf_peak'] = df_.groupby(['object_id', 'date']).size().groupby(['object_id']).size() / d # faster than 'date.nunique()'
+        feature[f'{d}_date_bf_max'] = df_.groupby('object_id').date.max()
+        feature[f'{d}_date_bf_diff'] = feature['date_flux_max'] - feature[f'{d}_date_bf_max']
+    
+    for d in dates:
+        # -d ~highest date
+        idxmax = gr.flux.idxmax()
+        base = df.iloc[idxmax][['object_id', 'date']]
+        li = []
+        for i in range(d):
+            i += 1
+            lag = base.copy()
+            lag['date'] += i
+            li.append(lag)
+        
+        keep = pd.concat(li)
+        
+        df_ = pd.merge(keep, df, on=['object_id', 'date'], how='inner')
+        feature[f'{d}_notna_ratio_af_peak'] = df_.groupby(['object_id', 'date']).size().groupby(['object_id']).size() / d # faster than 'date.nunique()'
+        feature[f'{d}_date_af_max'] = df_.groupby('object_id').date.max()
+        feature[f'{d}_date_af_diff'] = feature['date_flux_max'] - feature[f'{d}_date_af_max']
     
     
     
