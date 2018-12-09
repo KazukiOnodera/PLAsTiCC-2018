@@ -64,6 +64,20 @@ def aggregate(df, output_path, drop_oid=True):
         feature[f'{d}_date_diff'] = feature['date_flux_max'] - feature[f'{d}_date_max']
     
     
+    
+    # ======== okumura features ========
+    det_mjd_diff = df[df['detected']==1].pivot_table('mjd','object_id',aggfunc=[min,max])
+    det_mjd_diff.columns = ['min_mjd','max_mjd']
+    
+    # detected==1の前後の間隔を追加
+    mjd_diff_ = df[['object_id','mjd']].merge(right=det_mjd_diff, on=['object_id'], how='left')
+    
+    max_mjd_bf_det1 = mjd_diff_[mjd_diff_.mjd < mjd_diff_.min_mjd].groupby('object_id')[['mjd', 'min_mjd']].max().rename(columns={'mjd': 'max_mjd_bf_det1'})
+    feature['mjd_diff_bf_det1'] = max_mjd_bf_det1['min_mjd'] - max_mjd_bf_det1['max_mjd_bf_det1']
+    
+    min_mjd_af_det1 = mjd_diff_[mjd_diff_.mjd > mjd_diff_.max_mjd].groupby('object_id')[['mjd', 'max_mjd']].min().rename(columns={'mjd': 'min_mjd_af_det1'})
+    feature['mjd_diff_af_det1'] = min_mjd_af_det1['min_mjd_af_det1'] - min_mjd_af_det1['max_mjd'] 
+    
     if drop_oid:
         feature.reset_index(drop=True, inplace=True)
     else:
