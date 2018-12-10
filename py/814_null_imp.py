@@ -30,8 +30,6 @@ print('SEED:', SEED)
 
 NFOLD = 5
 
-LOOP = 1
-
 param = {
          'objective': 'multiclass',
          'num_class': 14,
@@ -101,7 +99,7 @@ gc.collect()
 
 
 
-def get_imp(shuffle=True):
+def get_imp(shuffle=True, loop=1):
     
     if shuffle:
         dtrain = lgb.Dataset(X, y.sample(frac=1).values, free_raw_data=False)
@@ -113,7 +111,7 @@ def get_imp(shuffle=True):
     model_all = []
     nround_mean = 0
     wloss_list = []
-    for i in range(LOOP):
+    for i in range(loop):
         gc.collect()
         param['seed'] = np.random.randint(9999)
         ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
@@ -135,7 +133,7 @@ def get_imp(shuffle=True):
     
     return imp.set_index('feature')
 
-imp = get_imp(False)
+imp = get_imp(False, loop=2)
 imp['null_imp'] = 0
 
 for i in range(100):
