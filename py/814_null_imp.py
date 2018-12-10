@@ -141,6 +141,9 @@ imp['null_imp'] = 0
 for i in range(100):
     imp['null_imp'] += get_imp().total
 
+imp['null_imp'] /= 100
+
+
 imp.to_csv(f'LOG/imp_{__file__}.csv')
 
 #==============================================================================
