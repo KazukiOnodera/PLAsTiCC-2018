@@ -19,7 +19,7 @@ import lightgbm as lgb
 from multiprocessing import cpu_count
 
 import utils, utils_metric
-#utils.start(__file__)
+utils.start(__file__)
 #==============================================================================
 
 
@@ -119,7 +119,7 @@ def get_imp(shuffle=True):
         ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
                              fobj=utils_metric.wloss_objective, 
                              feval=utils_metric.wloss_metric,
-                             early_stopping_rounds=100, verbose_eval=50,
+                             early_stopping_rounds=100, verbose_eval=200,
                              seed=SEED+i)
         model_all += models
         nround_mean += len(ret['multi_logloss-mean'])
