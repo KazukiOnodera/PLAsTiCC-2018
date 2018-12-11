@@ -26,7 +26,7 @@ utils.start(__file__)
 
 SUBMIT_FILE_PATH = '../output/1211-1.csv.gz'
 
-COMMENT = 'top100 features * 10 / bin 20'
+COMMENT = 'top100 features * 10 / nullimp'
 
 EXE_SUBMIT = False
 
@@ -172,8 +172,12 @@ y_true = pd.get_dummies(y)
 
 weight = utils_post.get_weight(y_true, oof, eta=0.1, nround=9999)
 
+print(f'weight: np.array({list(weight)})')
+"""
 
+weight: np.array([0.91, 1.14, 0.62, 0.66, 1.56, 0.67, 0.81, 1.81, 0.48, 1.3, 0.7, 0.58, 0.61, 1.06])
 
+"""
 # =============================================================================
 # model
 # =============================================================================
