@@ -394,7 +394,7 @@ def postprocess(sub:pd.DataFrame, weight=None, method='giba'):
         raise Exception(method)
         
     val = sub.iloc[:, 1:].values
-    val = np.clip(a=val, a_min=1e-15, a_max=1 - 1e-15)
+    val = np.clip(a=val, a_min=0, a_max=1)
     if weight is not None:
         val *= weight
     val /= val.sum(1)[:,None]
