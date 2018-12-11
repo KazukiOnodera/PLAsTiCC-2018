@@ -36,6 +36,8 @@ if weight is not None:
 val /= val.sum(1)[:,None]
 sub.iloc[:, 1:] = val
 
+sub.to_csv(SUBMIT_FILE_PATH, index=False, compression='gzip')
+
 utils.submit(SUBMIT_FILE_PATH, COMMENT)
 
 #==============================================================================
