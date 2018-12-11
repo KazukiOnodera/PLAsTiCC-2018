@@ -27,9 +27,6 @@ NTHREADS = 2
 #COL = pd.read_csv('LOG/imp_812_cv_wfd.py.csv').head(NFEATURES).feature.tolist()
 
 imp = pd.read_csv('LOG/imp_814_null_imp.py.csv')
-imp['total_null'] = imp.total - imp.null_imp
-imp.sort_values('total_null', ascending=False, inplace=True)
-imp.reset_index(drop=True, inplace=True)
 COL = imp[imp.total > imp.null_imp].head(NFEATURES).feature.tolist()
 
 
