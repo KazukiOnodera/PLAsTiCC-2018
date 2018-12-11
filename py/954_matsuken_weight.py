@@ -29,7 +29,12 @@ weight = np.array([0.93518041791149, 1.0371997389092826, 0.7276439651240076,
                    1.0969786180736176, 0.8075063922456374, 0.5918521326189743, 
                    1.1820632733042782, 0.9285728506117077, 1])
 
-utils.postprocess(sub, weight=weight, method='oli')
+val = sub.iloc[:, 1:].values
+val = np.clip(a=val, a_min=0, a_max=1)
+if weight is not None:
+    val *= weight
+val /= val.sum(1)[:,None]
+sub.iloc[:, 1:] = val
 
 utils.submit(SUBMIT_FILE_PATH, COMMENT)
 
