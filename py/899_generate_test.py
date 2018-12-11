@@ -24,11 +24,13 @@ NTHREADS = 2
 #COL = pd.read_csv('LOG/imp_702_52vs90.py-2.csv').head(NFEATURES).feature.tolist()
 #COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(NFEATURES).feature.tolist()
 #COL = pd.read_csv('LOG/imp_810_cv_flux.py-org.csv').head(NFEATURES).feature.tolist()
-COL = pd.read_csv('LOG/imp_812_cv_wfd.py.csv').head(NFEATURES).feature.tolist()
+#COL = pd.read_csv('LOG/imp_812_cv_wfd.py.csv').head(NFEATURES).feature.tolist()
 
-#COL_gal   = pd.read_csv('LOG/imp_802_cv_separate.py_gal.csv').head(NFEATURES ).feature.tolist()
-#COL_exgal = pd.read_csv('LOG/imp_802_cv_separate.py_exgal.csv').head(NFEATURES ).feature.tolist()
-#COL = list(set(COL_gal + COL_exgal))
+imp = pd.read_csv('LOG/imp_814_null_imp.py.csv')
+imp['total_null'] = imp.total - imp.null_imp
+imp.sort_values('total_null', ascending=False, inplace=True)
+imp.reset_index(drop=True, inplace=True)
+COL = imp[imp.total > imp.null_imp].head(NFEATURES).feature.tolist()
 
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))

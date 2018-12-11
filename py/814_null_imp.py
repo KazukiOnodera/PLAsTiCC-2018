@@ -140,9 +140,12 @@ for i in range(100):
     imp['null_imp'] += get_imp().total
 
 imp['null_imp'] /= 100
+imp['total_null'] = imp.total - imp.null_imp
+imp.sort_values('total_null', ascending=False, inplace=True)
+imp.reset_index(inplace=True)
 
 
-imp.to_csv(f'LOG/imp_{__file__}.csv')
+imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
 
 #==============================================================================
 utils.end(__file__)
