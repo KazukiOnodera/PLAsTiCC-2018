@@ -17,6 +17,7 @@ utils.start(__file__)
 # weight
 # =============================================================================
 oof = pd.read_pickle('../FROM_MYTEAM/oof_v103_068_lgb__v103_062_nn__specz_avg.pkl')
+oof = oof.copy().values.astype(float)
 
 y = utils.load_target().target
 y_ohe = pd.get_dummies(y)
