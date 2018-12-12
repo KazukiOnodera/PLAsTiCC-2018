@@ -110,7 +110,7 @@ for i in range(2):
                          seed=SEED)
     model_all += models
     nround_mean += len(ret['multi_logloss-mean'])
-    wloss_list.append( ret['wloss-mean'][-1] )
+    wloss_list.append( ret['multi_logloss-mean'][-1] )
 
 nround_mean = int((nround_mean/LOOP) * 1.3)
 
@@ -149,7 +149,7 @@ gc.collect()
 model_all = []
 nround_mean = 0
 wloss_list = []
-for i in range(2):
+for i in range(5):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD,
@@ -157,7 +157,7 @@ for i in range(2):
                          seed=SEED)
     model_all += models
     nround_mean += len(ret['multi_logloss-mean'])
-    wloss_list.append( ret['wloss-mean'][-1] )
+    wloss_list.append( ret['multi_logloss-mean'][-1] )
 
 #nround_mean = int((nround_mean/LOOP) * 1.3)
 
@@ -220,7 +220,7 @@ dtrain = lgb.Dataset(X, y.values, free_raw_data=False)
 gc.collect()
 
 y_preds = []
-for i in range(1):
+for i in range(2):
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD,
 #                         fobj=utils_metric.wloss_objective, 
 #                         feval=utils_metric.wloss_metric,
