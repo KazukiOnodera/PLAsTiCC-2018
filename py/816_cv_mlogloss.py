@@ -49,8 +49,8 @@ param = {
          'reg_lambda': 0.5,  # L2 regularization term on weights.
          'reg_alpha': 0.5,  # L1 regularization term on weights.
          
-#         'colsample_bytree': 0.5,
-#         'subsample': 0.9,
+         'colsample_bytree': 0.5,
+         'subsample': 0.9,
 #         'nthread': 32,
          'nthread': cpu_count(),
          'bagging_freq': 1,
@@ -107,7 +107,7 @@ for i in range(2):
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
                          early_stopping_rounds=100, verbose_eval=50,
-                         seed=SEED)
+                         seed=SEED+i)
     model_all += models
     nround_mean += len(ret['multi_logloss-mean'])
     wloss_list.append( ret['multi_logloss-mean'][-1] )
