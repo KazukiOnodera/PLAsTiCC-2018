@@ -38,7 +38,8 @@ param = {
          'num_class': 14,
          'metric': 'multi_logloss',
          
-         'learning_rate': 0.03,
+         'learning_rate': 0.5,
+#         'learning_rate': 0.05,
          'max_depth': 3,
          'num_leaves': 63,
          'max_bin': 127,
@@ -101,7 +102,7 @@ gc.collect()
 model_all = []
 nround_mean = 0
 wloss_list = []
-for i in range(LOOP):
+for i in range(2):
     gc.collect()
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
@@ -134,8 +135,6 @@ __file__ = '816_cv_mlogloss.py'
 imp = pd.read_csv(f'LOG/imp_{__file__}-1.csv')
 
 """
-
-
 
 # =============================================================================
 # cv2
@@ -216,20 +215,23 @@ imp.to_csv(f'LOG/imp_{__file__}-2.csv', index=False)
 # cv
 # =============================================================================
 
-y_preds = []
 
-dtrain = lgb.Dataset(X[COL[:100]], y.values, free_raw_data=False)
+dtrain = lgb.Dataset(X, y.values, free_raw_data=False)
 gc.collect()
 
-for i in range(2):
+y_preds = []
+for i in range(1):
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD,
+#                         fobj=utils_metric.wloss_objective, 
+#                         feval=utils_metric.wloss_metric,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED+i)
-    y_pred = ex.eval_oob(X[COL[:100]], y.values, models, SEED, stratified=True, shuffle=True, 
+    y_pred = ex.eval_oob(X, y.values, models, SEED+i, stratified=True, shuffle=True, 
                          n_class=True)
     y_preds.append(y_pred)
 
 for i,y_pred in enumerate(y_preds):
+#    y_pred = utils_metric.softmax(y_pred.astype(float).values)
     if i==0:
         tmp = y_pred
     else:
@@ -277,8 +279,8 @@ def multi_weighted_logloss(y_true:np.array, y_preds:np.array):
     return loss
 
 
-multi_weighted_logloss(y.values, y_preds)
-multi_weighted_logloss(y.values, y_preds * weight)
+print(multi_weighted_logloss(y.values, y_preds))
+print(multi_weighted_logloss(y.values, y_preds * weight))
 
 
 

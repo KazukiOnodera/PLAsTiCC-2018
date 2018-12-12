@@ -121,7 +121,7 @@ y_preds = []
 dtrain = lgb.Dataset(X[COL], y.values, #categorical_feature=CAT, 
                      free_raw_data=False)
 gc.collect()
-    
+
 for param_ in param_list:
     gc.collect()
     print(f"\ncolsample_bytree: {param_['colsample_bytree']}    subsample: {param_['subsample']}")
