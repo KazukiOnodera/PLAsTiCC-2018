@@ -23,7 +23,7 @@ import utils, utils_metric
 utils.start(__file__)
 #==============================================================================
 
-SUBMIT_FILE_PATH = '../output/1212-1.csv.gz'
+SUBMIT_FILE_PATH = '../output/1213-1.csv.gz'
 
 COMMENT = 'top100 features * 3'
 
@@ -43,7 +43,7 @@ param = {
          'num_class': 14,
          'metric': 'multi_logloss',
          
-         'learning_rate': 0.5,
+         'learning_rate': 0.01,
          'max_depth': 3,
          'num_leaves': 63,
          'max_bin': 255,
@@ -70,7 +70,7 @@ MOD_N = 3
 # =============================================================================
 # load
 # =============================================================================
-COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(USE_FEATURES + (MOD_FEATURES*MOD_N) ).feature.tolist()
+COL = pd.read_csv('LOG/imp_816_cv_mlogloss.py-2.csv').head(USE_FEATURES + (MOD_FEATURES*MOD_N) ).feature.tolist()
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
 
@@ -122,7 +122,7 @@ gc.collect()
 
 model_all = []
 nround_mean = 0
-wloss_list = []
+loss_list = []
 y_preds = []
 for i in range(MOD_N):
     dtrain = lgb.Dataset(X[feature_set[i]], y.values, #categorical_feature=CAT, 
@@ -130,27 +130,24 @@ for i in range(MOD_N):
     
     gc.collect()
     param['seed'] = np.random.randint(9999)
-    ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-                         fobj=utils_metric.wloss_objective, 
-                         feval=utils_metric.wloss_metric,
+    ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD,
                          early_stopping_rounds=100, verbose_eval=50,
                          seed=SEED)
     y_pred = ex.eval_oob(X[feature_set[i]], y.values, models, SEED, stratified=True, shuffle=True, 
                          n_class=True)
     y_preds.append(y_pred)
     model_all += models
-    nround_mean += len(ret['wloss-mean'])
-    wloss_list.append( ret['wloss-mean'][-1] )
+    nround_mean += len(ret['multi_logloss-mean'])
+    loss_list.append( ret['multi_logloss-mean'][-1] )
 
 nround_mean = int((nround_mean/MOD_N) * 1.3)
 utils.send_line(f'nround_mean: {nround_mean}')
 
-result = f"CV wloss: {np.mean(wloss_list)} + {np.std(wloss_list)}"
+result = f"CV multi_logloss: {np.mean(loss_list)} + {np.std(loss_list)}"
 utils.send_line(result)
 
 
 for i,y_pred in enumerate(y_preds):
-    y_pred = pd.DataFrame(utils_metric.softmax(y_pred.astype(float).values))
     if i==0:
         oof = y_pred
     else:
@@ -158,25 +155,33 @@ for i,y_pred in enumerate(y_preds):
 oof /= len(y_preds)
 oof.to_pickle(f'../data/oof_{__file__}.pkl')
 
-oof = oof.copy().values.astype(float)
+oid_gal = pd.read_pickle('../data/tr_oid_gal.pkl')['object_id'].tolist()
+oid_exgal = pd.read_pickle('../data/tr_oid_exgal.pkl')['object_id'].tolist()
 
-a_score = utils_metric.akiyama_metric(y.values, oof)
-utils.send_line(f'akiyama_metric: {a_score}')
-
-utils.plot_confusion_matrix(__file__, oof)
-
-
-# =============================================================================
-# weight
-# =============================================================================
-import utils_post
+classes_gal = [6, 16, 53, 65, 92]
+classes_exgal = [15, 42, 52, 62, 64, 67, 88, 90, 95]
 
 
-y_true = pd.get_dummies(y)
+sub_tr = utils.load_train(['object_id'])
 
-weight = utils_post.get_weight(y_true, oof, eta=0.1, nround=9999)
+sub_tr = pd.concat([sub_tr, oof], axis=1)
+sub_tr.columns = ['object_id'] +[f'class_{i}' for i in sorted(classes_gal+classes_exgal)]
 
-print(f'weight: np.array({list(weight)})')
+
+sub_tr.loc[sub_tr.object_id.isin(oid_gal),  [f'class_{i}' for i in classes_exgal]] = 0
+sub_tr.loc[sub_tr.object_id.isin(oid_exgal),[f'class_{i}' for i in classes_gal]] = 0
+
+weight = np.array([1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1])
+weight = weight / sub_tr.iloc[:,1:].sum()
+weight = weight.values
+
+y_pred = sub_tr.iloc[:,1:].values.astype(float)
+print('before:', utils_metric.multi_weighted_logloss(y.values, y_pred))
+print('after:', utils_metric.multi_weighted_logloss(y.values, y_pred * weight))
+
+
+utils.plot_confusion_matrix(__file__, y_pred * weight)
+
 
 # =============================================================================
 # model
@@ -197,9 +202,7 @@ for i in range(MOD_N):
     print('building', i)
     gc.collect()
     param['seed'] = np.random.randint(9999)
-    model = lgb.train(param, dtrain, num_boost_round=nround_mean, 
-                      fobj=utils_metric.wloss_objective, 
-                      feval=utils_metric.wloss_metric,
+    model = lgb.train(param, dtrain, num_boost_round=nround_mean,
                       valid_names=None, init_model=None, 
                       feature_name='auto', categorical_feature='auto', 
                       early_stopping_rounds=None, evals_result=None, 
@@ -225,7 +228,6 @@ gc.collect()
 for i,model in enumerate(tqdm(model_all)):
     gc.collect()
     y_pred = model.predict(X_test[feature_set[i]])
-    y_pred = utils_metric.softmax(y_pred)
     if i==0:
         y_pred_all = y_pred
     else:
@@ -241,7 +243,8 @@ sub = pd.concat([sub[['object_id']], df], axis=1)
 # class_99
 sub.to_pickle(f'../data/y_pred_raw_{__file__}.pkl')
 utils.postprocess(sub, method='oli')
-#utils.postprocess(sub, weight=weight, method='giba')
+
+
 
 print(sub.iloc[:, 1:].idxmax(1).value_counts(normalize=True))
 

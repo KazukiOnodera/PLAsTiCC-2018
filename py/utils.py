@@ -369,12 +369,23 @@ def savefig_sub(sub, path):
     sub.iloc[:, 1:].hist(bins=50, figsize=(16, 12))
     plt.savefig(path)
 
-def postprocess(sub:pd.DataFrame, weight=None, method='giba'):
+def postprocess(sub:pd.DataFrame, method='giba'):
     
+    # fill 0
     oid_gal   = pd.read_pickle('../data/te_oid_gal.pkl').object_id
     oid_exgal = pd.read_pickle('../data/te_oid_exgal.pkl').object_id
     sub.loc[sub.object_id.isin(oid_gal),  [f'class_{i}' for i in classes_exgal]] = 0
     sub.loc[sub.object_id.isin(oid_exgal),[f'class_{i}' for i in classes_gal]] = 0
+    
+    # weight
+    val = sub.iloc[:, 1:].values
+    val = np.clip(a=val, a_min=0, a_max=1)
+    weight = np.array([1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1])
+    weight = weight / val.sum(axis=0)
+    print('weight:', weight)
+    val *= weight
+    val /= val.sum(1)[:,None]
+    sub.iloc[:, 1:] = val
     
     if method == 'giba':
         """
@@ -393,13 +404,6 @@ def postprocess(sub:pd.DataFrame, weight=None, method='giba'):
     else:
         raise Exception(method)
         
-    val = sub.iloc[:, 1:].values
-    val = np.clip(a=val, a_min=0, a_max=1)
-    if weight is not None:
-        val *= weight
-    val /= val.sum(1)[:,None]
-    sub.iloc[:, 1:] = val
-    
     return
 
 def plot_confusion_matrix(__file__, y_pred, normalize=True,
