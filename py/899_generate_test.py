@@ -25,9 +25,10 @@ NTHREADS = 2
 #COL = pd.read_csv('LOG/imp_801_cv.py-2.csv').head(NFEATURES).feature.tolist()
 #COL = pd.read_csv('LOG/imp_810_cv_flux.py-org.csv').head(NFEATURES).feature.tolist()
 #COL = pd.read_csv('LOG/imp_812_cv_wfd.py.csv').head(NFEATURES).feature.tolist()
+COL = pd.read_csv('LOG/imp_816_cv_mlogloss.py.csv').head(NFEATURES).feature.tolist()
 
-imp = pd.read_csv('LOG/imp_814_null_imp.py.csv')
-COL = imp[imp.total > imp.null_imp].head(NFEATURES).feature.tolist()
+#imp = pd.read_csv('LOG/imp_814_null_imp.py.csv')
+#COL = imp[imp.total > imp.null_imp].head(NFEATURES).feature.tolist()
 
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
