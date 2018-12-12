@@ -127,7 +127,7 @@ imp.reset_index(drop=True, inplace=True)
 
 print(imp.head(100).feature.map(lambda x: x.split('_')[0]).value_counts())
 
-imp.to_csv(f'LOG/imp_{__file__}.csv', index=False)
+imp.to_csv(f'LOG/imp_{__file__}-1.csv', index=False)
 
 """
 
@@ -279,8 +279,8 @@ def multi_weighted_logloss(y_true:np.array, y_preds:np.array):
     return loss
 
 
-print(multi_weighted_logloss(y.values, y_preds))
-print(multi_weighted_logloss(y.values, y_preds * weight))
+print('before:', multi_weighted_logloss(y.values, y_preds))
+print('after:', multi_weighted_logloss(y.values, y_preds * weight))
 
 
 
