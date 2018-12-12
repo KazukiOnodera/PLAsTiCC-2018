@@ -43,7 +43,7 @@ param = {
          'num_class': 14,
          'metric': 'multi_logloss',
          
-         'learning_rate': 0.01,
+         'learning_rate': 0.1,
          'max_depth': 3,
          'num_leaves': 63,
          'max_bin': 255,
