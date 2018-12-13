@@ -382,7 +382,7 @@ def postprocess(sub:pd.DataFrame, method='oli'):
     val = np.clip(a=val, a_min=0, a_max=1)
     weight = np.array([1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1])
     weight = weight / val.sum(axis=0)
-    print('weight = np.array({list(weight)})')
+    print(f'weight = np.array({list(weight)})')
     val *= weight
     val /= val.sum(1)[:,None]
     sub.iloc[:, 1:] = val
