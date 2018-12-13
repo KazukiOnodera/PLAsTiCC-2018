@@ -1,0 +1,17 @@
+rm: cannot remove '../data/t*_f006*': No such file or directory
+rm: cannot remove '../feature/t*_f006*': No such file or directory
+
+#==============================================================================
+# START!!! 006_pivot_highest_-178~+178_oid.py    PID: 3008    time: 2018-12-11 06:22:13.905480
+#==============================================================================
+
+instance-1  START 006_pivot_highest_-178~+178_oid.py  time: 0.00min
+rm: cannot remove '../data/tmp_f006*': No such file or directory
+rm: cannot remove '../data/test_f006.pkl.gz': No such file or directory
+
+#==============================================================================
+# SUCCESS !!! 006_pivot_highest_-178~+178_oid.py
+#==============================================================================
+
+time: 28.94min
+instance-1  FINISH 006_pivot_highest_-178~+178_oid.py  time: 28.94min

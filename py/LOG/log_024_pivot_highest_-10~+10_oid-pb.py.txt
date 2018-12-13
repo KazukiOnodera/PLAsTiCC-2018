@@ -1,14 +1,13 @@
-rm: cannot remove '../feature/t*_f024*': No such file or directory
 
 #==============================================================================
-# START!!! 024_pivot_highest_-10~+10_oid-pb.py    PID: 7473    time: 2018-11-25 11:16:34.776066
+# START!!! 024_pivot_highest_-10~+10_oid-pb.py    PID: 23427    time: 2018-12-05 15:44:11.522000
 #==============================================================================
 
-rm: cannot remove '../data/tmp_f024*': No such file or directory
-rm: cannot remove '../data/test_f024.pkl.gz': No such file or directory
+instance-1  START 024_pivot_highest_-10~+10_oid-pb.py  time: 0.00min
 
 #==============================================================================
 # SUCCESS !!! 024_pivot_highest_-10~+10_oid-pb.py
 #==============================================================================
 
-time: 123.31min
+time: 92.06min
+instance-1  FINISH 024_pivot_highest_-10~+10_oid-pb.py  time: 92.06min

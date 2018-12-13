@@ -1,0 +1,26 @@
+['f003_pb0_flux_ratio_sq_q10-d-pb1_flux_ratio_sq_q10', 'f003_pb3_flux_err_skew-d-pb5_flux_err_skew', 'f004_y0_flux_norm2_q10-d-y1_flux_norm2_q10', 'f004_y0_lumi_q10-d-y1_lumi_q10', 'f004_y1_flux_err_q90-m-q10-d-y2_flux_err_q90-m-q10', 'f005_pb0_y0_lumi_q75-m-q25', 'f005_pb1_y1_flux_by_flux_ratio_sq_max-d-min', 'f005_pb1_y2_flux_norm1_q25', 'f009_pb1_flux_ratio_sq_min-d-pb4_flux_ratio_sq_min', 'f009_pb2_flux_kurt', 'f010_pb1_flux_err_q75-d-pb3_flux_err_q75', 'f010_pb1_flux_ratio_sq_max-d-pb3_flux_ratio_sq_max', 'f010_pb3_flux_err_std-d-mean-d-pb5_flux_err_std-d-mean', 'f010_pb4_flux_ratio_sq_std-d-mean-d-pb5_flux_ratio_sq_std-d-mean', 'f012_pb4_flux_by_flux_ratio_sq_std-d-mean-d-pb5_flux_by_flux_ratio_sq_std-d-mean', 'f015_pb0_d0_flux_kurt-d-pb2_d0_flux_kurt', 'f015_pb4_d1_flux_ratio_sq_median', 'f017_pb0_flux_max-d-min-d-pb1_flux_max-d-min', 'f017_pb2_flux_by_flux_ratio_sq_max-d-min-d-pb3_flux_by_flux_ratio_sq_max-d-min', 'f017_pb4_flux_norm1_std-d-mean-d-pb5_flux_norm1_std-d-mean', 'f018_pb2_flux_norm1_q25-d-pb4_flux_norm1_q25', 'f018_pb4_flux_ratio_sq_kurt-d-pb5_flux_ratio_sq_kurt', 'f020_pb1_flux_kurt-d-pb3_flux_kurt', 'f020_pb1_flux_norm1_std-d-mean-d-pb2_flux_norm1_std-d-mean', 'f020_pb3_detected_median-d-pb5_detected_median', 'f020_pb3_flux_min-d-pb5_flux_min', 'f020_pb3_flux_norm2_median-d-pb4_flux_norm2_median', 'f020_pb5_flux_norm1_median', 'f023_pb1_flux_err_median-d-pb4_flux_err_median', 'f023_pb1_flux_ratio_sq_q25-d-pb4_flux_ratio_sq_q25', 'f023_pb3_flux_norm1_mean', 'f023_pb4_flux_norm2_q25-d-pb5_flux_norm2_q25', 'f023_pb5_flux_by_flux_ratio_sq_skew', 'f025_pb3_flux_q75', 'f025_pb4_flux_norm2_min-d-pb5_flux_norm2_min']
+
+#==============================================================================
+# START!!! 702_52vs90-2.py    PID: 11606    time: 2018-12-02 17:27:18.762610
+#==============================================================================
+
+instance-1  START 702_52vs90-2.py  time: 0.00min
+f005 ['f005_pb1_y1_flux_by_flux_ratio_sq_max-d-min', 'f005_pb1_y2_flux_norm1_q25', 'f005_pb0_y0_lumi_q75-m-q25']
+f003 ['f003_pb3_flux_err_skew-d-pb5_flux_err_skew', 'f003_pb0_flux_ratio_sq_q10-d-pb1_flux_ratio_sq_q10']
+f004 ['f004_y0_lumi_q10-d-y1_lumi_q10', 'f004_y0_flux_norm2_q10-d-y1_flux_norm2_q10', 'f004_y1_flux_err_q90-m-q10-d-y2_flux_err_q90-m-q10']
+f009 ['f009_pb2_flux_kurt', 'f009_pb1_flux_ratio_sq_min-d-pb4_flux_ratio_sq_min']
+f010 ['f010_pb4_flux_ratio_sq_std-d-mean-d-pb5_flux_ratio_sq_std-d-mean', 'f010_pb3_flux_err_std-d-mean-d-pb5_flux_err_std-d-mean', 'f010_pb1_flux_ratio_sq_max-d-pb3_flux_ratio_sq_max', 'f010_pb1_flux_err_q75-d-pb3_flux_err_q75']
+f012 ['f012_pb4_flux_by_flux_ratio_sq_std-d-mean-d-pb5_flux_by_flux_ratio_sq_std-d-mean']
+f015 ['f015_pb4_d1_flux_ratio_sq_median', 'f015_pb0_d0_flux_kurt-d-pb2_d0_flux_kurt']
+f018 ['f018_pb4_flux_ratio_sq_kurt-d-pb5_flux_ratio_sq_kurt', 'f018_pb2_flux_norm1_q25-d-pb4_flux_norm1_q25']
+f017 ['f017_pb0_flux_max-d-min-d-pb1_flux_max-d-min', 'f017_pb4_flux_norm1_std-d-mean-d-pb5_flux_norm1_std-d-mean', 'f017_pb2_flux_by_flux_ratio_sq_max-d-min-d-pb3_flux_by_flux_ratio_sq_max-d-min']
+f020 ['f020_pb1_flux_kurt-d-pb3_flux_kurt', 'f020_pb5_flux_norm1_median', 'f020_pb1_flux_norm1_std-d-mean-d-pb2_flux_norm1_std-d-mean', 'f020_pb3_detected_median-d-pb5_detected_median', 'f020_pb3_flux_min-d-pb5_flux_min', 'f020_pb3_flux_norm2_median-d-pb4_flux_norm2_median']
+f023 ['f023_pb4_flux_norm2_q25-d-pb5_flux_norm2_q25', 'f023_pb1_flux_ratio_sq_q25-d-pb4_flux_ratio_sq_q25', 'f023_pb5_flux_by_flux_ratio_sq_skew', 'f023_pb3_flux_norm1_mean', 'f023_pb1_flux_err_median-d-pb4_flux_err_median']
+f025 ['f025_pb4_flux_norm2_min-d-pb5_flux_norm2_min', 'f025_pb3_flux_q75']
+
+#==============================================================================
+# SUCCESS !!! 702_52vs90-2.py
+#==============================================================================
+
+time: 54.51min
+instance-1  FINISH 702_52vs90-2.py  time: 54.51min

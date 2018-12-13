@@ -1,0 +1,165 @@
+
+#==============================================================================
+# START!!! 816_cv_mlogloss.py    PID: 5293    time: 2018-12-12 15:40:25.321274
+#==============================================================================
+
+instance-1  START 816_cv_mlogloss.py  time: 0.00min
+SEED: 9526
+0 ../data/train_f001.pkl
+1 ../data/train_f002.pkl
+2 ../data/train_f003.pkl
+3 ../data/train_f004.pkl
+4 ../data/train_f005.pkl
+5 ../data/train_f006.pkl
+6 ../data/train_f010.pkl
+7 ../data/train_f012.pkl
+8 ../data/train_f013.pkl
+9 ../data/train_f014.pkl
+10 ../data/train_f015.pkl
+11 ../data/train_f017.pkl
+12 ../data/train_f018.pkl
+13 ../data/train_f020.pkl
+14 ../data/train_f021.pkl
+15 ../data/train_f023.pkl
+16 ../data/train_f024.pkl
+17 ../data/train_f025.pkl
+18 ../data/train_f026.pkl
+19 ../data/train_f027.pkl
+20 ../data/train_f028.pkl
+21 ../data/train_fbk1-002.pkl
+22 ../data/train_fbk1-004.pkl
+23 ../data/train_fbk1-006.pkl
+24 ../data/train_fbk1-007.pkl
+25 ../data/train_fbk1-008.pkl
+  0%|          | 0/26 [00:00<?, ?it/s]100%|██████████| 26/26 [00:18<00:00,  1.38it/s]
+no dup :) 
+X.shape (7848, 40430)
+[50]	cv_agg's multi_logloss: 0.568161 + 0.0116648
+[100]	cv_agg's multi_logloss: 0.485419 + 0.0132053
+[150]	cv_agg's multi_logloss: 0.468691 + 0.013799
+[200]	cv_agg's multi_logloss: 0.464049 + 0.0156071
+[250]	cv_agg's multi_logloss: 0.464097 + 0.0150369
+[300]	cv_agg's multi_logloss: 0.464902 + 0.0171136
+[50]	cv_agg's multi_logloss: 0.56881 + 0.0068103
+[100]	cv_agg's multi_logloss: 0.488581 + 0.00766794
+[150]	cv_agg's multi_logloss: 0.471589 + 0.00794384
+[200]	cv_agg's multi_logloss: 0.466763 + 0.00777536
+[250]	cv_agg's multi_logloss: 0.46678 + 0.00853575
+[300]	cv_agg's multi_logloss: 0.467631 + 0.00914308
+CV wloss: 0.46483539594014267 + 0.0013606971252752287
+f003        30
+f014        13
+f017        10
+f015        10
+f002         8
+f006         6
+f026         5
+f018         4
+f010         3
+f013         3
+f001         2
+f023         1
+f004         1
+f005         1
+f027         1
+fbk1-007     1
+f012         1
+Name: feature, dtype: int64
+[50]	cv_agg's multi_logloss: 0.558526 + 0.0112569
+[100]	cv_agg's multi_logloss: 0.467489 + 0.0121884
+[150]	cv_agg's multi_logloss: 0.442577 + 0.0116931
+[200]	cv_agg's multi_logloss: 0.430755 + 0.0131177
+[250]	cv_agg's multi_logloss: 0.424136 + 0.0132571
+[300]	cv_agg's multi_logloss: 0.419869 + 0.0148877
+[350]	cv_agg's multi_logloss: 0.418407 + 0.0155781
+[400]	cv_agg's multi_logloss: 0.417422 + 0.0161009
+[450]	cv_agg's multi_logloss: 0.416122 + 0.0171232
+[500]	cv_agg's multi_logloss: 0.415514 + 0.0171794
+[550]	cv_agg's multi_logloss: 0.415425 + 0.0171417
+[600]	cv_agg's multi_logloss: 0.415816 + 0.0177018
+[50]	cv_agg's multi_logloss: 0.555814 + 0.0124458
+[100]	cv_agg's multi_logloss: 0.467488 + 0.0126764
+[150]	cv_agg's multi_logloss: 0.442012 + 0.0130413
+[200]	cv_agg's multi_logloss: 0.431394 + 0.0146958
+[250]	cv_agg's multi_logloss: 0.42496 + 0.0155743
+[300]	cv_agg's multi_logloss: 0.421268 + 0.0164801
+[350]	cv_agg's multi_logloss: 0.42017 + 0.016348
+[400]	cv_agg's multi_logloss: 0.418993 + 0.0157667
+[450]	cv_agg's multi_logloss: 0.418477 + 0.0165514
+[500]	cv_agg's multi_logloss: 0.418501 + 0.0164227
+[550]	cv_agg's multi_logloss: 0.418519 + 0.0162022
+[50]	cv_agg's multi_logloss: 0.556441 + 0.0117407
+[100]	cv_agg's multi_logloss: 0.465766 + 0.0146448
+[150]	cv_agg's multi_logloss: 0.442295 + 0.0148872
+[200]	cv_agg's multi_logloss: 0.431045 + 0.0152292
+[250]	cv_agg's multi_logloss: 0.424597 + 0.0160515
+[300]	cv_agg's multi_logloss: 0.421944 + 0.01683
+[350]	cv_agg's multi_logloss: 0.419559 + 0.0180152
+[400]	cv_agg's multi_logloss: 0.418956 + 0.0186436
+[450]	cv_agg's multi_logloss: 0.418636 + 0.0189865
+[500]	cv_agg's multi_logloss: 0.418611 + 0.0187408
+[550]	cv_agg's multi_logloss: 0.418756 + 0.0190338
+[50]	cv_agg's multi_logloss: 0.553669 + 0.0116439
+[100]	cv_agg's multi_logloss: 0.465035 + 0.0132721
+[150]	cv_agg's multi_logloss: 0.440506 + 0.0142174
+[200]	cv_agg's multi_logloss: 0.428756 + 0.0157191
+[250]	cv_agg's multi_logloss: 0.422845 + 0.0152495
+[300]	cv_agg's multi_logloss: 0.419381 + 0.0154273
+[350]	cv_agg's multi_logloss: 0.417664 + 0.0160921
+[400]	cv_agg's multi_logloss: 0.416848 + 0.0172141
+[450]	cv_agg's multi_logloss: 0.41574 + 0.0173122
+[500]	cv_agg's multi_logloss: 0.416025 + 0.0175348
+[50]	cv_agg's multi_logloss: 0.557291 + 0.0106574
+[100]	cv_agg's multi_logloss: 0.467482 + 0.0128477
+[150]	cv_agg's multi_logloss: 0.440943 + 0.0132526
+[200]	cv_agg's multi_logloss: 0.428192 + 0.0132199
+[250]	cv_agg's multi_logloss: 0.422521 + 0.014349
+[300]	cv_agg's multi_logloss: 0.419143 + 0.0161031
+[350]	cv_agg's multi_logloss: 0.417732 + 0.016705
+[400]	cv_agg's multi_logloss: 0.416631 + 0.0166679
+[450]	cv_agg's multi_logloss: 0.416054 + 0.0169845
+[500]	cv_agg's multi_logloss: 0.416252 + 0.0179632
+[550]	cv_agg's multi_logloss: 0.416096 + 0.0186172
+CV wloss: 0.41666995979822435 + 0.0013863484391999099
+f003    47
+f015    19
+f010    18
+f014    18
+f017    17
+f018    13
+f005    10
+f023     9
+f026     8
+f002     7
+f020     7
+f006     6
+f013     6
+f004     3
+f021     3
+f001     2
+f012     2
+f025     2
+f027     2
+f024     1
+Name: feature, dtype: int64
+[50]	cv_agg's multi_logloss: 0.56613 + 0.0107099
+[100]	cv_agg's multi_logloss: 0.484436 + 0.0123282
+[150]	cv_agg's multi_logloss: 0.46684 + 0.0126027
+[200]	cv_agg's multi_logloss: 0.4623 + 0.0132791
+[250]	cv_agg's multi_logloss: 0.46192 + 0.0139093
+[300]	cv_agg's multi_logloss: 0.462998 + 0.0161779
+[50]	cv_agg's multi_logloss: 0.566586 + 0.00816843
+[100]	cv_agg's multi_logloss: 0.486317 + 0.00695735
+[150]	cv_agg's multi_logloss: 0.468241 + 0.00653616
+[200]	cv_agg's multi_logloss: 0.464918 + 0.00674839
+[250]	cv_agg's multi_logloss: 0.46485 + 0.00665595
+[300]	cv_agg's multi_logloss: 0.466477 + 0.00705318
+before: 0.6952444932619409
+after: 0.4373956701550767
+
+#==============================================================================
+# SUCCESS !!! 816_cv_mlogloss.py
+#==============================================================================
+
+time: 47.19min
+instance-1  FINISH 816_cv_mlogloss.py  time: 47.19min
