@@ -28,7 +28,7 @@ SUBMIT_FILE_PATH = '../output/1214-1.csv.gz'
 
 COMMENT = 'top100 features * 3'
 
-EXE_SUBMIT = True
+EXE_SUBMIT = False
 
 #DROP = ['f001_hostgal_specz']
 
