@@ -157,13 +157,20 @@ from itertools import product
 
 param_list = []
 
-# colsample_bytree & subsample
-for i,j in product(np.arange(0.1, 1, 0.2), np.arange(0.5, 1, 0.2)):
-    param_ = param.copy()
-    param_['colsample_bytree'] = round(i, 2)
-    param_['subsample'] = round(j, 2)
-    param_list.append(param_)
+## colsample_bytree & subsample
+#for i,j in product(np.arange(0.1, 1, 0.2), np.arange(0.5, 1, 0.2)):
+#    param_ = param.copy()
+#    param_['colsample_bytree'] = round(i, 2)
+#    param_['subsample'] = round(j, 2)
+#    param_list.append(param_)
 
+param_list = []
+
+# min_child_weight
+for i in np.arange(30, 200, 30):
+    param_ = param.copy()
+    param_['min_child_weight'] = i
+    param_list.append(param_)
 
 
 model_all = []
@@ -174,7 +181,8 @@ y_preds = []
 
 for param_ in param_list:
     gc.collect()
-    print(f"\ncolsample_bytree: {param_['colsample_bytree']}    subsample: {param_['subsample']}")
+#    print(f"\ncolsample_bytree: {param_['colsample_bytree']}    subsample: {param_['subsample']}")
+    print(f"\nmin_child_weight: {param_['min_child_weight']}")
     ret, models = lgb.cv(param_, dtrain, 99999, nfold=NFOLD, 
                          fobj=utils_metric.wloss_objective, 
                          feval=utils_metric.wloss_metric,

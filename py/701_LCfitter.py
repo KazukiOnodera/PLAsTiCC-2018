@@ -23,15 +23,17 @@ if __name__ == "__main__":
     utils.start(__file__)
     
     # train
-    df = pd.read_pickle('../FROM_MYTEAM/LCfit_features_train_20181129.pkl.gz')
-    df.sort_values('object_id', inplace=True)
+    tr = utils.load_train(['object_id'])
+    df = pd.read_pickle('../FROM_MYTEAM/LCfit_feature_allSN_i_train_v1_20181212.pkl.gz')
+    df = pd.merge(tr, df, on='object_id', how='left')
     df.reset_index(drop=True, inplace=True)
     del df['object_id']
     df.add_prefix(PREF+'_').to_pickle(f'../data/train_{PREF}.pkl')
     
     # test
-    df = pd.read_pickle('../FROM_MYTEAM/LCfit_features_test_20181130.pkl.gz')
-    df.sort_values('object_id', inplace=True)
+    te = utils.load_test(['object_id'])
+    df = pd.read_pickle('../FROM_MYTEAM/LCfit_feature_allSN_i_test_v1_20181212.pkl.gz')
+    df = pd.merge(te, df, on='object_id', how='left')
     df.reset_index(drop=True, inplace=True)
     del df['object_id']
     df = df.add_prefix(PREF+'_')
