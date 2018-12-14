@@ -57,27 +57,6 @@ param = {
          'verbose':-1,
          }
 
-taguchi_param = {
-                'objective': 'multiclass',
-                'num_class': 14,
-                'nthread': cpu_count(),
-                'learning_rate': 0.4,
-                'max_depth': 3,
-                'subsample': .9,
-                'colsample_bytree': .7,
-                'reg_alpha': .01,
-                'reg_lambda': .01,
-                'min_split_gain': 0.01,
-                'min_child_weight': 200,
-                'verbose': -1,
-                
-                'max_bin': 20,
-        #        'min_data_in_leaf': 30,
-        #        'bagging_fraction',
-        #        'bagging_freq',
-            }
-
-#param = taguchi_param
 
 # =============================================================================
 # load

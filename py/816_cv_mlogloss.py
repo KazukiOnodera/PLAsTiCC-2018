@@ -59,12 +59,22 @@ param = {
          'seed': SEED
          }
 
+REMOVE_PREFS = ['f006', 'f012', 'f017', 'f018', 'f020', 'f023', 'f024', 'f025']
+
 
 # =============================================================================
 # load
 # =============================================================================
 
 files_tr = sorted(glob('../data/train_f*.pkl'))
+
+li = []
+for a in files_tr:
+    for b in REMOVE_PREFS:
+        if b in a:
+            li.append(a)
+
+files_tr = sorted(set(files_tr) - set(li))
 [print(i,f) for i,f in enumerate(files_tr)]
 
 X = pd.concat([
