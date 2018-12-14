@@ -26,7 +26,7 @@ utils.start(__file__)
 
 SUBMIT_FILE_PATH = '../output/1214-2.csv.gz'
 
-COMMENT = 'top100 features * 3'
+COMMENT = 'top100 features * 5'
 
 EXE_SUBMIT = False
 
