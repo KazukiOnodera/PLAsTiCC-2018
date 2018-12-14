@@ -16,7 +16,7 @@ import os
 
 import utils
 
-NFEATURES = 350
+NFEATURES = 550
 NTHREADS = 2
 
 

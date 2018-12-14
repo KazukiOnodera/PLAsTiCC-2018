@@ -18,6 +18,7 @@ sys.path.append(f'/home/{os.environ.get("USER")}/PythonLibrary')
 import lgbextension as ex
 import lightgbm as lgb
 from multiprocessing import cpu_count
+from sklearn.metrics import log_loss
 
 import utils, utils_metric
 #utils.start(__file__)
@@ -109,7 +110,7 @@ for i in range(5):
                          seed=SEED)
     model_all += models
     
-    y_pred = ex.eval_oob(X, y.values, models, SEED+i, stratified=True, shuffle=True, 
+    y_pred = ex.eval_oob(X, y.values, models, SEED, stratified=True, shuffle=True, 
                          n_class=True)
     y_preds.append(y_pred)
     
