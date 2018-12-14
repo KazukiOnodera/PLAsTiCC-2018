@@ -183,6 +183,17 @@ print('after:', utils_metric.multi_weighted_logloss(y.values, y_pred * weight))
 
 utils.plot_confusion_matrix(__file__, y_pred * weight)
 
+# =============================================================================
+# weight
+# =============================================================================
+import utils_post
+
+y_pred *= weight
+y_true = pd.get_dummies(y)
+
+weight = utils_post.get_weight(y_true, y_pred, eta=0.1, nround=9999)
+
+print(f'weight: np.array({list(weight)})')
 
 # =============================================================================
 # model
