@@ -179,36 +179,34 @@ imp.to_csv(f'LOG/imp_{__file__}-2.csv', index=False)
 
 
 ## =============================================================================
-## estimate feature size
-## =============================================================================
-#print('estimate feature size')
-#param['learning_rate'] = 0.5
-#
-#COL = imp.feature.tolist()
-#best_score = 9999
-#best_N = 0
-#
-#for i in np.arange(100, 500, 50):
-#    print(f'\n==== feature size: {i} ====')
-#    
-#    dtrain = lgb.Dataset(X[COL[:i]], y, #categorical_feature=CAT, 
-#                         free_raw_data=False)
-#    gc.collect()
-#    param['seed'] = np.random.randint(9999)
-#    ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD, 
-#                         fobj=utils_metric.wloss_objective, 
-#                         feval=utils_metric.wloss_metric,
-#                         early_stopping_rounds=100, verbose_eval=50,
-#                         seed=SEED)
-#    
-#    score = ret['wloss-mean'][-1]
-#    utils.send_line(f"feature size: {i}    wloss-mean: {score}")
-#    
-#    if score < best_score:
-#        best_score = score
-#        best_N = i
-#
-#print('best_N', best_N)
+# estimate feature size
+# =============================================================================
+print('estimate feature size')
+param['learning_rate'] = 0.02
+
+COL = imp.feature.tolist()
+best_score = 9999
+best_N = 0
+
+for i in np.arange(100, 900, 50):
+    print(f'\n==== feature size: {i} ====')
+    
+    dtrain = lgb.Dataset(X[COL[:i]], y, #categorical_feature=CAT, 
+                         free_raw_data=False)
+    gc.collect()
+    param['seed'] = np.random.randint(9999)
+    ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD,
+                         early_stopping_rounds=100, verbose_eval=50,
+                         seed=SEED)
+    
+    score = ret['multi_logloss-mean'][-1]
+    utils.send_line(f"feature size: {i}    multi_logloss-mean: {score}")
+    
+    if score < best_score:
+        best_score = score
+        best_N = i
+
+print('best_N', best_N)
 
 
 # =============================================================================
