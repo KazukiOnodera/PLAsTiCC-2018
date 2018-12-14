@@ -369,7 +369,7 @@ def savefig_sub(sub, path):
     sub.iloc[:, 1:].hist(bins=50, figsize=(16, 12))
     plt.savefig(path)
 
-def postprocess(sub:pd.DataFrame, method='oli'):
+def postprocess(sub:pd.DataFrame, weight=None, method='oli'):
     
     # fill 0
     oid_gal   = pd.read_pickle('../data/te_oid_gal.pkl').object_id
@@ -378,14 +378,22 @@ def postprocess(sub:pd.DataFrame, method='oli'):
     sub.loc[sub.object_id.isin(oid_exgal),[f'class_{i}' for i in classes_gal]] = 0
     
     # weight
-    val = sub.iloc[:, 1:].values
-    val = np.clip(a=val, a_min=0, a_max=1)
-    weight = np.array([1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1])
-    weight = weight / val.sum(axis=0)
-    print(f'weight = np.array({list(weight)})')
-    val *= weight
-    val /= val.sum(1)[:,None]
-    sub.iloc[:, 1:] = val
+    if weight is None:
+        val = sub.iloc[:, 1:].values
+        val = np.clip(a=val, a_min=0, a_max=1)
+        weight = np.array([1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1])
+        weight = weight / val.sum(axis=0)
+        print(f'weight = np.array({list(weight)})')
+        val *= weight
+        val /= val.sum(1)[:,None]
+        sub.iloc[:, 1:] = val
+    else:
+        val = sub.iloc[:, 1:].values
+        val = np.clip(a=val, a_min=0, a_max=1)
+        val *= weight
+        val /= val.sum(1)[:,None]
+        sub.iloc[:, 1:] = val
+        
     
     if method == 'giba':
         """

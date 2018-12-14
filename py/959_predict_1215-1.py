@@ -173,23 +173,23 @@ sub_tr.columns = ['object_id'] +[f'class_{i}' for i in sorted(classes_gal+classe
 sub_tr.loc[sub_tr.object_id.isin(oid_gal),  [f'class_{i}' for i in classes_exgal]] = 0
 sub_tr.loc[sub_tr.object_id.isin(oid_exgal),[f'class_{i}' for i in classes_gal]] = 0
 
-weight = np.array([1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1])
-weight = weight / sub_tr.iloc[:,1:].sum()
-weight = weight.values
+#weight = np.array([1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1])
+#weight = weight / sub_tr.iloc[:,1:].sum()
+#weight = weight.values
+#
+#y_pred = sub_tr.iloc[:,1:].values.astype(float)
+#print('before:', utils_metric.multi_weighted_logloss(y.values, y_pred))
+#print('after:', utils_metric.multi_weighted_logloss(y.values, y_pred * weight))
 
-y_pred = sub_tr.iloc[:,1:].values.astype(float)
-print('before:', utils_metric.multi_weighted_logloss(y.values, y_pred))
-print('after:', utils_metric.multi_weighted_logloss(y.values, y_pred * weight))
 
-
-utils.plot_confusion_matrix(__file__, y_pred * weight)
+utils.plot_confusion_matrix(__file__, y_pred )
 
 # =============================================================================
 # weight
 # =============================================================================
 import utils_post
 
-y_pred *= weight
+#y_pred *= weight
 y_true = pd.get_dummies(y)
 
 weight = utils_post.get_weight(y_true, y_pred, eta=0.1, nround=9999)
@@ -257,7 +257,7 @@ sub = pd.concat([sub[['object_id']], df], axis=1)
 
 # class_99
 sub.to_pickle(f'../data/y_pred_raw_{__file__}.pkl')
-utils.postprocess(sub, method='oli')
+utils.postprocess(sub, weight=weight, method='oli')
 
 
 
