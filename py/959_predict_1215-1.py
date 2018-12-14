@@ -4,6 +4,10 @@
 Created on Sat Dec 15 07:21:24 2018
 
 @author: Kazuki
+
+wloss
+
+
 """
 
 
@@ -139,17 +143,18 @@ for i in range(MOD_N):
                          n_class=True)
     y_preds.append(y_pred)
     model_all += models
-    nround_mean += len(ret['multi_logloss-mean'])
-    loss_list.append( ret['multi_logloss-mean'][-1] )
+    nround_mean += len(ret['wloss-mean'])
+    loss_list.append( ret['wloss-mean'][-1] )
 
 nround_mean = int((nround_mean/MOD_N) * 1.3)
 utils.send_line(f'nround_mean: {nround_mean}')
 
-result = f"CV multi_logloss: {np.mean(loss_list)} + {np.std(loss_list)}"
+result = f"CV wloss: {np.mean(loss_list)} + {np.std(loss_list)}"
 utils.send_line(result)
 
 
 for i,y_pred in enumerate(y_preds):
+    y_pred = utils_metric.softmax(y_pred)
     if i==0:
         oof = y_pred
     else:
@@ -243,6 +248,7 @@ gc.collect()
 for i,model in enumerate(tqdm(model_all)):
     gc.collect()
     y_pred = model.predict(X_test[feature_set[i]])
+    y_pred = utils_metric.softmax(y_pred)
     if i==0:
         y_pred_all = y_pred
     else:
