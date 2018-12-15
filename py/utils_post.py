@@ -105,6 +105,7 @@ def gradient_descent(f, X, learning_rate, max_iter, is_print=True, verbose_eval=
     sw_break = False
     score_bk = 9999
     for i in range(max_iter):
+        X = np.clip(a=X, a_min=1e-15, a_max=3)
         X -= (learning_rate * calc_gradient(f, X))
         score = f(X)
         

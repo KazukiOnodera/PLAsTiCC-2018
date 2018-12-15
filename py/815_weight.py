@@ -67,7 +67,9 @@ y_ohe = np.array([(oof_aug[:,i] > np.random.uniform(size=9999))*1 for i in range
 y_ohe = y_ohe.T
 
 
-weight = utils_post.get_weight(y_ohe, oof_aug, eta=0.01, nround=9999)
+weight = None
+weight = utils_post.get_weight(y_ohe, oof_aug, weight=weight,
+                               eta=0.05, nround=9999, verbose_eval=10)
 
 
 
