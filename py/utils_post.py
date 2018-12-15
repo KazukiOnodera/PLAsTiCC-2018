@@ -106,7 +106,7 @@ def gradient_descent(f, X, learning_rate, max_iter, is_print=True):
     for i in range(max_iter):
         X -= (learning_rate * calc_gradient(f, X))
         score = f(X)
-        if score_bk < score:
+        if score_bk <= score:
             break
         score_bk = score
         if is_print and i%100==0:

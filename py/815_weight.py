@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 import os
 import utils, utils_post, utils_metric
-utils.start(__file__)
+#utils.start(__file__)
 
 
 # =============================================================================
@@ -33,7 +33,7 @@ print(f'weight: np.array({list(weight)})')
 # =============================================================================
 
 
-oof = pd.read_pickle('../FROM_MYTEAM/oof_v103_068_lgb__v103_062_nn__specz_avg.pkl')
+oof = pd.read_pickle('../FROM_MYTEAM/oof_v103_068_lgb__v103_062_nn__specz_avg.pkl').reset_index(drop=True)
 
 oid_gal = pd.read_pickle('../data/tr_oid_gal.pkl')['object_id'].tolist()
 oid_exgal = pd.read_pickle('../data/tr_oid_exgal.pkl')['object_id'].tolist()
@@ -62,6 +62,11 @@ y_ohe = pd.get_dummies(y)
 
 oof_aug = np.array([oof[0] for i in range(9999)])
 
+y_ohe = np.array([(oof_aug[:,i] > np.random.uniform(size=9999))*1 for i in range(oof_aug.shape[1])])
+y_ohe = y_ohe.T
+
+
+weight = utils_post.get_weight(y_ohe, oof_aug, eta=0.1, nround=9999)
 
 
 #==============================================================================
