@@ -32,6 +32,7 @@ sub = (sub1 + sub2)/2
 sub.iloc[:, 1:] = sub.iloc[:, 1:].values / sub.iloc[:, 1:].sum(1).values[:,None]
 
 print(sub.iloc[:, 1:].idxmax(1).value_counts(normalize=True))
+print('sub.mean:', sub.iloc[:, 1:].sum(1).mean())
 
 
 sub.to_csv(SUBMIT_FILE_PATH, index=False, compression='gzip')
