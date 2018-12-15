@@ -88,7 +88,7 @@ def calc_gradient(f, X):
         
     return gradient
 
-def gradient_descent(f, X, learning_rate, max_iter, is_print=True):
+def gradient_descent(f, X, learning_rate, max_iter, is_print=True, verbose_eval=100):
     """
     gradient_descent
     最急降下法を行う関数
@@ -113,7 +113,7 @@ def gradient_descent(f, X, learning_rate, max_iter, is_print=True):
             break
         score_bk = score
         
-        if is_print and i%100==0:
+        if is_print and i%verbose_eval==0:
             print("[{:3d}] X = {}, f(X) = {:.7f}".format(i, X, score))
     
     if is_print and sw_break:
@@ -121,13 +121,13 @@ def gradient_descent(f, X, learning_rate, max_iter, is_print=True):
     
     return X
 
-def get_weight(y_true, y_pred, weight=None, eta=1, nround=100, is_print=True):
+def get_weight(y_true, y_pred, weight=None, eta=1, nround=100, is_print=True, verbose_eval=50):
     M = y_true.shape[1]
     if weight is None:
         weight = np.ones(M)
     f = lambda X: multi_weighted_logloss(y_true, y_pred, weight)
     gradient_descent(f, weight, learning_rate=eta, max_iter=nround,
-                     is_print=is_print)
+                     is_print=is_print, verbose_eval=verbose_eval)
     return weight
 
 

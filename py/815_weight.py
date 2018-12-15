@@ -12,6 +12,7 @@ import os
 import utils, utils_post, utils_metric
 #utils.start(__file__)
 
+import optuna
 
 # =============================================================================
 # weight
@@ -66,7 +67,7 @@ y_ohe = np.array([(oof_aug[:,i] > np.random.uniform(size=9999))*1 for i in range
 y_ohe = y_ohe.T
 
 
-weight = utils_post.get_weight(y_ohe, oof_aug, eta=0.1, nround=9999)
+weight = utils_post.get_weight(y_ohe, oof_aug, eta=0.01, nround=9999)
 
 
 
@@ -107,14 +108,44 @@ def multi_weighted_logloss(y_ohe:np.array, y_preds:np.array):
     return loss
 
 
-multi_weighted_logloss(y_ohe, oof_aug*weight)
+print(multi_weighted_logloss(y_ohe, oof_aug))
+print(multi_weighted_logloss(y_ohe, oof_aug*weight))
 
 
+print(multi_weighted_logloss(y_ohe, oof_aug * 
+                             np.array([ 0.99961333,  1.        ,  1.1609525 ,  1.        ,  1.        ,
+        1.16090951,  1.        ,  1.        ,  1.16189381,  1.        ,
+        1.        ,  1.        , .00000000013684223,  1.        ])))
 
 
+# =============================================================================
+# 
+# =============================================================================
 
 
+def objective(trial):
+    weight = []
+    weight.append( trial.suggest_discrete_uniform('c6', 0.00001, 3.0, 0.00001) )
+    weight.append( trial.suggest_discrete_uniform('c15', 0.00001, 3.0, 0.00001) )
+    weight.append( trial.suggest_discrete_uniform('c16', 0.00001, 3.0, 0.00001) )
+    weight.append( trial.suggest_discrete_uniform('c42', 0.00001, 3.0, 0.00001) )
+    weight.append( trial.suggest_discrete_uniform('c52', 0.00001, 3.0, 0.00001) )
+    weight.append( trial.suggest_discrete_uniform('c53', 0.00001, 3.0, 0.00001) )
+    weight.append( trial.suggest_discrete_uniform('c62', 0.00001, 3.0, 0.00001) )
+    weight.append( trial.suggest_discrete_uniform('c64', 0.00001, 3.0, 0.00001) )
+    weight.append( trial.suggest_discrete_uniform('c65', 0.00001, 3.0, 0.00001) )
+    weight.append( trial.suggest_discrete_uniform('c67', 0.00001, 3.0, 0.00001) )
+    weight.append( trial.suggest_discrete_uniform('c88', 0.00001, 3.0, 0.00001) )
+    weight.append( trial.suggest_discrete_uniform('c90', 0.00001, 3.0, 0.00001) )
+    weight.append( trial.suggest_discrete_uniform('c92', 0.00001, 3.0, 0.00001) )
+    weight.append( trial.suggest_discrete_uniform('c95', 0.00001, 3.0, 0.00001) )
+    weight = np.array(weight)
+    
+    return multi_weighted_logloss(y_ohe, oof_aug*weight)
 
+
+study = optuna.create_study()
+study.optimize(objective, n_trials=9999)
 
 
 
