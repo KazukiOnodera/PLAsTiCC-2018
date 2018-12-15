@@ -107,13 +107,18 @@ def gradient_descent(f, X, learning_rate, max_iter, is_print=True):
     for i in range(max_iter):
         X -= (learning_rate * calc_gradient(f, X))
         score = f(X)
+        
         if score_bk <= score:
             sw_break = True
             break
         score_bk = score
-        if is_print and (i%100==0 or sw_break):
-            print("[{:3d}] X = {}, f(X) = {:.7f}".format(i, X, score))
         
+        if is_print and i%100==0:
+            print("[{:3d}] X = {}, f(X) = {:.7f}".format(i, X, score))
+    
+    if is_print and sw_break:
+        print("[{:3d}] X = {}, f(X) = {:.7f}".format(i, X, score))
+    
     return X
 
 def get_weight(y_true, y_pred, weight=None, eta=1, nround=100, is_print=True):
