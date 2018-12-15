@@ -127,11 +127,12 @@ def gradient_descent(f, X, learning_rate, max_iter, is_print=True, verbose_eval=
     
     return X
 
-def get_weight(y_true, y_pred, weight=None, eta=1, nround=100, is_print=True, verbose_eval=50):
+def get_weight(y_true, y_pred, weight=None, eta=1, nround=100, 
+               is_print=True, verbose_eval=50, based_true=True):
     M = y_true.shape[1]
     if weight is None:
         weight = np.ones(M)
-    f = lambda X: multi_weighted_logloss(y_true, y_pred, weight)
+    f = lambda X: multi_weighted_logloss(y_true, y_pred, weight, based_true=based_true)
     gradient_descent(f, weight, learning_rate=eta, max_iter=nround,
                      is_print=is_print, verbose_eval=verbose_eval)
     return weight

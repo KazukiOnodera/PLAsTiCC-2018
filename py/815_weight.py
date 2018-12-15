@@ -30,6 +30,9 @@ weight = utils_post.get_weight(y_ohe, oof, eta=0.1, nround=9999)
 print(f'weight: np.array({list(weight)})')
 
 
+weight = utils_post.get_weight(y_ohe, oof, eta=0.1, nround=9999, based_true=False)
+
+print(f'weight: np.array({list(weight)})')
 
 # =============================================================================
 # one by one
