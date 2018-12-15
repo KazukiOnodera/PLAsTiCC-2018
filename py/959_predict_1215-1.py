@@ -154,7 +154,7 @@ utils.send_line(result)
 
 
 for i,y_pred in enumerate(y_preds):
-    y_pred = utils_metric.softmax(y_pred)
+    y_pred = pd.DataFrame(utils_metric.softmax(y_pred.astype(float).values))
     if i==0:
         oof = y_pred
     else:
@@ -182,7 +182,7 @@ sub_tr.loc[sub_tr.object_id.isin(oid_exgal),[f'class_{i}' for i in classes_gal]]
 #weight = weight / sub_tr.iloc[:,1:].sum()
 #weight = weight.values
 #
-#y_pred = sub_tr.iloc[:,1:].values.astype(float)
+y_pred = sub_tr.iloc[:,1:].values.astype(float)
 #print('before:', utils_metric.multi_weighted_logloss(y.values, y_pred))
 #print('after:', utils_metric.multi_weighted_logloss(y.values, y_pred * weight))
 
