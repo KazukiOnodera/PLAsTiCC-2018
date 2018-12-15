@@ -59,8 +59,9 @@ param = {
          'seed': SEED
          }
 
-REMOVE_PREFS = ['f006', 'f012', 'f017', 'f018', 'f020', 'f023', 'f024', 'f025']
+#REMOVE_PREFS = ['f006', 'f012', 'f017', 'f018', 'f020', 'f023', 'f024', 'f025']
 
+REMOVE_PREFS = ['f706']
 
 # =============================================================================
 # load
@@ -164,7 +165,7 @@ for i in range(5):
     param['seed'] = np.random.randint(9999)
     ret, models = lgb.cv(param, dtrain, 99999, nfold=NFOLD,
                          early_stopping_rounds=100, verbose_eval=50,
-                         seed=SEED)
+                         seed=SEED+i)
     model_all += models
     nround_mean += len(ret['multi_logloss-mean'])
     wloss_list.append( ret['multi_logloss-mean'][-1] )

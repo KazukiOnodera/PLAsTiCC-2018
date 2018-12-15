@@ -35,7 +35,7 @@ def multi_weighted_logloss(y_true, y_pred, myweight=None):
     y_p /= y_p.sum(1)[:,None]
     
     # Normalize rows and limit y_preds to 1e-15, 1-1e-15
-    y_p = np.clip(a=y_p, a_min=1e-15, a_max=1 - 1e-15)
+    y_p = np.clip(a=y_p, a_min=0, a_max=1)
     # Transform to log
     y_p_log = np.log(y_p)
     # Get the log for ones, .values is used to drop the index of DataFrames
