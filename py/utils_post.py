@@ -13,7 +13,7 @@ import pandas as pd
 #import utils
 
 
-def multi_weighted_logloss(y_true, y_pred, myweight=None):
+def multi_weighted_logloss(y_true, y_pred, myweight=None, based_true=True):
     """
     @author olivier https://www.kaggle.com/ogrellier
     multi logloss for PLAsTiCC challenge
@@ -42,8 +42,14 @@ def multi_weighted_logloss(y_true, y_pred, myweight=None):
     # Exclude class 99 for now, since there is no class99 in the training set
     # we gave a special process for that class
     y_log_ones = np.sum(y_true * y_p_log, axis=0)
+    
     # Get the number of positives for each class
-    nb_pos = y_true.sum(axis=0).astype(float)
+    if based_true == True:
+        nb_pos = y_true.sum(axis=0).astype(float)
+    else:
+        nb_pos = pd.DataFrame(y_pred).sum(axis=0).astype(float)
+        
+    
     # Weight average and divide by the number of positives
     class_arr = np.array([class_weight[k] for k in sorted(class_weight.keys())])
     y_w = y_log_ones * class_arr / nb_pos
@@ -105,7 +111,6 @@ def gradient_descent(f, X, learning_rate, max_iter, is_print=True, verbose_eval=
     sw_break = False
     score_bk = 9999
     for i in range(max_iter):
-        X = np.clip(a=X, a_min=1e-15, a_max=3)
         X -= (learning_rate * calc_gradient(f, X))
         score = f(X)
         

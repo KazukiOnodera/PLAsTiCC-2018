@@ -14,6 +14,8 @@ import utils, utils_post, utils_metric
 
 import optuna
 
+from multiprocessing import cpu_count, Pool
+
 # =============================================================================
 # weight
 # =============================================================================
@@ -61,17 +63,17 @@ oof = sub_tr.iloc[:,1:].values.astype(float)
 y = utils.load_target().target
 y_ohe = pd.get_dummies(y)
 
-oof_aug = np.array([oof[0] for i in range(9999)])
-
-y_ohe = np.array([(oof_aug[:,i] > np.random.uniform(size=9999))*1 for i in range(oof_aug.shape[1])])
-y_ohe = y_ohe.T
-
-
-weight = None
-weight = utils_post.get_weight(y_ohe, oof_aug, weight=weight,
-                               eta=0.05, nround=9999, verbose_eval=10)
-
-
+#oof_aug = np.array([oof[0] for i in range(9999)])
+#
+#y_ohe = np.array([(oof_aug[:,i] > np.random.uniform(size=9999))*1 for i in range(oof_aug.shape[1])])
+#y_ohe = y_ohe.T
+#
+#
+#weight = None
+#weight = get_weight(y_ohe, oof_aug, weight=weight,
+#                               eta=0.1, nround=9999, verbose_eval=10)
+#
+#weight = np.clip(a=weight, a_min=0.00001, a_max=3)
 
 
 
@@ -152,19 +154,32 @@ study.optimize(objective, n_trials=9999)
 
 
 
+def multi(ix):
+    global y_ohe, oof_aug
+    
+    oof_aug = np.array([oof[ix] for i in range(9999)])
+    
+    y_ohe = np.array([(oof_aug[:,i] > np.random.uniform(size=9999))*1 for i in range(oof_aug.shape[1])])
+    y_ohe = y_ohe.T
+    
+    study = optuna.create_study()
+    study.optimize(objective, n_trials=200)
+    return study.best_params
+
+pool = Pool(10)
+callback = pool.map(multi, range(10))
+pool.close()
 
 
+weight = np.array([list(c.values()) for c in callback])
+
+oof_ = oof[:10,]
 
 
+y_ohe = pd.get_dummies(y).iloc[:10]
 
-
-
-
-
-
-
-
-
+print(multi_weighted_logloss(y_ohe, oof_))
+print(multi_weighted_logloss(y_ohe, oof_*weight))
 
 
 
