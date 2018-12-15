@@ -102,14 +102,16 @@ def gradient_descent(f, X, learning_rate, max_iter, is_print=True):
     @return
     X: 関数の出力を最小にする(であろう)引数(numpy.array)
     """
+    sw_break = False
     score_bk = 9999
     for i in range(max_iter):
         X -= (learning_rate * calc_gradient(f, X))
         score = f(X)
         if score_bk <= score:
+            sw_break = True
             break
         score_bk = score
-        if is_print and i%100==0:
+        if is_print and (i%100==0 or sw_break):
             print("[{:3d}] X = {}, f(X) = {:.7f}".format(i, X, score))
         
     return X
