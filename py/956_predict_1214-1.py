@@ -71,7 +71,7 @@ MOD_N = 3
 # =============================================================================
 # load
 # =============================================================================
-COL = pd.read_csv('LOG/imp_816_cv_mlogloss.py-2.csv').head(USE_FEATURES + (MOD_FEATURES*MOD_N) ).feature.tolist()
+COL = pd.read_csv('LOG/imp_used_1214-1.csv').head(USE_FEATURES + (MOD_FEATURES*MOD_N) ).feature.tolist()
 
 PREFS = sorted(set([c.split('_')[0] for c in COL]))
 

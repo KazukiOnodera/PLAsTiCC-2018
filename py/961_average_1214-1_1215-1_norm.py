@@ -41,8 +41,8 @@ sub.to_csv(SUBMIT_FILE_PATH, index=False, compression='gzip')
 # =============================================================================
 # submission
 # =============================================================================
-#if EXE_SUBMIT:
-#    print('submit')
-#    utils.submit(SUBMIT_FILE_PATH, COMMENT)
+if EXE_SUBMIT:
+    print('submit')
+    utils.submit(SUBMIT_FILE_PATH, COMMENT)
 
 
