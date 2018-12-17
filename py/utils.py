@@ -377,6 +377,24 @@ def postprocess(sub:pd.DataFrame, weight=None, method='oli'):
     sub.loc[sub.object_id.isin(oid_gal),  [f'class_{i}' for i in classes_exgal]] = 0
     sub.loc[sub.object_id.isin(oid_exgal),[f'class_{i}' for i in classes_gal]] = 0
     
+    # class 99
+    if method == 'giba':
+        """
+        Giba's postprocess
+        """
+        sub['class_99'] = 0
+        sub.loc[sub.object_id.isin(oid_gal),   'class_99'] = 0.017
+        sub.loc[sub.object_id.isin(oid_exgal), 'class_99'] = 0.17
+        
+    elif method == 'oli':
+        preds_99 = np.ones(sub.shape[0])
+        for i in range(1, 15): # should have oid
+            preds_99 *= (1 - sub.iloc[:, i])
+#        sub['class_99'] = preds_99
+        
+    else:
+        raise Exception(method)
+    
     # weight
     if weight is None:
         val = sub.iloc[:, 1:].values
@@ -394,23 +412,7 @@ def postprocess(sub:pd.DataFrame, weight=None, method='oli'):
         val /= val.sum(1)[:,None]
         sub.iloc[:, 1:] = val
         
-    
-    if method == 'giba':
-        """
-        Giba's postprocess
-        """
-        sub['class_99'] = 0
-        sub.loc[sub.object_id.isin(oid_gal),   'class_99'] = 0.017
-        sub.loc[sub.object_id.isin(oid_exgal), 'class_99'] = 0.17
-        
-    elif method == 'oli':
-        preds_99 = np.ones(sub.shape[0])
-        for i in range(1, 15): # should have oid
-            preds_99 *= (1 - sub.iloc[:, i])
-        sub['class_99'] = preds_99
-        
-    else:
-        raise Exception(method)
+    sub['class_99'] = preds_99
         
     return
 

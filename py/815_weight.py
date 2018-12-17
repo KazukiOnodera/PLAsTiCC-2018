@@ -61,22 +61,12 @@ sub_tr.loc[sub_tr.object_id.isin(oid_exgal),[f'class_{i}' for i in classes_gal]]
 #weight = weight / sub_tr.iloc[:,1:].sum()
 #weight = weight.values
 #
-oof = sub_tr.iloc[:,1:].values.astype(float)
+oof = sub_tr.iloc[:,1:]#.values.astype(float)
 
 y = utils.load_target().target
 y_ohe = pd.get_dummies(y)
 
-#oof_aug = np.array([oof[0] for i in range(9999)])
-#
-#y_ohe = np.array([(oof_aug[:,i] > np.random.uniform(size=9999))*1 for i in range(oof_aug.shape[1])])
-#y_ohe = y_ohe.T
-#
-#
-#weight = None
-#weight = get_weight(y_ohe, oof_aug, weight=weight,
-#                               eta=0.1, nround=9999, verbose_eval=10)
-#
-#weight = np.clip(a=weight, a_min=0.00001, a_max=3)
+weight = utils_post.get_weight(y_ohe, oof, eta=0.1, nround=9999, based_true=False)
 
 
 
@@ -114,15 +104,30 @@ def multi_weighted_logloss(y_ohe:np.array, y_preds:np.array):
     loss = - np.sum(y_w) / np.sum(class_arr)
     return loss
 
+weight = utils_post.get_weight(y_ohe, oof.values, eta=0.1, nround=9999)
 
-print(multi_weighted_logloss(y_ohe, oof_aug))
-print(multi_weighted_logloss(y_ohe, oof_aug*weight))
+weight = np.array([0.93518041791149, 1.0371997389092826, 0.7276439651240076, 
+                   0.6327491122383724, 1.1299087345271177, 1.5915423992967905, 
+                   0.7171293513633095, 1.4088185214955187, 0.5753104825120527, 
+                   1.0969786180736176, 0.8075063922456374, 0.5918521326189743, 
+                   1.1820632733042782, 0.9285728506117077])
+
+oof = oof * weight
+
+print(multi_weighted_logloss(y_ohe, oof.values)) # 0.43791792929663814
 
 
-print(multi_weighted_logloss(y_ohe, oof_aug * 
-                             np.array([ 0.99961333,  1.        ,  1.1609525 ,  1.        ,  1.        ,
-        1.16090951,  1.        ,  1.        ,  1.16189381,  1.        ,
-        1.        ,  1.        , .00000000013684223,  1.        ])))
+
+
+oof_ = oof.copy()
+for c in oof.columns:
+#    oof_.loc[oof_[c] < 0.0000001, c] = 0
+    oof_.loc[oof_[c] > 0.99, c] = 0.95
+
+
+print(multi_weighted_logloss(y_ohe, oof_.values))
+
+
 
 
 # =============================================================================
