@@ -148,41 +148,13 @@ def objective(trial):
     weight.append( trial.suggest_discrete_uniform('c95', 0.00001, 3.0, 0.00001) )
     weight = np.array(weight)
     
-    return multi_weighted_logloss(y_ohe, oof_aug*weight)
+    return multi_weighted_logloss(y_ohe, oof * weight)
 
+y = utils.load_target().target
+y_ohe = pd.get_dummies(y)
 
 study = optuna.create_study()
 study.optimize(objective, n_trials=9999)
-
-
-
-
-def multi(ix):
-    global y_ohe, oof_aug
-    
-    oof_aug = np.array([oof[ix] for i in range(9999)])
-    
-    y_ohe = np.array([(oof_aug[:,i] > np.random.uniform(size=9999))*1 for i in range(oof_aug.shape[1])])
-    y_ohe = y_ohe.T
-    
-    study = optuna.create_study()
-    study.optimize(objective, n_trials=200)
-    return study.best_params
-
-pool = Pool(10)
-callback = pool.map(multi, range(10))
-pool.close()
-
-
-weight = np.array([list(c.values()) for c in callback])
-
-oof_ = oof[:10,]
-
-
-y_ohe = pd.get_dummies(y).iloc[:10]
-
-print(multi_weighted_logloss(y_ohe, oof_))
-print(multi_weighted_logloss(y_ohe, oof_*weight))
 
 
 
