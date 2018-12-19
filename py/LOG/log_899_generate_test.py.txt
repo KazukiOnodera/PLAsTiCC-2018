@@ -1,11 +1,17 @@
-['f010_pb1_lumi_max-d-min-d-pb2_lumi_max-d-min', 'f708_c90_g_z1_dmax', 'f708_chisq_min', 'f708_dmax_std', 'f708_redchisq_min', 'f709_c42_r_z1_redchisq', 'f709_c42_r_z2_chisq', 'f709_c90_r_z1_dmax', 'f709_dmax_min', 'f709_dmax_std', 'f710_c42_z_z0_redchisq', 'f710_c90_z_z0_dmax', 'f710_c90_z_z0_redchisq', 'f711_c42_i_z1_redchisq', 'f711_c62_i_z0_dmax', 'f711_c62_i_z0_redchisq', 'f711_c67_i_z0_dmax', 'f711_c67_i_z1_redchisq', 'f711_dmax_mean', 'f711_dmax_std']
+['f010_pb0_flux_by_flux_ratio_sq_q25-d-pb1_flux_by_flux_ratio_sq_q25', 'f709_c90_r_z0_dmax', 'f712_Y_switch_cnt', 'f712_switch_cnt_max']
 
 #==============================================================================
-# START!!! 899_generate_test.py    PID: 16389    time: 2018-12-16 09:04:42.459924
+# START!!! 899_generate_test.py    PID: 4210    time: 2018-12-17 05:44:31.526929
 #==============================================================================
 
 instance-1  START 899_generate_test.py  time: 0.00min
-f708 ['f708_chisq_min', 'f708_c90_g_z1_dmax', 'f708_redchisq_min', 'f708_dmax_std']
-f709 ['f709_dmax_std', 'f709_c42_r_z1_redchisq', 'f709_c42_r_z2_chisq', 'f709_dmax_min', 'f709_c90_r_z1_dmax']
-f710 ['f710_c90_z_z0_dmax', 'f710_c90_z_z0_redchisq', 'f710_c42_z_z0_redchisq']
-f711 ['f711_c62_i_z0_dmax', 'f711_c67_i_z0_dmax', 'f711_dmax_mean', 'f711_c62_i_z0_redchisq', 'f711_c67_i_z1_redchisq', 'f711_c42_i_z1_redchisq', 'f711_dmax_std']
+f709 ['f709_c90_r_z0_dmax']
+f712 ['f712_switch_cnt_max', 'f712_Y_switch_cnt']
+f010 ['f010_pb0_flux_by_flux_ratio_sq_q25-d-pb1_flux_by_flux_ratio_sq_q25']
+
+#==============================================================================
+# SUCCESS !!! 899_generate_test.py
+#==============================================================================
+
+time: 7.57min
+instance-1  FINISH 899_generate_test.py  time: 7.57min
