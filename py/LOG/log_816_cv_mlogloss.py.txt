@@ -1,10 +1,10 @@
 
 #==============================================================================
-# START!!! 816_cv_mlogloss.py    PID: 14069    time: 2018-12-16 03:56:03.610785
+# START!!! 816_cv_mlogloss.py    PID: 3114    time: 2018-12-17 03:31:05.623204
 #==============================================================================
 
 instance-1  START 816_cv_mlogloss.py  time: 0.00min
-SEED: 2573
+SEED: 1237
 0 ../data/train_f001.pkl
 1 ../data/train_f002.pkl
 2 ../data/train_f003.pkl
@@ -30,558 +30,546 @@ SEED: 2573
 22 ../data/train_f709.pkl
 23 ../data/train_f710.pkl
 24 ../data/train_f711.pkl
-25 ../data/train_fbk1-002.pkl
-26 ../data/train_fbk1-004.pkl
-27 ../data/train_fbk1-006.pkl
-28 ../data/train_fbk1-007.pkl
-29 ../data/train_fbk1-008.pkl
-  0%|          | 0/30 [00:00<?, ?it/s]100%|██████████| 30/30 [00:16<00:00,  1.78it/s]
+25 ../data/train_f712.pkl
+26 ../data/train_fbk1-002.pkl
+27 ../data/train_fbk1-004.pkl
+28 ../data/train_fbk1-006.pkl
+29 ../data/train_fbk1-007.pkl
+30 ../data/train_fbk1-008.pkl
+  0%|          | 0/31 [00:00<?, ?it/s]100%|██████████| 31/31 [00:18<00:00,  1.72it/s]
 no dup :) 
-X.shape (7848, 40850)
-[50]	cv_agg's multi_logloss: 0.5641 + 0.0100156
-[100]	cv_agg's multi_logloss: 0.481078 + 0.0109567
-[150]	cv_agg's multi_logloss: 0.46217 + 0.0109172
-[200]	cv_agg's multi_logloss: 0.456613 + 0.011105
-[250]	cv_agg's multi_logloss: 0.455548 + 0.0108059
-[300]	cv_agg's multi_logloss: 0.456244 + 0.0108435
-[50]	cv_agg's multi_logloss: 0.562457 + 0.00502405
-[100]	cv_agg's multi_logloss: 0.478838 + 0.00407538
-[150]	cv_agg's multi_logloss: 0.461037 + 0.00494775
-[200]	cv_agg's multi_logloss: 0.455142 + 0.005658
-[250]	cv_agg's multi_logloss: 0.453885 + 0.00650353
-[300]	cv_agg's multi_logloss: 0.455893 + 0.00752926
-CV wloss: 0.45431706005195405 + 0.0008429702580143861
-f003        28
-f014        12
-f015        11
-f002         9
-f006         6
-f017         4
-f018         4
-f013         4
-f026         4
-f708         3
-f711         3
-f010         2
-f001         2
-f710         1
-f004         1
-fbk1-007     1
-fbk1-004     1
-f005         1
-f023         1
-f027         1
-f709         1
+X.shape (7848, 40859)
+[50]	cv_agg's multi_logloss: 0.563512 + 0.00677881
+[100]	cv_agg's multi_logloss: 0.480076 + 0.00896367
+[150]	cv_agg's multi_logloss: 0.461682 + 0.0101535
+[200]	cv_agg's multi_logloss: 0.45764 + 0.0125691
+[250]	cv_agg's multi_logloss: 0.456628 + 0.0138831
+[300]	cv_agg's multi_logloss: 0.456741 + 0.0166238
+[350]	cv_agg's multi_logloss: 0.457749 + 0.0177999
+[50]	cv_agg's multi_logloss: 0.560919 + 0.0093608
+[100]	cv_agg's multi_logloss: 0.4776 + 0.0120004
+[150]	cv_agg's multi_logloss: 0.459423 + 0.0126938
+[200]	cv_agg's multi_logloss: 0.453929 + 0.0153992
+[250]	cv_agg's multi_logloss: 0.452888 + 0.0173453
+[300]	cv_agg's multi_logloss: 0.453625 + 0.0197006
+CV wloss: 0.45443063952289175 + 0.001859564147038778
+f003    32
+f014    13
+f002     9
+f006     7
+f015     7
+f026     5
+f017     5
+f711     3
+f018     3
+f013     3
+f708     2
+f001     2
+f712     2
+f005     1
+f709     1
+f012     1
+f027     1
+f023     1
+f710     1
+f010     1
 Name: feature, dtype: int64
-[50]	cv_agg's multi_logloss: 0.555304 + 0.00797907
-[100]	cv_agg's multi_logloss: 0.461582 + 0.00873561
-[150]	cv_agg's multi_logloss: 0.434802 + 0.00843392
-[200]	cv_agg's multi_logloss: 0.421921 + 0.00758392
-[250]	cv_agg's multi_logloss: 0.416017 + 0.00762586
-[300]	cv_agg's multi_logloss: 0.411568 + 0.00779252
-[350]	cv_agg's multi_logloss: 0.408897 + 0.00774379
-[400]	cv_agg's multi_logloss: 0.406754 + 0.00805688
-[450]	cv_agg's multi_logloss: 0.40599 + 0.00794354
-[500]	cv_agg's multi_logloss: 0.40523 + 0.00803082
-[550]	cv_agg's multi_logloss: 0.404996 + 0.0076608
-[600]	cv_agg's multi_logloss: 0.40452 + 0.00815442
-[650]	cv_agg's multi_logloss: 0.404762 + 0.00831335
-[50]	cv_agg's multi_logloss: 0.552214 + 0.00589417
-[100]	cv_agg's multi_logloss: 0.459797 + 0.00626572
-[150]	cv_agg's multi_logloss: 0.434424 + 0.00547142
-[200]	cv_agg's multi_logloss: 0.421992 + 0.0045391
-[250]	cv_agg's multi_logloss: 0.414972 + 0.00497912
-[300]	cv_agg's multi_logloss: 0.411893 + 0.00477286
-[350]	cv_agg's multi_logloss: 0.409373 + 0.00561037
-[400]	cv_agg's multi_logloss: 0.40687 + 0.00649959
-[450]	cv_agg's multi_logloss: 0.405594 + 0.00681275
-[500]	cv_agg's multi_logloss: 0.404857 + 0.00729623
-[550]	cv_agg's multi_logloss: 0.404685 + 0.00817478
-[600]	cv_agg's multi_logloss: 0.404879 + 0.00833425
-[50]	cv_agg's multi_logloss: 0.551511 + 0.0130441
-[100]	cv_agg's multi_logloss: 0.459222 + 0.0132764
-[150]	cv_agg's multi_logloss: 0.431143 + 0.0134717
-[200]	cv_agg's multi_logloss: 0.416624 + 0.0142343
-[250]	cv_agg's multi_logloss: 0.409592 + 0.0150571
-[300]	cv_agg's multi_logloss: 0.405629 + 0.0163237
-[350]	cv_agg's multi_logloss: 0.40344 + 0.0168728
-[400]	cv_agg's multi_logloss: 0.401097 + 0.0172667
-[450]	cv_agg's multi_logloss: 0.399605 + 0.0182411
-[500]	cv_agg's multi_logloss: 0.399232 + 0.0182627
-[550]	cv_agg's multi_logloss: 0.398938 + 0.0182926
-[600]	cv_agg's multi_logloss: 0.398491 + 0.0189892
-[650]	cv_agg's multi_logloss: 0.39864 + 0.0192794
-[700]	cv_agg's multi_logloss: 0.398257 + 0.0197511
-[750]	cv_agg's multi_logloss: 0.398312 + 0.020334
-[800]	cv_agg's multi_logloss: 0.398523 + 0.0205555
-[850]	cv_agg's multi_logloss: 0.398597 + 0.0210034
-[50]	cv_agg's multi_logloss: 0.551958 + 0.0124342
-[100]	cv_agg's multi_logloss: 0.459194 + 0.014443
-[150]	cv_agg's multi_logloss: 0.431493 + 0.0153402
-[200]	cv_agg's multi_logloss: 0.418646 + 0.0170257
-[250]	cv_agg's multi_logloss: 0.411401 + 0.017307
-[300]	cv_agg's multi_logloss: 0.407096 + 0.0184106
-[350]	cv_agg's multi_logloss: 0.404075 + 0.0190833
-[400]	cv_agg's multi_logloss: 0.402694 + 0.0199663
-[450]	cv_agg's multi_logloss: 0.401322 + 0.0205522
-[500]	cv_agg's multi_logloss: 0.400462 + 0.0211485
-[550]	cv_agg's multi_logloss: 0.400326 + 0.0216117
-[600]	cv_agg's multi_logloss: 0.399931 + 0.0221812
-[650]	cv_agg's multi_logloss: 0.400037 + 0.0227317
-[700]	cv_agg's multi_logloss: 0.399639 + 0.023013
-[750]	cv_agg's multi_logloss: 0.399881 + 0.0232915
-[800]	cv_agg's multi_logloss: 0.400071 + 0.0237033
-[50]	cv_agg's multi_logloss: 0.552929 + 0.00741243
-[100]	cv_agg's multi_logloss: 0.459995 + 0.00927472
-[150]	cv_agg's multi_logloss: 0.433547 + 0.0101849
-[200]	cv_agg's multi_logloss: 0.42115 + 0.0110089
-[250]	cv_agg's multi_logloss: 0.414372 + 0.0118798
-[300]	cv_agg's multi_logloss: 0.410286 + 0.0134709
-[350]	cv_agg's multi_logloss: 0.408303 + 0.014872
-[400]	cv_agg's multi_logloss: 0.406217 + 0.0154769
-[450]	cv_agg's multi_logloss: 0.40521 + 0.0160669
-[500]	cv_agg's multi_logloss: 0.404176 + 0.016506
-[550]	cv_agg's multi_logloss: 0.403988 + 0.0160413
-[600]	cv_agg's multi_logloss: 0.40406 + 0.0161369
-[650]	cv_agg's multi_logloss: 0.404023 + 0.0158766
-[700]	cv_agg's multi_logloss: 0.404264 + 0.0162076
-CV wloss: 0.4020675982623497 + 0.0026802222070456214
-f003    43
+[50]	cv_agg's multi_logloss: 0.552652 + 0.00705619
+[100]	cv_agg's multi_logloss: 0.460307 + 0.00809242
+[150]	cv_agg's multi_logloss: 0.432661 + 0.00894666
+[200]	cv_agg's multi_logloss: 0.421747 + 0.0109084
+[250]	cv_agg's multi_logloss: 0.415166 + 0.0134404
+[300]	cv_agg's multi_logloss: 0.410988 + 0.0148407
+[350]	cv_agg's multi_logloss: 0.409224 + 0.0158299
+[400]	cv_agg's multi_logloss: 0.407696 + 0.0173322
+[450]	cv_agg's multi_logloss: 0.406348 + 0.0184781
+[500]	cv_agg's multi_logloss: 0.405832 + 0.0191507
+[550]	cv_agg's multi_logloss: 0.404885 + 0.020384
+[600]	cv_agg's multi_logloss: 0.40421 + 0.0212384
+[650]	cv_agg's multi_logloss: 0.40408 + 0.0216678
+[700]	cv_agg's multi_logloss: 0.40368 + 0.0222828
+[750]	cv_agg's multi_logloss: 0.403763 + 0.0222395
+[50]	cv_agg's multi_logloss: 0.554493 + 0.007849
+[100]	cv_agg's multi_logloss: 0.461827 + 0.0118272
+[150]	cv_agg's multi_logloss: 0.434889 + 0.0139404
+[200]	cv_agg's multi_logloss: 0.423645 + 0.0155342
+[250]	cv_agg's multi_logloss: 0.416301 + 0.0164135
+[300]	cv_agg's multi_logloss: 0.412139 + 0.0173982
+[350]	cv_agg's multi_logloss: 0.409917 + 0.0189726
+[400]	cv_agg's multi_logloss: 0.409096 + 0.0207192
+[450]	cv_agg's multi_logloss: 0.407834 + 0.0221375
+[500]	cv_agg's multi_logloss: 0.407688 + 0.0225385
+[550]	cv_agg's multi_logloss: 0.407271 + 0.0233787
+[600]	cv_agg's multi_logloss: 0.40789 + 0.0242518
+[650]	cv_agg's multi_logloss: 0.407627 + 0.0246244
+[50]	cv_agg's multi_logloss: 0.552882 + 0.0102775
+[100]	cv_agg's multi_logloss: 0.462127 + 0.0135874
+[150]	cv_agg's multi_logloss: 0.434697 + 0.0132399
+[200]	cv_agg's multi_logloss: 0.421505 + 0.0140744
+[250]	cv_agg's multi_logloss: 0.414762 + 0.0135431
+[300]	cv_agg's multi_logloss: 0.410084 + 0.0140504
+[350]	cv_agg's multi_logloss: 0.407539 + 0.0151895
+[400]	cv_agg's multi_logloss: 0.405594 + 0.0157141
+[450]	cv_agg's multi_logloss: 0.404421 + 0.0167427
+[500]	cv_agg's multi_logloss: 0.403354 + 0.0176842
+[550]	cv_agg's multi_logloss: 0.403502 + 0.0186276
+[600]	cv_agg's multi_logloss: 0.403125 + 0.0194744
+[650]	cv_agg's multi_logloss: 0.402945 + 0.0198818
+[700]	cv_agg's multi_logloss: 0.402636 + 0.0203548
+[750]	cv_agg's multi_logloss: 0.402883 + 0.0204476
+[800]	cv_agg's multi_logloss: 0.403222 + 0.0204987
+[50]	cv_agg's multi_logloss: 0.551949 + 0.0219594
+[100]	cv_agg's multi_logloss: 0.456952 + 0.0238642
+[150]	cv_agg's multi_logloss: 0.430981 + 0.0251747
+[200]	cv_agg's multi_logloss: 0.417951 + 0.0267476
+[250]	cv_agg's multi_logloss: 0.410761 + 0.0287022
+[300]	cv_agg's multi_logloss: 0.406377 + 0.0291627
+[350]	cv_agg's multi_logloss: 0.403319 + 0.0315464
+[400]	cv_agg's multi_logloss: 0.401523 + 0.0318679
+[450]	cv_agg's multi_logloss: 0.40046 + 0.033273
+[500]	cv_agg's multi_logloss: 0.399653 + 0.0341536
+[550]	cv_agg's multi_logloss: 0.399467 + 0.0349303
+[600]	cv_agg's multi_logloss: 0.399171 + 0.0355684
+[650]	cv_agg's multi_logloss: 0.399398 + 0.0366778
+[700]	cv_agg's multi_logloss: 0.399252 + 0.0368366
+[750]	cv_agg's multi_logloss: 0.399087 + 0.0374837
+[800]	cv_agg's multi_logloss: 0.399244 + 0.0379956
+[50]	cv_agg's multi_logloss: 0.552243 + 0.0157409
+[100]	cv_agg's multi_logloss: 0.460614 + 0.0166598
+[150]	cv_agg's multi_logloss: 0.433241 + 0.0155719
+[200]	cv_agg's multi_logloss: 0.422138 + 0.0154525
+[250]	cv_agg's multi_logloss: 0.414555 + 0.0155777
+[300]	cv_agg's multi_logloss: 0.410692 + 0.0148023
+[350]	cv_agg's multi_logloss: 0.407457 + 0.0146893
+[400]	cv_agg's multi_logloss: 0.405093 + 0.0150133
+[450]	cv_agg's multi_logloss: 0.403688 + 0.0146573
+[500]	cv_agg's multi_logloss: 0.402566 + 0.014612
+[550]	cv_agg's multi_logloss: 0.401544 + 0.0147408
+[600]	cv_agg's multi_logloss: 0.401348 + 0.0146815
+[650]	cv_agg's multi_logloss: 0.400878 + 0.0148474
+[700]	cv_agg's multi_logloss: 0.400785 + 0.0148963
+[750]	cv_agg's multi_logloss: 0.401391 + 0.014868
+CV wloss: 0.40261301390694515 + 0.0027702878976212813
+f003    38
+f010    19
 f015    19
-f010    18
-f014    17
-f017    15
-f005    11
-f018     8
+f014    18
+f017    14
+f005    12
+f018     9
 f023     8
 f711     7
+f020     7
 f026     7
+f002     7
 f013     6
-f006     6
-f002     6
-f004     4
+f006     5
 f021     4
-f708     4
 f709     4
 f710     3
-f027     2
-f020     2
+f708     2
+f025     2
 f001     2
-f025     1
-f028     1
+f012     2
+f004     2
+f027     1
 f024     1
-f012     1
+f712     1
 Name: feature, dtype: int64
 estimate feature size
 
 ==== feature size: 100 ====
-[50]	cv_agg's multi_logloss: 1.19311 + 0.00744231
-[100]	cv_agg's multi_logloss: 0.883941 + 0.0109502
-[150]	cv_agg's multi_logloss: 0.732879 + 0.0127124
-[200]	cv_agg's multi_logloss: 0.648133 + 0.0132639
-[250]	cv_agg's multi_logloss: 0.596134 + 0.013979
-[300]	cv_agg's multi_logloss: 0.562488 + 0.0145351
-[350]	cv_agg's multi_logloss: 0.538654 + 0.0148563
-[400]	cv_agg's multi_logloss: 0.521325 + 0.0150669
-[450]	cv_agg's multi_logloss: 0.508549 + 0.0151867
-[500]	cv_agg's multi_logloss: 0.498412 + 0.0149989
-[550]	cv_agg's multi_logloss: 0.490599 + 0.0153289
-[600]	cv_agg's multi_logloss: 0.484266 + 0.0154679
-[650]	cv_agg's multi_logloss: 0.478908 + 0.015884
-[700]	cv_agg's multi_logloss: 0.474464 + 0.0161373
-[750]	cv_agg's multi_logloss: 0.470766 + 0.016182
-[800]	cv_agg's multi_logloss: 0.467348 + 0.0162151
-[850]	cv_agg's multi_logloss: 0.464659 + 0.0163264
-[900]	cv_agg's multi_logloss: 0.462247 + 0.0165868
-[950]	cv_agg's multi_logloss: 0.460148 + 0.01671
-[1000]	cv_agg's multi_logloss: 0.458244 + 0.0167392
-[1050]	cv_agg's multi_logloss: 0.456574 + 0.0168169
-[1100]	cv_agg's multi_logloss: 0.455014 + 0.0169277
-[1150]	cv_agg's multi_logloss: 0.4537 + 0.0170251
-[1200]	cv_agg's multi_logloss: 0.452438 + 0.0171041
-[1250]	cv_agg's multi_logloss: 0.451553 + 0.0171205
-[1300]	cv_agg's multi_logloss: 0.450647 + 0.0173038
-[1350]	cv_agg's multi_logloss: 0.44988 + 0.0172831
-[1400]	cv_agg's multi_logloss: 0.449145 + 0.0176035
-[1450]	cv_agg's multi_logloss: 0.448582 + 0.0178712
-[1500]	cv_agg's multi_logloss: 0.448203 + 0.0180042
-[1550]	cv_agg's multi_logloss: 0.447633 + 0.0180815
-[1600]	cv_agg's multi_logloss: 0.447104 + 0.0181488
-[1650]	cv_agg's multi_logloss: 0.446619 + 0.0182279
-[1700]	cv_agg's multi_logloss: 0.446542 + 0.0182658
-[1750]	cv_agg's multi_logloss: 0.446267 + 0.0183506
-[1800]	cv_agg's multi_logloss: 0.445998 + 0.0185468
-[1850]	cv_agg's multi_logloss: 0.445922 + 0.0186473
-[1900]	cv_agg's multi_logloss: 0.445795 + 0.0187047
-[1950]	cv_agg's multi_logloss: 0.445808 + 0.0186787
-[2000]	cv_agg's multi_logloss: 0.445888 + 0.0188398
-feature size: 100    multi_logloss-mean: 0.4457583346752811
+[50]	cv_agg's multi_logloss: 1.18637 + 0.00393553
+[100]	cv_agg's multi_logloss: 0.874573 + 0.00444101
+[150]	cv_agg's multi_logloss: 0.722843 + 0.00507073
+[200]	cv_agg's multi_logloss: 0.638351 + 0.00513462
+[250]	cv_agg's multi_logloss: 0.586543 + 0.0053593
+[300]	cv_agg's multi_logloss: 0.552937 + 0.00612541
+[350]	cv_agg's multi_logloss: 0.528982 + 0.0062134
+[400]	cv_agg's multi_logloss: 0.512347 + 0.0061151
+[450]	cv_agg's multi_logloss: 0.499529 + 0.00626235
+[500]	cv_agg's multi_logloss: 0.489997 + 0.00654955
+[550]	cv_agg's multi_logloss: 0.482143 + 0.00660914
+[600]	cv_agg's multi_logloss: 0.475817 + 0.00672338
+[650]	cv_agg's multi_logloss: 0.470229 + 0.00668837
+[700]	cv_agg's multi_logloss: 0.465677 + 0.00692564
+[750]	cv_agg's multi_logloss: 0.461709 + 0.00711249
+[800]	cv_agg's multi_logloss: 0.458415 + 0.00724905
+[850]	cv_agg's multi_logloss: 0.455242 + 0.00738434
+[900]	cv_agg's multi_logloss: 0.452579 + 0.00739243
+[950]	cv_agg's multi_logloss: 0.45028 + 0.00765652
+[1000]	cv_agg's multi_logloss: 0.44817 + 0.00775601
+[1050]	cv_agg's multi_logloss: 0.446211 + 0.00804598
+[1100]	cv_agg's multi_logloss: 0.444689 + 0.00815617
+[1150]	cv_agg's multi_logloss: 0.443191 + 0.00820676
+[1200]	cv_agg's multi_logloss: 0.44189 + 0.00832595
+[1250]	cv_agg's multi_logloss: 0.44084 + 0.00854008
+[1300]	cv_agg's multi_logloss: 0.439913 + 0.00886634
+[1350]	cv_agg's multi_logloss: 0.439153 + 0.00915907
+[1400]	cv_agg's multi_logloss: 0.438382 + 0.00946848
+[1450]	cv_agg's multi_logloss: 0.437966 + 0.00956237
+[1500]	cv_agg's multi_logloss: 0.437415 + 0.0098678
+[1550]	cv_agg's multi_logloss: 0.436792 + 0.0100522
+[1600]	cv_agg's multi_logloss: 0.436397 + 0.0101428
+[1650]	cv_agg's multi_logloss: 0.436041 + 0.0101227
+[1700]	cv_agg's multi_logloss: 0.435818 + 0.0102805
+[1750]	cv_agg's multi_logloss: 0.435658 + 0.0103491
+[1800]	cv_agg's multi_logloss: 0.435431 + 0.0104454
+[1850]	cv_agg's multi_logloss: 0.435435 + 0.0104444
+[1900]	cv_agg's multi_logloss: 0.435585 + 0.0106484
+feature size: 100    multi_logloss-mean: 0.43538481073022195
 
 ==== feature size: 150 ====
-[50]	cv_agg's multi_logloss: 1.18306 + 0.00830751
-[100]	cv_agg's multi_logloss: 0.869834 + 0.0110924
-[150]	cv_agg's multi_logloss: 0.716262 + 0.0127742
-[200]	cv_agg's multi_logloss: 0.630686 + 0.0135927
-[250]	cv_agg's multi_logloss: 0.578083 + 0.0142253
-[300]	cv_agg's multi_logloss: 0.543921 + 0.0147452
-[350]	cv_agg's multi_logloss: 0.520144 + 0.0144944
-[400]	cv_agg's multi_logloss: 0.502591 + 0.0151247
-[450]	cv_agg's multi_logloss: 0.489796 + 0.0148667
-[500]	cv_agg's multi_logloss: 0.47917 + 0.0147327
-[550]	cv_agg's multi_logloss: 0.471096 + 0.0148661
-[600]	cv_agg's multi_logloss: 0.464166 + 0.0150249
-[650]	cv_agg's multi_logloss: 0.458717 + 0.0148359
-[700]	cv_agg's multi_logloss: 0.454034 + 0.0148759
-[750]	cv_agg's multi_logloss: 0.449672 + 0.014986
-[800]	cv_agg's multi_logloss: 0.446206 + 0.0149005
-[850]	cv_agg's multi_logloss: 0.442826 + 0.0151456
-[900]	cv_agg's multi_logloss: 0.439949 + 0.0150167
-[950]	cv_agg's multi_logloss: 0.437303 + 0.0151523
-[1000]	cv_agg's multi_logloss: 0.435037 + 0.0151893
-[1050]	cv_agg's multi_logloss: 0.433053 + 0.0152202
-[1100]	cv_agg's multi_logloss: 0.431165 + 0.0151527
-[1150]	cv_agg's multi_logloss: 0.429648 + 0.0151934
-[1200]	cv_agg's multi_logloss: 0.428252 + 0.0150608
-[1250]	cv_agg's multi_logloss: 0.427138 + 0.0150236
-[1300]	cv_agg's multi_logloss: 0.426085 + 0.0151242
-[1350]	cv_agg's multi_logloss: 0.425049 + 0.0150208
-[1400]	cv_agg's multi_logloss: 0.424222 + 0.0150705
-[1450]	cv_agg's multi_logloss: 0.423544 + 0.0152179
-[1500]	cv_agg's multi_logloss: 0.423012 + 0.0150956
-[1550]	cv_agg's multi_logloss: 0.422519 + 0.014991
-[1600]	cv_agg's multi_logloss: 0.421919 + 0.0150825
-[1650]	cv_agg's multi_logloss: 0.421538 + 0.0151335
-[1700]	cv_agg's multi_logloss: 0.421039 + 0.0149627
-[1750]	cv_agg's multi_logloss: 0.420644 + 0.0151125
-[1800]	cv_agg's multi_logloss: 0.420343 + 0.0151087
-[1850]	cv_agg's multi_logloss: 0.420087 + 0.0151153
-[1900]	cv_agg's multi_logloss: 0.420041 + 0.0151965
-[1950]	cv_agg's multi_logloss: 0.419912 + 0.0153612
-[2000]	cv_agg's multi_logloss: 0.419762 + 0.0153735
-[2050]	cv_agg's multi_logloss: 0.419791 + 0.0153567
-[2100]	cv_agg's multi_logloss: 0.419753 + 0.0153269
-[2150]	cv_agg's multi_logloss: 0.419744 + 0.0154388
-feature size: 150    multi_logloss-mean: 0.419679858367238
+[50]	cv_agg's multi_logloss: 1.18116 + 0.0043295
+[100]	cv_agg's multi_logloss: 0.865934 + 0.00435426
+[150]	cv_agg's multi_logloss: 0.711865 + 0.00440813
+[200]	cv_agg's multi_logloss: 0.626061 + 0.00470277
+[250]	cv_agg's multi_logloss: 0.573071 + 0.0049712
+[300]	cv_agg's multi_logloss: 0.53832 + 0.00548073
+[350]	cv_agg's multi_logloss: 0.514167 + 0.00604422
+[400]	cv_agg's multi_logloss: 0.496605 + 0.00659383
+[450]	cv_agg's multi_logloss: 0.483112 + 0.00700106
+[500]	cv_agg's multi_logloss: 0.472506 + 0.00728622
+[550]	cv_agg's multi_logloss: 0.463877 + 0.00740658
+[600]	cv_agg's multi_logloss: 0.457083 + 0.00776136
+[650]	cv_agg's multi_logloss: 0.451357 + 0.00790349
+[700]	cv_agg's multi_logloss: 0.44649 + 0.008147
+[750]	cv_agg's multi_logloss: 0.441821 + 0.00840508
+[800]	cv_agg's multi_logloss: 0.438106 + 0.00858287
+[850]	cv_agg's multi_logloss: 0.434635 + 0.00858686
+[900]	cv_agg's multi_logloss: 0.431592 + 0.00853284
+[950]	cv_agg's multi_logloss: 0.429179 + 0.00867429
+[1000]	cv_agg's multi_logloss: 0.426914 + 0.00887383
+[1050]	cv_agg's multi_logloss: 0.424996 + 0.00907179
+[1100]	cv_agg's multi_logloss: 0.423003 + 0.0089412
+[1150]	cv_agg's multi_logloss: 0.421215 + 0.00915604
+[1200]	cv_agg's multi_logloss: 0.419723 + 0.00937216
+[1250]	cv_agg's multi_logloss: 0.418477 + 0.00943452
+[1300]	cv_agg's multi_logloss: 0.41726 + 0.0095036
+[1350]	cv_agg's multi_logloss: 0.416232 + 0.00977231
+[1400]	cv_agg's multi_logloss: 0.415254 + 0.00976293
+[1450]	cv_agg's multi_logloss: 0.414423 + 0.00974545
+[1500]	cv_agg's multi_logloss: 0.413795 + 0.0098016
+[1550]	cv_agg's multi_logloss: 0.413027 + 0.00977149
+[1600]	cv_agg's multi_logloss: 0.412617 + 0.00987754
+[1650]	cv_agg's multi_logloss: 0.412229 + 0.00977522
+[1700]	cv_agg's multi_logloss: 0.411974 + 0.00976242
+[1750]	cv_agg's multi_logloss: 0.41162 + 0.00969706
+[1800]	cv_agg's multi_logloss: 0.41123 + 0.00966546
+[1850]	cv_agg's multi_logloss: 0.411009 + 0.00969924
+[1900]	cv_agg's multi_logloss: 0.410846 + 0.00977758
+[1950]	cv_agg's multi_logloss: 0.410688 + 0.00968924
+[2000]	cv_agg's multi_logloss: 0.410655 + 0.00973099
+[2050]	cv_agg's multi_logloss: 0.410614 + 0.00967411
+[2100]	cv_agg's multi_logloss: 0.410649 + 0.00975574
+feature size: 150    multi_logloss-mean: 0.4105454874076656
 
 ==== feature size: 200 ====
-[50]	cv_agg's multi_logloss: 1.17877 + 0.00705771
-[100]	cv_agg's multi_logloss: 0.863998 + 0.00971016
-[150]	cv_agg's multi_logloss: 0.70857 + 0.010945
-[200]	cv_agg's multi_logloss: 0.622146 + 0.0118322
-[250]	cv_agg's multi_logloss: 0.569269 + 0.0123806
-[300]	cv_agg's multi_logloss: 0.534976 + 0.0132142
-[350]	cv_agg's multi_logloss: 0.511267 + 0.0136356
-[400]	cv_agg's multi_logloss: 0.493677 + 0.0140227
-[450]	cv_agg's multi_logloss: 0.480581 + 0.0142807
-[500]	cv_agg's multi_logloss: 0.470201 + 0.0146207
-[550]	cv_agg's multi_logloss: 0.46186 + 0.0148378
-[600]	cv_agg's multi_logloss: 0.455079 + 0.0149481
-[650]	cv_agg's multi_logloss: 0.449238 + 0.0152063
-[700]	cv_agg's multi_logloss: 0.444491 + 0.0152858
-[750]	cv_agg's multi_logloss: 0.44002 + 0.015405
-[800]	cv_agg's multi_logloss: 0.436132 + 0.0151889
-[850]	cv_agg's multi_logloss: 0.432536 + 0.0151739
-[900]	cv_agg's multi_logloss: 0.429405 + 0.0150287
-[950]	cv_agg's multi_logloss: 0.426826 + 0.0151386
-[1000]	cv_agg's multi_logloss: 0.424205 + 0.0151299
-[1050]	cv_agg's multi_logloss: 0.422079 + 0.0152841
-[1100]	cv_agg's multi_logloss: 0.420282 + 0.0153078
-[1150]	cv_agg's multi_logloss: 0.418769 + 0.0151599
-[1200]	cv_agg's multi_logloss: 0.417274 + 0.0152615
-[1250]	cv_agg's multi_logloss: 0.415994 + 0.015341
-[1300]	cv_agg's multi_logloss: 0.414776 + 0.0153554
-[1350]	cv_agg's multi_logloss: 0.413944 + 0.0153258
-[1400]	cv_agg's multi_logloss: 0.412945 + 0.0152476
-[1450]	cv_agg's multi_logloss: 0.411976 + 0.0151122
-[1500]	cv_agg's multi_logloss: 0.411343 + 0.0149767
-[1550]	cv_agg's multi_logloss: 0.410765 + 0.0150242
-[1600]	cv_agg's multi_logloss: 0.410324 + 0.0151327
-[1650]	cv_agg's multi_logloss: 0.409903 + 0.0150342
-[1700]	cv_agg's multi_logloss: 0.409344 + 0.0149017
-[1750]	cv_agg's multi_logloss: 0.409001 + 0.0146952
-[1800]	cv_agg's multi_logloss: 0.408718 + 0.0145855
-[1850]	cv_agg's multi_logloss: 0.408547 + 0.0146375
-[1900]	cv_agg's multi_logloss: 0.408424 + 0.0145316
-[1950]	cv_agg's multi_logloss: 0.408208 + 0.0143998
-[2000]	cv_agg's multi_logloss: 0.408 + 0.0142598
-[2050]	cv_agg's multi_logloss: 0.407872 + 0.0141135
-[2100]	cv_agg's multi_logloss: 0.407995 + 0.0140046
-[2150]	cv_agg's multi_logloss: 0.407882 + 0.0139495
-[2200]	cv_agg's multi_logloss: 0.407743 + 0.0139813
-[2250]	cv_agg's multi_logloss: 0.407657 + 0.0139864
-[2300]	cv_agg's multi_logloss: 0.407672 + 0.0138879
-[2350]	cv_agg's multi_logloss: 0.407635 + 0.0139062
-feature size: 200    multi_logloss-mean: 0.4075714336319515
+[50]	cv_agg's multi_logloss: 1.17854 + 0.004843
+[100]	cv_agg's multi_logloss: 0.861235 + 0.00407718
+[150]	cv_agg's multi_logloss: 0.705562 + 0.00430377
+[200]	cv_agg's multi_logloss: 0.618088 + 0.00508539
+[250]	cv_agg's multi_logloss: 0.564779 + 0.00547841
+[300]	cv_agg's multi_logloss: 0.529959 + 0.00552563
+[350]	cv_agg's multi_logloss: 0.505839 + 0.0059839
+[400]	cv_agg's multi_logloss: 0.48793 + 0.00604731
+[450]	cv_agg's multi_logloss: 0.474515 + 0.00643429
+[500]	cv_agg's multi_logloss: 0.463953 + 0.0065965
+[550]	cv_agg's multi_logloss: 0.455283 + 0.0065379
+[600]	cv_agg's multi_logloss: 0.448251 + 0.00660206
+[650]	cv_agg's multi_logloss: 0.442149 + 0.00668383
+[700]	cv_agg's multi_logloss: 0.436953 + 0.00689658
+[750]	cv_agg's multi_logloss: 0.432348 + 0.00727033
+[800]	cv_agg's multi_logloss: 0.428181 + 0.00748161
+[850]	cv_agg's multi_logloss: 0.424439 + 0.00758659
+[900]	cv_agg's multi_logloss: 0.421223 + 0.00771293
+[950]	cv_agg's multi_logloss: 0.418309 + 0.00787578
+[1000]	cv_agg's multi_logloss: 0.415534 + 0.00812911
+[1050]	cv_agg's multi_logloss: 0.413065 + 0.00836628
+[1100]	cv_agg's multi_logloss: 0.410818 + 0.00862089
+[1150]	cv_agg's multi_logloss: 0.408815 + 0.00870904
+[1200]	cv_agg's multi_logloss: 0.40713 + 0.008859
+[1250]	cv_agg's multi_logloss: 0.405582 + 0.00891193
+[1300]	cv_agg's multi_logloss: 0.404319 + 0.00912876
+[1350]	cv_agg's multi_logloss: 0.403191 + 0.0093811
+[1400]	cv_agg's multi_logloss: 0.401852 + 0.00965636
+[1450]	cv_agg's multi_logloss: 0.400738 + 0.00978007
+[1500]	cv_agg's multi_logloss: 0.399873 + 0.009894
+[1550]	cv_agg's multi_logloss: 0.399094 + 0.010025
+[1600]	cv_agg's multi_logloss: 0.398314 + 0.0100564
+[1650]	cv_agg's multi_logloss: 0.397755 + 0.0100864
+[1700]	cv_agg's multi_logloss: 0.397182 + 0.0101916
+[1750]	cv_agg's multi_logloss: 0.396763 + 0.0103105
+[1800]	cv_agg's multi_logloss: 0.3963 + 0.0102432
+[1850]	cv_agg's multi_logloss: 0.395855 + 0.0103856
+[1900]	cv_agg's multi_logloss: 0.395627 + 0.0104845
+[1950]	cv_agg's multi_logloss: 0.395412 + 0.0104008
+[2000]	cv_agg's multi_logloss: 0.395325 + 0.0103899
+[2050]	cv_agg's multi_logloss: 0.395182 + 0.0103626
+[2100]	cv_agg's multi_logloss: 0.394973 + 0.0102158
+[2150]	cv_agg's multi_logloss: 0.394743 + 0.0102923
+[2200]	cv_agg's multi_logloss: 0.394684 + 0.0102692
+[2250]	cv_agg's multi_logloss: 0.394591 + 0.0103221
+[2300]	cv_agg's multi_logloss: 0.394609 + 0.0104007
+[2350]	cv_agg's multi_logloss: 0.394551 + 0.0103908
+[2400]	cv_agg's multi_logloss: 0.394309 + 0.0103859
+[2450]	cv_agg's multi_logloss: 0.394294 + 0.0104176
+[2500]	cv_agg's multi_logloss: 0.394389 + 0.010393
+[2550]	cv_agg's multi_logloss: 0.394175 + 0.0103627
+[2600]	cv_agg's multi_logloss: 0.394095 + 0.0104083
+[2650]	cv_agg's multi_logloss: 0.394074 + 0.0104225
+[2700]	cv_agg's multi_logloss: 0.394066 + 0.010267
+feature size: 200    multi_logloss-mean: 0.3940107005974326
 
 ==== feature size: 250 ====
-[50]	cv_agg's multi_logloss: 1.17706 + 0.00655978
-[100]	cv_agg's multi_logloss: 0.860566 + 0.00915868
-[150]	cv_agg's multi_logloss: 0.705 + 0.0108433
-[200]	cv_agg's multi_logloss: 0.617948 + 0.0114834
-[250]	cv_agg's multi_logloss: 0.56487 + 0.0118869
-[300]	cv_agg's multi_logloss: 0.530384 + 0.0123552
-[350]	cv_agg's multi_logloss: 0.5058 + 0.0124654
-[400]	cv_agg's multi_logloss: 0.487921 + 0.0127111
-[450]	cv_agg's multi_logloss: 0.474057 + 0.0127666
-[500]	cv_agg's multi_logloss: 0.463294 + 0.0129205
-[550]	cv_agg's multi_logloss: 0.455037 + 0.0129642
-[600]	cv_agg's multi_logloss: 0.447954 + 0.0128536
-[650]	cv_agg's multi_logloss: 0.442055 + 0.0127497
-[700]	cv_agg's multi_logloss: 0.43654 + 0.0127087
-[750]	cv_agg's multi_logloss: 0.431825 + 0.0126262
-[800]	cv_agg's multi_logloss: 0.427644 + 0.0128057
-[850]	cv_agg's multi_logloss: 0.423832 + 0.0125518
-[900]	cv_agg's multi_logloss: 0.420624 + 0.0127286
-[950]	cv_agg's multi_logloss: 0.417846 + 0.012717
-[1000]	cv_agg's multi_logloss: 0.415283 + 0.0129556
-[1050]	cv_agg's multi_logloss: 0.41293 + 0.0128648
-[1100]	cv_agg's multi_logloss: 0.410701 + 0.0127257
-[1150]	cv_agg's multi_logloss: 0.408917 + 0.0127285
-[1200]	cv_agg's multi_logloss: 0.40729 + 0.0127122
-[1250]	cv_agg's multi_logloss: 0.405689 + 0.0127032
-[1300]	cv_agg's multi_logloss: 0.404324 + 0.0126504
-[1350]	cv_agg's multi_logloss: 0.403211 + 0.0126069
-[1400]	cv_agg's multi_logloss: 0.401938 + 0.0126909
-[1450]	cv_agg's multi_logloss: 0.401011 + 0.0126113
-[1500]	cv_agg's multi_logloss: 0.40022 + 0.0125572
-[1550]	cv_agg's multi_logloss: 0.399261 + 0.0124385
-[1600]	cv_agg's multi_logloss: 0.398448 + 0.0123427
-[1650]	cv_agg's multi_logloss: 0.397789 + 0.0123644
-[1700]	cv_agg's multi_logloss: 0.397251 + 0.0124227
-[1750]	cv_agg's multi_logloss: 0.396854 + 0.0124818
-[1800]	cv_agg's multi_logloss: 0.396302 + 0.0125118
-[1850]	cv_agg's multi_logloss: 0.39601 + 0.0125994
-[1900]	cv_agg's multi_logloss: 0.395661 + 0.0126088
-[1950]	cv_agg's multi_logloss: 0.395407 + 0.0126733
-[2000]	cv_agg's multi_logloss: 0.394991 + 0.0125432
-[2050]	cv_agg's multi_logloss: 0.39456 + 0.012621
-[2100]	cv_agg's multi_logloss: 0.39431 + 0.0126194
-[2150]	cv_agg's multi_logloss: 0.394096 + 0.0126728
-[2200]	cv_agg's multi_logloss: 0.393939 + 0.0126939
-[2250]	cv_agg's multi_logloss: 0.393702 + 0.0126033
-[2300]	cv_agg's multi_logloss: 0.393543 + 0.0126673
-[2350]	cv_agg's multi_logloss: 0.393494 + 0.0126075
-[2400]	cv_agg's multi_logloss: 0.393381 + 0.0126691
-[2450]	cv_agg's multi_logloss: 0.39328 + 0.0126042
-[2500]	cv_agg's multi_logloss: 0.393259 + 0.012617
-[2550]	cv_agg's multi_logloss: 0.393224 + 0.0126647
-[2600]	cv_agg's multi_logloss: 0.393141 + 0.0126944
-[2650]	cv_agg's multi_logloss: 0.393106 + 0.0128642
-[2700]	cv_agg's multi_logloss: 0.393035 + 0.0128288
-[2750]	cv_agg's multi_logloss: 0.393041 + 0.0128199
-[2800]	cv_agg's multi_logloss: 0.39302 + 0.0128206
-[2850]	cv_agg's multi_logloss: 0.39307 + 0.0127911
-feature size: 250    multi_logloss-mean: 0.392955700015178
+[50]	cv_agg's multi_logloss: 1.17695 + 0.00617444
+[100]	cv_agg's multi_logloss: 0.859389 + 0.00551274
+[150]	cv_agg's multi_logloss: 0.70366 + 0.00421047
+[200]	cv_agg's multi_logloss: 0.616905 + 0.00401132
+[250]	cv_agg's multi_logloss: 0.563545 + 0.00428356
+[300]	cv_agg's multi_logloss: 0.528696 + 0.00454164
+[350]	cv_agg's multi_logloss: 0.504445 + 0.00508818
+[400]	cv_agg's multi_logloss: 0.486557 + 0.00537938
+[450]	cv_agg's multi_logloss: 0.472692 + 0.00578098
+[500]	cv_agg's multi_logloss: 0.461756 + 0.00612459
+[550]	cv_agg's multi_logloss: 0.452835 + 0.0061144
+[600]	cv_agg's multi_logloss: 0.445245 + 0.00670121
+[650]	cv_agg's multi_logloss: 0.439029 + 0.00716539
+[700]	cv_agg's multi_logloss: 0.433525 + 0.00726075
+[750]	cv_agg's multi_logloss: 0.428789 + 0.00767397
+[800]	cv_agg's multi_logloss: 0.424668 + 0.00770386
+[850]	cv_agg's multi_logloss: 0.420632 + 0.00822135
+[900]	cv_agg's multi_logloss: 0.417158 + 0.00842647
+[950]	cv_agg's multi_logloss: 0.413982 + 0.00869895
+[1000]	cv_agg's multi_logloss: 0.411193 + 0.00885601
+[1050]	cv_agg's multi_logloss: 0.408941 + 0.00928299
+[1100]	cv_agg's multi_logloss: 0.406619 + 0.00938864
+[1150]	cv_agg's multi_logloss: 0.404739 + 0.00966423
+[1200]	cv_agg's multi_logloss: 0.402755 + 0.0098023
+[1250]	cv_agg's multi_logloss: 0.401292 + 0.0098969
+[1300]	cv_agg's multi_logloss: 0.399925 + 0.0101302
+[1350]	cv_agg's multi_logloss: 0.39864 + 0.0102864
+[1400]	cv_agg's multi_logloss: 0.397326 + 0.0103936
+[1450]	cv_agg's multi_logloss: 0.396233 + 0.0106046
+[1500]	cv_agg's multi_logloss: 0.395158 + 0.0107958
+[1550]	cv_agg's multi_logloss: 0.394308 + 0.0109564
+[1600]	cv_agg's multi_logloss: 0.393446 + 0.0110495
+[1650]	cv_agg's multi_logloss: 0.392677 + 0.0110809
+[1700]	cv_agg's multi_logloss: 0.391987 + 0.0112884
+[1750]	cv_agg's multi_logloss: 0.391458 + 0.0114715
+[1800]	cv_agg's multi_logloss: 0.391045 + 0.0115213
+[1850]	cv_agg's multi_logloss: 0.390462 + 0.0114337
+[1900]	cv_agg's multi_logloss: 0.389923 + 0.0114575
+[1950]	cv_agg's multi_logloss: 0.38964 + 0.0114487
+[2000]	cv_agg's multi_logloss: 0.389217 + 0.0114655
+[2050]	cv_agg's multi_logloss: 0.38891 + 0.0115034
+[2100]	cv_agg's multi_logloss: 0.38878 + 0.0115287
+[2150]	cv_agg's multi_logloss: 0.388458 + 0.0116485
+[2200]	cv_agg's multi_logloss: 0.388206 + 0.0117095
+[2250]	cv_agg's multi_logloss: 0.387973 + 0.0118161
+[2300]	cv_agg's multi_logloss: 0.387847 + 0.0119122
+[2350]	cv_agg's multi_logloss: 0.387658 + 0.0118159
+[2400]	cv_agg's multi_logloss: 0.3876 + 0.0118623
+[2450]	cv_agg's multi_logloss: 0.387474 + 0.0118519
+[2500]	cv_agg's multi_logloss: 0.387366 + 0.0119381
+[2550]	cv_agg's multi_logloss: 0.387393 + 0.0119341
+[2600]	cv_agg's multi_logloss: 0.387268 + 0.0119429
+[2650]	cv_agg's multi_logloss: 0.387172 + 0.0119557
+[2700]	cv_agg's multi_logloss: 0.387104 + 0.0119567
+[2750]	cv_agg's multi_logloss: 0.38694 + 0.0119343
+[2800]	cv_agg's multi_logloss: 0.387052 + 0.012007
+[2850]	cv_agg's multi_logloss: 0.387057 + 0.0119659
+feature size: 250    multi_logloss-mean: 0.386916416585834
 
 ==== feature size: 300 ====
-[50]	cv_agg's multi_logloss: 1.17809 + 0.0075386
-[100]	cv_agg's multi_logloss: 0.860161 + 0.0093727
-[150]	cv_agg's multi_logloss: 0.703973 + 0.0109234
-[200]	cv_agg's multi_logloss: 0.615762 + 0.011433
-[250]	cv_agg's multi_logloss: 0.562934 + 0.0122671
-[300]	cv_agg's multi_logloss: 0.528463 + 0.0123438
-[350]	cv_agg's multi_logloss: 0.504236 + 0.0124653
-[400]	cv_agg's multi_logloss: 0.486547 + 0.0126126
-[450]	cv_agg's multi_logloss: 0.472573 + 0.0129799
-[500]	cv_agg's multi_logloss: 0.461745 + 0.0128014
-[550]	cv_agg's multi_logloss: 0.453223 + 0.0129377
-[600]	cv_agg's multi_logloss: 0.44603 + 0.0132395
-[650]	cv_agg's multi_logloss: 0.440091 + 0.0134669
-[700]	cv_agg's multi_logloss: 0.434518 + 0.0135848
-[750]	cv_agg's multi_logloss: 0.429571 + 0.0139901
-[800]	cv_agg's multi_logloss: 0.425066 + 0.0143713
-[850]	cv_agg's multi_logloss: 0.42152 + 0.0146291
-[900]	cv_agg's multi_logloss: 0.418346 + 0.0148864
-[950]	cv_agg's multi_logloss: 0.415153 + 0.0150684
-[1000]	cv_agg's multi_logloss: 0.412208 + 0.0150344
-[1050]	cv_agg's multi_logloss: 0.409826 + 0.0154604
-[1100]	cv_agg's multi_logloss: 0.407697 + 0.0152604
-[1150]	cv_agg's multi_logloss: 0.40584 + 0.0154023
-[1200]	cv_agg's multi_logloss: 0.403879 + 0.0155157
-[1250]	cv_agg's multi_logloss: 0.402224 + 0.0155068
-[1300]	cv_agg's multi_logloss: 0.400954 + 0.0155469
-[1350]	cv_agg's multi_logloss: 0.399601 + 0.0155137
-[1400]	cv_agg's multi_logloss: 0.398196 + 0.0156312
-[1450]	cv_agg's multi_logloss: 0.396949 + 0.0154749
-[1500]	cv_agg's multi_logloss: 0.395959 + 0.0156274
-[1550]	cv_agg's multi_logloss: 0.395098 + 0.0157312
-[1600]	cv_agg's multi_logloss: 0.394126 + 0.0157551
-[1650]	cv_agg's multi_logloss: 0.393299 + 0.0156166
-[1700]	cv_agg's multi_logloss: 0.392706 + 0.0157208
-[1750]	cv_agg's multi_logloss: 0.391903 + 0.015671
-[1800]	cv_agg's multi_logloss: 0.391088 + 0.0156531
-[1850]	cv_agg's multi_logloss: 0.390741 + 0.0157716
-[1900]	cv_agg's multi_logloss: 0.390264 + 0.0156211
-[1950]	cv_agg's multi_logloss: 0.389777 + 0.0157039
-[2000]	cv_agg's multi_logloss: 0.389405 + 0.0157753
-[2050]	cv_agg's multi_logloss: 0.389121 + 0.0158463
-[2100]	cv_agg's multi_logloss: 0.388756 + 0.0158629
-[2150]	cv_agg's multi_logloss: 0.388418 + 0.0159534
-[2200]	cv_agg's multi_logloss: 0.387956 + 0.0159327
-[2250]	cv_agg's multi_logloss: 0.387749 + 0.0158479
-[2300]	cv_agg's multi_logloss: 0.387505 + 0.0157461
-[2350]	cv_agg's multi_logloss: 0.387256 + 0.0157547
-[2400]	cv_agg's multi_logloss: 0.387011 + 0.0158079
-[2450]	cv_agg's multi_logloss: 0.386782 + 0.0158535
-[2500]	cv_agg's multi_logloss: 0.386662 + 0.0160236
-[2550]	cv_agg's multi_logloss: 0.386572 + 0.0159572
-[2600]	cv_agg's multi_logloss: 0.38642 + 0.0160249
-[2650]	cv_agg's multi_logloss: 0.386294 + 0.0160991
-[2700]	cv_agg's multi_logloss: 0.386244 + 0.0160477
-[2750]	cv_agg's multi_logloss: 0.38603 + 0.0160695
-[2800]	cv_agg's multi_logloss: 0.385982 + 0.0160238
-[2850]	cv_agg's multi_logloss: 0.385855 + 0.0160333
-[2900]	cv_agg's multi_logloss: 0.3856 + 0.016011
-[2950]	cv_agg's multi_logloss: 0.38554 + 0.0159873
-[3000]	cv_agg's multi_logloss: 0.385446 + 0.0159537
-[3050]	cv_agg's multi_logloss: 0.385399 + 0.0159583
-[3100]	cv_agg's multi_logloss: 0.385443 + 0.0157984
-[3150]	cv_agg's multi_logloss: 0.385385 + 0.0158513
-feature size: 300    multi_logloss-mean: 0.3853565474838555
+[50]	cv_agg's multi_logloss: 1.17362 + 0.00478459
+[100]	cv_agg's multi_logloss: 0.857186 + 0.00545941
+[150]	cv_agg's multi_logloss: 0.701332 + 0.004971
+[200]	cv_agg's multi_logloss: 0.613954 + 0.00480837
+[250]	cv_agg's multi_logloss: 0.56062 + 0.0052314
+[300]	cv_agg's multi_logloss: 0.526296 + 0.00569915
+[350]	cv_agg's multi_logloss: 0.501745 + 0.00601461
+[400]	cv_agg's multi_logloss: 0.483465 + 0.00650599
+[450]	cv_agg's multi_logloss: 0.469497 + 0.00679542
+[500]	cv_agg's multi_logloss: 0.458479 + 0.00703948
+[550]	cv_agg's multi_logloss: 0.44987 + 0.00734512
+[600]	cv_agg's multi_logloss: 0.442389 + 0.00743979
+[650]	cv_agg's multi_logloss: 0.435893 + 0.00752457
+[700]	cv_agg's multi_logloss: 0.430175 + 0.00755313
+[750]	cv_agg's multi_logloss: 0.425179 + 0.00772373
+[800]	cv_agg's multi_logloss: 0.42087 + 0.00804378
+[850]	cv_agg's multi_logloss: 0.417208 + 0.00834185
+[900]	cv_agg's multi_logloss: 0.413563 + 0.00865302
+[950]	cv_agg's multi_logloss: 0.410416 + 0.00867601
+[1000]	cv_agg's multi_logloss: 0.407503 + 0.00912224
+[1050]	cv_agg's multi_logloss: 0.405188 + 0.00922793
+[1100]	cv_agg's multi_logloss: 0.40294 + 0.00950805
+[1150]	cv_agg's multi_logloss: 0.400913 + 0.00948761
+[1200]	cv_agg's multi_logloss: 0.398991 + 0.00983729
+[1250]	cv_agg's multi_logloss: 0.397319 + 0.00997115
+[1300]	cv_agg's multi_logloss: 0.396036 + 0.0101102
+[1350]	cv_agg's multi_logloss: 0.39459 + 0.0103333
+[1400]	cv_agg's multi_logloss: 0.393291 + 0.0105491
+[1450]	cv_agg's multi_logloss: 0.391968 + 0.0106751
+[1500]	cv_agg's multi_logloss: 0.391006 + 0.0107611
+[1550]	cv_agg's multi_logloss: 0.390247 + 0.0109444
+[1600]	cv_agg's multi_logloss: 0.389475 + 0.0110625
+[1650]	cv_agg's multi_logloss: 0.388671 + 0.0111303
+[1700]	cv_agg's multi_logloss: 0.38788 + 0.0110299
+[1750]	cv_agg's multi_logloss: 0.387161 + 0.0112247
+[1800]	cv_agg's multi_logloss: 0.386552 + 0.011233
+[1850]	cv_agg's multi_logloss: 0.386118 + 0.011245
+[1900]	cv_agg's multi_logloss: 0.385519 + 0.0113234
+[1950]	cv_agg's multi_logloss: 0.384891 + 0.0114167
+[2000]	cv_agg's multi_logloss: 0.384667 + 0.0114448
+[2050]	cv_agg's multi_logloss: 0.384316 + 0.0115873
+[2100]	cv_agg's multi_logloss: 0.384067 + 0.0117367
+[2150]	cv_agg's multi_logloss: 0.383681 + 0.0117789
+[2200]	cv_agg's multi_logloss: 0.383371 + 0.0119378
+[2250]	cv_agg's multi_logloss: 0.383019 + 0.0120482
+[2300]	cv_agg's multi_logloss: 0.382807 + 0.0121403
+[2350]	cv_agg's multi_logloss: 0.382715 + 0.0122342
+[2400]	cv_agg's multi_logloss: 0.38248 + 0.0122158
+[2450]	cv_agg's multi_logloss: 0.382209 + 0.0121587
+[2500]	cv_agg's multi_logloss: 0.382041 + 0.0122098
+[2550]	cv_agg's multi_logloss: 0.381894 + 0.012313
+[2600]	cv_agg's multi_logloss: 0.381774 + 0.0123976
+[2650]	cv_agg's multi_logloss: 0.38154 + 0.0124106
+[2700]	cv_agg's multi_logloss: 0.381486 + 0.0125136
+[2750]	cv_agg's multi_logloss: 0.38134 + 0.0124802
+[2800]	cv_agg's multi_logloss: 0.381351 + 0.0124792
+[2850]	cv_agg's multi_logloss: 0.381417 + 0.0125336
+feature size: 300    multi_logloss-mean: 0.38130829086004503
 
 ==== feature size: 350 ====
-[50]	cv_agg's multi_logloss: 1.17555 + 0.0072784
-[100]	cv_agg's multi_logloss: 0.859585 + 0.0097463
-[150]	cv_agg's multi_logloss: 0.703165 + 0.010948
-[200]	cv_agg's multi_logloss: 0.61561 + 0.0113168
-[250]	cv_agg's multi_logloss: 0.561975 + 0.0112634
-[300]	cv_agg's multi_logloss: 0.527333 + 0.0115538
-[350]	cv_agg's multi_logloss: 0.502693 + 0.0117121
-[400]	cv_agg's multi_logloss: 0.484703 + 0.0114356
-[450]	cv_agg's multi_logloss: 0.470699 + 0.0116344
-[500]	cv_agg's multi_logloss: 0.460034 + 0.0119853
-[550]	cv_agg's multi_logloss: 0.451195 + 0.0119517
-[600]	cv_agg's multi_logloss: 0.444044 + 0.0120601
-[650]	cv_agg's multi_logloss: 0.437842 + 0.0122092
-[700]	cv_agg's multi_logloss: 0.432511 + 0.0122431
-[750]	cv_agg's multi_logloss: 0.427722 + 0.0124745
-[800]	cv_agg's multi_logloss: 0.423311 + 0.0128034
-[850]	cv_agg's multi_logloss: 0.419499 + 0.0129752
-[900]	cv_agg's multi_logloss: 0.415918 + 0.0132134
-[950]	cv_agg's multi_logloss: 0.412857 + 0.0132815
-[1000]	cv_agg's multi_logloss: 0.410299 + 0.0134557
-[1050]	cv_agg's multi_logloss: 0.407732 + 0.0133293
-[1100]	cv_agg's multi_logloss: 0.405516 + 0.0133982
-[1150]	cv_agg's multi_logloss: 0.403706 + 0.013411
-[1200]	cv_agg's multi_logloss: 0.402099 + 0.0136587
-[1250]	cv_agg's multi_logloss: 0.400325 + 0.0137972
-[1300]	cv_agg's multi_logloss: 0.398722 + 0.0139891
-[1350]	cv_agg's multi_logloss: 0.397404 + 0.0139892
-[1400]	cv_agg's multi_logloss: 0.396244 + 0.014139
-[1450]	cv_agg's multi_logloss: 0.395249 + 0.0141107
-[1500]	cv_agg's multi_logloss: 0.394191 + 0.0141749
-[1550]	cv_agg's multi_logloss: 0.393255 + 0.0141352
-[1600]	cv_agg's multi_logloss: 0.39231 + 0.014285
-[1650]	cv_agg's multi_logloss: 0.391663 + 0.0143921
-[1700]	cv_agg's multi_logloss: 0.390985 + 0.0143712
-[1750]	cv_agg's multi_logloss: 0.390243 + 0.0144479
-[1800]	cv_agg's multi_logloss: 0.389593 + 0.0146161
-[1850]	cv_agg's multi_logloss: 0.389104 + 0.014599
-[1900]	cv_agg's multi_logloss: 0.388672 + 0.0147108
-[1950]	cv_agg's multi_logloss: 0.388075 + 0.0147669
-[2000]	cv_agg's multi_logloss: 0.387539 + 0.0148102
-[2050]	cv_agg's multi_logloss: 0.387163 + 0.014805
-[2100]	cv_agg's multi_logloss: 0.386803 + 0.0147414
-[2150]	cv_agg's multi_logloss: 0.386339 + 0.0146866
-[2200]	cv_agg's multi_logloss: 0.385876 + 0.0147674
-[2250]	cv_agg's multi_logloss: 0.385594 + 0.014778
-[2300]	cv_agg's multi_logloss: 0.385565 + 0.0147428
-[2350]	cv_agg's multi_logloss: 0.38539 + 0.0148064
-[2400]	cv_agg's multi_logloss: 0.384999 + 0.0149011
-[2450]	cv_agg's multi_logloss: 0.384752 + 0.0149048
-[2500]	cv_agg's multi_logloss: 0.384571 + 0.0149036
-[2550]	cv_agg's multi_logloss: 0.384303 + 0.0150447
-[2600]	cv_agg's multi_logloss: 0.383997 + 0.0150122
-[2650]	cv_agg's multi_logloss: 0.383813 + 0.0150116
-[2700]	cv_agg's multi_logloss: 0.383648 + 0.0150323
-[2750]	cv_agg's multi_logloss: 0.383534 + 0.0151445
-[2800]	cv_agg's multi_logloss: 0.383372 + 0.0151605
-[2850]	cv_agg's multi_logloss: 0.383307 + 0.0150672
-[2900]	cv_agg's multi_logloss: 0.383204 + 0.0149002
-[2950]	cv_agg's multi_logloss: 0.383079 + 0.0149552
-[3000]	cv_agg's multi_logloss: 0.382994 + 0.0149621
-[3050]	cv_agg's multi_logloss: 0.382834 + 0.0149631
-[3100]	cv_agg's multi_logloss: 0.382765 + 0.0148231
-[3150]	cv_agg's multi_logloss: 0.382656 + 0.0148397
-[3200]	cv_agg's multi_logloss: 0.382647 + 0.0148233
-[3250]	cv_agg's multi_logloss: 0.382594 + 0.0147591
-[3300]	cv_agg's multi_logloss: 0.382477 + 0.014772
-[3350]	cv_agg's multi_logloss: 0.382432 + 0.0148084
-[3400]	cv_agg's multi_logloss: 0.382435 + 0.0147337
-[3450]	cv_agg's multi_logloss: 0.382353 + 0.0146729
-[3500]	cv_agg's multi_logloss: 0.382363 + 0.0146907
-[3550]	cv_agg's multi_logloss: 0.382343 + 0.0146989
-[3600]	cv_agg's multi_logloss: 0.382334 + 0.0147247
-[3650]	cv_agg's multi_logloss: 0.382296 + 0.0146667
-[3700]	cv_agg's multi_logloss: 0.382278 + 0.014617
-[3750]	cv_agg's multi_logloss: 0.382364 + 0.0145948
-feature size: 350    multi_logloss-mean: 0.38225054647258006
+[50]	cv_agg's multi_logloss: 1.17265 + 0.00502013
+[100]	cv_agg's multi_logloss: 0.855405 + 0.00531003
+[150]	cv_agg's multi_logloss: 0.698537 + 0.00516308
+[200]	cv_agg's multi_logloss: 0.611265 + 0.00541304
+[250]	cv_agg's multi_logloss: 0.557839 + 0.00601189
+[300]	cv_agg's multi_logloss: 0.523204 + 0.00659801
+[350]	cv_agg's multi_logloss: 0.498888 + 0.00698672
+[400]	cv_agg's multi_logloss: 0.480692 + 0.00708967
+[450]	cv_agg's multi_logloss: 0.466867 + 0.00767429
+[500]	cv_agg's multi_logloss: 0.455632 + 0.00753107
+[550]	cv_agg's multi_logloss: 0.446949 + 0.00753305
+[600]	cv_agg's multi_logloss: 0.439538 + 0.00757317
+[650]	cv_agg's multi_logloss: 0.432998 + 0.00773644
+[700]	cv_agg's multi_logloss: 0.427439 + 0.00784397
+[750]	cv_agg's multi_logloss: 0.422646 + 0.00824517
+[800]	cv_agg's multi_logloss: 0.418187 + 0.00838815
+[850]	cv_agg's multi_logloss: 0.414105 + 0.00840283
+[900]	cv_agg's multi_logloss: 0.41061 + 0.00873673
+[950]	cv_agg's multi_logloss: 0.407368 + 0.00879802
+[1000]	cv_agg's multi_logloss: 0.404594 + 0.00893249
+[1050]	cv_agg's multi_logloss: 0.401891 + 0.00941862
+[1100]	cv_agg's multi_logloss: 0.399466 + 0.00964973
+[1150]	cv_agg's multi_logloss: 0.397483 + 0.00984407
+[1200]	cv_agg's multi_logloss: 0.395547 + 0.00968882
+[1250]	cv_agg's multi_logloss: 0.393929 + 0.00991628
+[1300]	cv_agg's multi_logloss: 0.392409 + 0.0101727
+[1350]	cv_agg's multi_logloss: 0.39103 + 0.0103297
+[1400]	cv_agg's multi_logloss: 0.38973 + 0.0104425
+[1450]	cv_agg's multi_logloss: 0.388426 + 0.0103634
+[1500]	cv_agg's multi_logloss: 0.387402 + 0.0105017
+[1550]	cv_agg's multi_logloss: 0.386655 + 0.0106417
+[1600]	cv_agg's multi_logloss: 0.385853 + 0.0109895
+[1650]	cv_agg's multi_logloss: 0.385144 + 0.0110932
+[1700]	cv_agg's multi_logloss: 0.384336 + 0.011256
+[1750]	cv_agg's multi_logloss: 0.383645 + 0.0114752
+[1800]	cv_agg's multi_logloss: 0.382997 + 0.0115791
+[1850]	cv_agg's multi_logloss: 0.382316 + 0.011738
+[1900]	cv_agg's multi_logloss: 0.381772 + 0.0117931
+[1950]	cv_agg's multi_logloss: 0.381177 + 0.0119097
+[2000]	cv_agg's multi_logloss: 0.380708 + 0.0119173
+[2050]	cv_agg's multi_logloss: 0.380322 + 0.0121123
+[2100]	cv_agg's multi_logloss: 0.379816 + 0.0122571
+[2150]	cv_agg's multi_logloss: 0.379336 + 0.0123118
+[2200]	cv_agg's multi_logloss: 0.378977 + 0.0124733
+[2250]	cv_agg's multi_logloss: 0.378535 + 0.0124966
+[2300]	cv_agg's multi_logloss: 0.378187 + 0.0125888
+[2350]	cv_agg's multi_logloss: 0.378055 + 0.012646
+[2400]	cv_agg's multi_logloss: 0.377845 + 0.0127353
+[2450]	cv_agg's multi_logloss: 0.377528 + 0.0127284
+[2500]	cv_agg's multi_logloss: 0.377261 + 0.0128082
+[2550]	cv_agg's multi_logloss: 0.377009 + 0.012841
+[2600]	cv_agg's multi_logloss: 0.376915 + 0.0129575
+[2650]	cv_agg's multi_logloss: 0.376738 + 0.0129553
+[2700]	cv_agg's multi_logloss: 0.376615 + 0.0129919
+[2750]	cv_agg's multi_logloss: 0.37647 + 0.0129256
+[2800]	cv_agg's multi_logloss: 0.376302 + 0.0129659
+[2850]	cv_agg's multi_logloss: 0.376135 + 0.0129291
+[2900]	cv_agg's multi_logloss: 0.375965 + 0.0130536
+[2950]	cv_agg's multi_logloss: 0.375755 + 0.013028
+[3000]	cv_agg's multi_logloss: 0.375685 + 0.0131288
+[3050]	cv_agg's multi_logloss: 0.375563 + 0.0131216
+[3100]	cv_agg's multi_logloss: 0.375446 + 0.0130847
+[3150]	cv_agg's multi_logloss: 0.375344 + 0.0131909
+[3200]	cv_agg's multi_logloss: 0.375233 + 0.013376
+[3250]	cv_agg's multi_logloss: 0.375109 + 0.0133739
+[3300]	cv_agg's multi_logloss: 0.375142 + 0.0134653
+feature size: 350    multi_logloss-mean: 0.37507801521848033
 best_N 350
-[50]	cv_agg's multi_logloss: 1.17769 + 0.00614371
-[100]	cv_agg's multi_logloss: 0.856324 + 0.00767905
-[150]	cv_agg's multi_logloss: 0.699375 + 0.00819843
-[200]	cv_agg's multi_logloss: 0.613788 + 0.00771595
-[250]	cv_agg's multi_logloss: 0.563032 + 0.00801981
-[300]	cv_agg's multi_logloss: 0.531041 + 0.00836515
-[350]	cv_agg's multi_logloss: 0.509676 + 0.00865229
-[400]	cv_agg's multi_logloss: 0.494569 + 0.00895648
-[450]	cv_agg's multi_logloss: 0.483419 + 0.00887434
-[500]	cv_agg's multi_logloss: 0.475844 + 0.00872509
-[550]	cv_agg's multi_logloss: 0.470093 + 0.00870783
-[600]	cv_agg's multi_logloss: 0.465409 + 0.00879822
-[650]	cv_agg's multi_logloss: 0.461636 + 0.00884141
-[700]	cv_agg's multi_logloss: 0.458641 + 0.00865326
-[750]	cv_agg's multi_logloss: 0.456014 + 0.00861493
-[800]	cv_agg's multi_logloss: 0.454297 + 0.00860452
-[850]	cv_agg's multi_logloss: 0.453101 + 0.00868518
-[900]	cv_agg's multi_logloss: 0.451891 + 0.00875257
-[950]	cv_agg's multi_logloss: 0.450936 + 0.00867217
-[1000]	cv_agg's multi_logloss: 0.450134 + 0.00868156
-[1050]	cv_agg's multi_logloss: 0.449731 + 0.00852202
-[1100]	cv_agg's multi_logloss: 0.449195 + 0.00819921
-[1150]	cv_agg's multi_logloss: 0.44898 + 0.00817892
-[1200]	cv_agg's multi_logloss: 0.448949 + 0.00794815
-[1250]	cv_agg's multi_logloss: 0.448881 + 0.0077179
-[1300]	cv_agg's multi_logloss: 0.448946 + 0.00779612
-[1350]	cv_agg's multi_logloss: 0.448833 + 0.00779105
-[1400]	cv_agg's multi_logloss: 0.448785 + 0.00785181
-[1450]	cv_agg's multi_logloss: 0.449059 + 0.00771532
-[50]	cv_agg's multi_logloss: 1.17473 + 0.00606491
-[100]	cv_agg's multi_logloss: 0.853235 + 0.00605185
-[150]	cv_agg's multi_logloss: 0.696422 + 0.00621916
-[200]	cv_agg's multi_logloss: 0.610752 + 0.00604044
-[250]	cv_agg's multi_logloss: 0.55976 + 0.00632097
-[300]	cv_agg's multi_logloss: 0.528292 + 0.00618684
-[350]	cv_agg's multi_logloss: 0.507632 + 0.00582036
-[400]	cv_agg's multi_logloss: 0.493021 + 0.00538751
-[450]	cv_agg's multi_logloss: 0.482525 + 0.00537003
-[500]	cv_agg's multi_logloss: 0.474805 + 0.00557617
-[550]	cv_agg's multi_logloss: 0.468983 + 0.00562089
-[600]	cv_agg's multi_logloss: 0.464448 + 0.00581703
-[650]	cv_agg's multi_logloss: 0.460737 + 0.00597379
-[700]	cv_agg's multi_logloss: 0.457718 + 0.00547126
-[750]	cv_agg's multi_logloss: 0.455514 + 0.00531549
-[800]	cv_agg's multi_logloss: 0.453655 + 0.00527982
-[850]	cv_agg's multi_logloss: 0.452152 + 0.00545756
-[900]	cv_agg's multi_logloss: 0.450973 + 0.00568292
-[950]	cv_agg's multi_logloss: 0.450023 + 0.00550307
-[1000]	cv_agg's multi_logloss: 0.449382 + 0.00571973
-[1050]	cv_agg's multi_logloss: 0.448924 + 0.00575282
-[1100]	cv_agg's multi_logloss: 0.448531 + 0.00584407
-[1150]	cv_agg's multi_logloss: 0.44835 + 0.00579257
-[1200]	cv_agg's multi_logloss: 0.448199 + 0.00614352
-[1250]	cv_agg's multi_logloss: 0.448069 + 0.00602933
-[1300]	cv_agg's multi_logloss: 0.447856 + 0.00629947
-[1350]	cv_agg's multi_logloss: 0.447843 + 0.0061889
-[1400]	cv_agg's multi_logloss: 0.447813 + 0.00632767
-[1450]	cv_agg's multi_logloss: 0.447998 + 0.0063688
-[1500]	cv_agg's multi_logloss: 0.448216 + 0.00641184
-before: 0.6859404988803481
-after: 0.4306219705703358
+[50]	cv_agg's multi_logloss: 1.17506 + 0.00646199
+[100]	cv_agg's multi_logloss: 0.852866 + 0.00549173
+[150]	cv_agg's multi_logloss: 0.6962 + 0.00595771
+[200]	cv_agg's multi_logloss: 0.61078 + 0.00681015
+[250]	cv_agg's multi_logloss: 0.560705 + 0.00723081
+[300]	cv_agg's multi_logloss: 0.528696 + 0.00733811
+[350]	cv_agg's multi_logloss: 0.507555 + 0.00783722
+[400]	cv_agg's multi_logloss: 0.492894 + 0.00807582
+[450]	cv_agg's multi_logloss: 0.482404 + 0.00845356
+[500]	cv_agg's multi_logloss: 0.474924 + 0.00865481
+[550]	cv_agg's multi_logloss: 0.469131 + 0.00911525
+[600]	cv_agg's multi_logloss: 0.464467 + 0.00922956
+[650]	cv_agg's multi_logloss: 0.460545 + 0.00959607
+[700]	cv_agg's multi_logloss: 0.457517 + 0.00992766
+[750]	cv_agg's multi_logloss: 0.45523 + 0.0105332
+[800]	cv_agg's multi_logloss: 0.453481 + 0.010891
+[850]	cv_agg's multi_logloss: 0.4521 + 0.011099
+[900]	cv_agg's multi_logloss: 0.45131 + 0.011739
+[950]	cv_agg's multi_logloss: 0.450339 + 0.0120798
+[1000]	cv_agg's multi_logloss: 0.449596 + 0.0122227
+[1050]	cv_agg's multi_logloss: 0.449097 + 0.0125529
+[1100]	cv_agg's multi_logloss: 0.448726 + 0.0127401
+[1150]	cv_agg's multi_logloss: 0.448497 + 0.0130585
+[1200]	cv_agg's multi_logloss: 0.448452 + 0.0133741
+[1250]	cv_agg's multi_logloss: 0.448275 + 0.0137174
+[1300]	cv_agg's multi_logloss: 0.448305 + 0.0140391
+[1350]	cv_agg's multi_logloss: 0.448247 + 0.0144838
+[50]	cv_agg's multi_logloss: 1.17393 + 0.00578856
+[100]	cv_agg's multi_logloss: 0.853393 + 0.00666753
+[150]	cv_agg's multi_logloss: 0.696935 + 0.00728073
+[200]	cv_agg's multi_logloss: 0.610757 + 0.00764301
+[250]	cv_agg's multi_logloss: 0.560098 + 0.0080747
+[300]	cv_agg's multi_logloss: 0.528276 + 0.00908351
+[350]	cv_agg's multi_logloss: 0.50666 + 0.00966393
+[400]	cv_agg's multi_logloss: 0.491667 + 0.0102871
+[450]	cv_agg's multi_logloss: 0.480514 + 0.0113219
+[500]	cv_agg's multi_logloss: 0.472642 + 0.0117033
+[550]	cv_agg's multi_logloss: 0.466622 + 0.0123411
+[600]	cv_agg's multi_logloss: 0.462202 + 0.0125529
+[650]	cv_agg's multi_logloss: 0.458502 + 0.012819
+[700]	cv_agg's multi_logloss: 0.455341 + 0.0134257
+[750]	cv_agg's multi_logloss: 0.452972 + 0.0137685
+[800]	cv_agg's multi_logloss: 0.451316 + 0.0143577
+[850]	cv_agg's multi_logloss: 0.449761 + 0.0149136
+[900]	cv_agg's multi_logloss: 0.44841 + 0.0151947
+[950]	cv_agg's multi_logloss: 0.447414 + 0.0158793
+[1000]	cv_agg's multi_logloss: 0.446831 + 0.0162831
+[1050]	cv_agg's multi_logloss: 0.446184 + 0.0165979
+[1100]	cv_agg's multi_logloss: 0.445851 + 0.0171558
+[1150]	cv_agg's multi_logloss: 0.445567 + 0.017594
+[1200]	cv_agg's multi_logloss: 0.445217 + 0.017674
+[1250]	cv_agg's multi_logloss: 0.445218 + 0.0178911
+[1300]	cv_agg's multi_logloss: 0.445291 + 0.0181926
+[1350]	cv_agg's multi_logloss: 0.445484 + 0.0185138
+before: 0.6778385835293417
+after: 0.4264115807842984
 
 #==============================================================================
 # SUCCESS !!! 816_cv_mlogloss.py
 #==============================================================================
 
-time: 132.51min
-instance-1  FINISH 816_cv_mlogloss.py  time: 132.51min
+time: 110.83min
+instance-1  FINISH 816_cv_mlogloss.py  time: 110.83min
